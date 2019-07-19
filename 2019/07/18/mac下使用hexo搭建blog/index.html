@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Onelei">
 <meta property="og:description" content="安装 nvm（Node Version Manager）Terminal中运行  1$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash  v0.33.8 是nvm的版本号，最新版本详见：  1https://github.com/creationix/nvm/blob/maste">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-19T05:15:20.364Z">
+<meta property="og:updated_time" content="2019-07-19T05:20:38.038Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac下使用hexo搭建blog">
 <meta name="twitter:description" content="安装 nvm（Node Version Manager）Terminal中运行  1$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash  v0.33.8 是nvm的版本号，最新版本详见：  1https://github.com/creationix/nvm/blob/maste">
@@ -356,7 +356,7 @@ lts/dubnium -&gt; v10.16.0 (-&gt; N/A)</code></pre><p>选择使用版本：</p>
 <p>本地预览</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">=&gt; [info] Hexo is running at localhost:4000/. Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
 
-<p>Theme，去官方提供的主题列表中选个现成的，按照里面的方法pull下来，如light主题</p>
+<p>Theme，去官方提供的<a href="链接网址" title="https://github.com/tommy351/hexo/wiki/Themes">主题列表</a>中选个现成的，按照里面的方法pull下来，如light主题</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone git://github.com/tommy351/hexo-theme-light.git themes/light</span><br></pre></td></tr></table></figure>
 
 <p><code>_config.yml</code> 配置文件中设置：</p>
@@ -399,10 +399,11 @@ lts/dubnium -&gt; v10.16.0 (-&gt; N/A)</code></pre><p>选择使用版本：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-generator-sitemap</span><br></pre></td></tr></table></figure>
 
 <p>开启sitemap功能：编辑hexo/_config.yml，添加如下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plugins:</span><br><span class="line">—— hexo-generator-sitemap</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plugins:</span><br><span class="line">- hexo-generator-sitemap</span><br></pre></td></tr></table></figure>
 
 <p>访问zipperary/sitemap.xml即可看到站点地图。</p>
 <h2 id="图床"><a href="#图床" class="headerlink" title="图床"></a>图床</h2><p>使用七牛（10G空间，免费），还可以使用Yupoo（100m免费空间）</p>
+<p><a href="链接网址" title="http://wuxiaolong.github.io/blog/2014/10/30/qiniu-photo-bed.html">使用七牛作为github博客的图床</a></p>
 
       
     </div>
