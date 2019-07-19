@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Pikacool">
 <meta property="og:description" content="安装 nvm（Node Version Manager）Terminal中运行  1$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash  v0.33.8 是nvm的版本号，最新版本详见：  1https://github.com/creationix/nvm/blob/maste">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-19T05:25:25.922Z">
+<meta property="og:updated_time" content="2019-07-19T07:20:23.070Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac下使用hexo搭建blog">
 <meta name="twitter:description" content="安装 nvm（Node Version Manager）Terminal中运行  1$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash  v0.33.8 是nvm的版本号，最新版本详见：  1https://github.com/creationix/nvm/blob/maste">
@@ -233,7 +233,7 @@ lts/dubnium -&gt; v10.16.0 (-&gt; N/A)</code></pre><p>选择使用版本：</p>
 主机记录：www
 解析线路：默认
 记录值：pikacool1993.github.io</code></pre><p>使用下面的命令测一下域名的解析</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ dig blog.sunnyxx.com +nostats +nocomments +nocmd</span><br><span class="line">	</span><br><span class="line">output =&gt;:</span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; pikacool.cn +nostats +nocomments +nocmd</span><br><span class="line">;; global options: +cmd</span><br><span class="line">;pikacool.cn.			IN	A</span><br><span class="line">pikacool.cn.		60	IN	A	185.199.109.153</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ dig pikacool.cn +nostats +nocomments +nocmd</span><br><span class="line">	</span><br><span class="line">output =&gt;:</span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; pikacool.cn +nostats +nocomments +nocmd</span><br><span class="line">;; global options: +cmd</span><br><span class="line">;pikacool.cn.			IN	A</span><br><span class="line">pikacool.cn.		60	IN	A	185.199.109.153</span><br></pre></td></tr></table></figure>
 
 <h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><h4 id="添加sitemap"><a href="#添加sitemap" class="headerlink" title="添加sitemap"></a>添加sitemap</h4><p>使用hexo提供的插件，安装sitemap到本地：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-generator-sitemap</span><br></pre></td></tr></table></figure>
