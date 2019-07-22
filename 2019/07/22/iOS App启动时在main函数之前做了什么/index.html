@@ -6,17 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="App 启动时在执行 main() 之前做了什么">
+    <meta name="description" content="App 启动时在执行 main() 之前做了什么 加载可执行文件   加载动态链接库   找到可执行文件，找到模拟器下的App可执行文件路径，通过 otool 命令:   1$ otool -L ××××××     -L 参数打印出所有 link 的 framework（去掉了版本信息如下）  1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="App启动时在main函数之前做了什么">
 <meta property="og:url" content="https://github.com/pikacool1993/2019/07/22/iOS App启动时在main函数之前做了什么/index.html">
 <meta property="og:site_name" content="Pikacool">
-<meta property="og:description" content="App 启动时在执行 main() 之前做了什么">
+<meta property="og:description" content="App 启动时在执行 main() 之前做了什么 加载可执行文件   加载动态链接库   找到可执行文件，找到模拟器下的App可执行文件路径，通过 otool 命令:   1$ otool -L ××××××     -L 参数打印出所有 link 的 framework（去掉了版本信息如下）  1">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-22T08:03:19.718Z">
+<meta property="og:updated_time" content="2019-07-22T08:31:18.776Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="App启动时在main函数之前做了什么">
-<meta name="twitter:description" content="App 启动时在执行 main() 之前做了什么">
+<meta name="twitter:description" content="App 启动时在执行 main() 之前做了什么 加载可执行文件   加载动态链接库   找到可执行文件，找到模拟器下的App可执行文件路径，通过 otool 命令:   1$ otool -L ××××××     -L 参数打印出所有 link 的 framework（去掉了版本信息如下）  1">
     
     
         
@@ -139,7 +139,19 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="App-启动时在执行-main-之前做了什么"><a href="#App-启动时在执行-main-之前做了什么" class="headerlink" title="App 启动时在执行 main() 之前做了什么"></a>App 启动时在执行 main() 之前做了什么</h2>
+    <h2 id="App-启动时在执行-main-之前做了什么"><a href="#App-启动时在执行-main-之前做了什么" class="headerlink" title="App 启动时在执行 main() 之前做了什么"></a>App 启动时在执行 main() 之前做了什么</h2><ul>
+<li><p>加载可执行文件 </p>
+</li>
+<li><p>加载动态链接库</p>
+<p>  找到可执行文件，找到模拟器下的App可执行文件路径，通过 <code>otool</code> 命令:</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ otool -L ××××××</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<pre><code>-L 参数打印出所有 link 的 framework（去掉了版本信息如下）
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">	</span><br></pre></td></tr></table></figure></code></pre>
   </div>
 </article>
 
