@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Pikacool">
 <meta property="og:description" content="Swift5.0边学边记swiftc 存放路径 Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin 操作   生成语法树   1$ swiftc -dump-ast main.swift     生成最简洁的SIL代码  1swiftc -emit-sil main.swift   生成LLVM IR代码  1$ swift">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-30T04:53:51.391Z">
+<meta property="og:updated_time" content="2019-08-23T08:58:37.835Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift5.0边学边记">
 <meta name="twitter:description" content="Swift5.0边学边记swiftc 存放路径 Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin 操作   生成语法树   1$ swiftc -dump-ast main.swift     生成最简洁的SIL代码  1swiftc -emit-sil main.swift   生成LLVM IR代码  1$ swift">
@@ -100,7 +100,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift5-0边学边记"><span class="toc-number">1.</span> <span class="toc-text">Swift5.0边学边记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#swiftc"><span class="toc-number">1.1.</span> <span class="toc-text">swiftc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编"><span class="toc-number">1.2.</span> <span class="toc-text">汇编</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础语法"><span class="toc-number">1.3.</span> <span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程控制"><span class="toc-number">1.4.</span> <span class="toc-text">流程控制</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift5-0边学边记"><span class="toc-number">1.</span> <span class="toc-text">Swift5.0边学边记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#swiftc"><span class="toc-number">1.1.</span> <span class="toc-text">swiftc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编"><span class="toc-number">1.2.</span> <span class="toc-text">汇编</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#寄存器"><span class="toc-number">1.2.1.</span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lldb常用指令"><span class="toc-number">1.2.2.</span> <span class="toc-text">lldb常用指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础语法"><span class="toc-number">1.3.</span> <span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程控制"><span class="toc-number">1.4.</span> <span class="toc-text">流程控制</span></a></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -161,17 +161,61 @@
 
 生成汇编代码
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ swiftc -emit-assembly main.swift -o main.s</span><br></pre></td></tr></table></figure></code></pre><h2 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h2><h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><ul>
-<li><p>双重可选</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var num : Int?? = nil</span><br><span class="line">print(num ?? 10)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ swiftc -emit-assembly main.swift -o main.s</span><br></pre></td></tr></table></figure></code></pre><h2 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h2><h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><ul>
+<li><p>16个常用寄存器</p>
+<p>  <code>rax, rbx, rcx, rdx, rsi, rdi, rbp, rsp</code><br>  <code>r8, r9, r10, r11, r12, r13, r14, r15</code></p>
+</li>
+<li><p>寄存器具体用途</p>
+<p>  rax, rdx常作为函数返回值使用</p>
+<p>  rdi, rsi, rdx, rcx, r8, r9等寄存器常用于存放函数参数</p>
+<p>  rsp, rbp用于栈操作</p>
+<p>  rip作为指令指针，存放着CPU下一条要执行的指令地址，一旦CPU读取一条指令，rip会自动指向下一条指令</p>
+</li>
+</ul>
+<h3 id="lldb常用指令"><a href="#lldb常用指令" class="headerlink" title="lldb常用指令"></a>lldb常用指令</h3><ul>
+<li><p>读取寄存器的值</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ register read/格式</span><br><span class="line">exp:</span><br><span class="line">$ register read/x</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改寄存器的值</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ register write 寄存器名称 数值</span><br><span class="line">exp:</span><br><span class="line">$ register write rax 0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>读取内存中的值</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ x/数量-格式-字节大小 内存地址</span><br><span class="line">exp:</span><br><span class="line">$ x/3xw 0x0000010</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改内存中的值</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ memory write 内存地址 数值</span><br><span class="line">exp:</span><br><span class="line">$ memory write 0x0000010 10</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>格式</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x 是16进制</span><br><span class="line">f 是浮点</span><br><span class="line">d 是十进制</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字节大小</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">b - byte 1字节</span><br><span class="line">h - half word 2字节</span><br><span class="line">w - word 4字节</span><br><span class="line">g - giant word 8字节</span><br></pre></td></tr></table></figure>
 
-<p>  输出结果：</p>
-<pre><code>Optional(10)  // 为什么还会输出一个可选的10</code></pre><p>  在Swift源码中是这样描述的</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">///   - defaultValue: A value to use as a default. `defaultValue` is the same</span><br><span class="line">///     type as the `Wrapped` type of `optional`.</span><br><span class="line"></span><br><span class="line">public func ?? &lt;T&gt;(optional: T?, defaultValue: @autoclosure () throws -&gt; T)</span><br><span class="line">   rethrows -&gt; T &#123;</span><br><span class="line"> 		switch optional &#123;</span><br><span class="line"> 			case .some(let value):</span><br><span class="line">   			return value</span><br><span class="line"> 			case .none:</span><br><span class="line">   			return try defaultValue()</span><br><span class="line"> 		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
-<h2 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h2>
+<ul>
+<li><p>规律</p>
+<p>  内存地址格式为： 0x4bdc(%rip), 一般是全局变量， 全局区（数据段）</p>
+<p>  内存地址格式为： -0x78(%rbp), 一般是局部变量，栈空间</p>
+<p>  内存地址格式为： 0x10(%rax), 一般是堆空间</p>
+</li>
+</ul>
+<h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><ul>
+<li><p>双重可选</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var num : Int?? = nil</span><br><span class="line">print(num ?? 10)</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<pre><code>输出结果：
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional(10)  // 为什么还会输出一个可选的10</span><br></pre></td></tr></table></figure>
+
+
+在Swift源码中是这样描述的
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">///   - defaultValue: A value to use as a default. `defaultValue` is the same</span><br><span class="line">///     type as the `Wrapped` type of `optional`.</span><br><span class="line"></span><br><span class="line">public func ?? &lt;T&gt;(optional: T?, defaultValue: @autoclosure () throws -&gt; T)</span><br><span class="line">   rethrows -&gt; T &#123;</span><br><span class="line"> 		switch optional &#123;</span><br><span class="line"> 			case .some(let value):</span><br><span class="line">   			return value</span><br><span class="line"> 			case .none:</span><br><span class="line">   			return try defaultValue()</span><br><span class="line"> 		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></code></pre><h2 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h2>
   </div>
 </article>
 
@@ -196,7 +240,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift5-0边学边记"><span class="toc-number">1.</span> <span class="toc-text">Swift5.0边学边记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#swiftc"><span class="toc-number">1.1.</span> <span class="toc-text">swiftc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编"><span class="toc-number">1.2.</span> <span class="toc-text">汇编</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础语法"><span class="toc-number">1.3.</span> <span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程控制"><span class="toc-number">1.4.</span> <span class="toc-text">流程控制</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift5-0边学边记"><span class="toc-number">1.</span> <span class="toc-text">Swift5.0边学边记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#swiftc"><span class="toc-number">1.1.</span> <span class="toc-text">swiftc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编"><span class="toc-number">1.2.</span> <span class="toc-text">汇编</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#寄存器"><span class="toc-number">1.2.1.</span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lldb常用指令"><span class="toc-number">1.2.2.</span> <span class="toc-text">lldb常用指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础语法"><span class="toc-number">1.3.</span> <span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程控制"><span class="toc-number">1.4.</span> <span class="toc-text">流程控制</span></a></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
