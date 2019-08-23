@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Pikacool">
 <meta property="og:description" content="Swift5.0边学边记swiftc 存放路径 Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin 操作   生成语法树   1$ swiftc -dump-ast main.swift     生成最简洁的SIL代码  1swiftc -emit-sil main.swift   生成LLVM IR代码  1$ swift">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-08-23T08:58:37.835Z">
+<meta property="og:updated_time" content="2019-08-23T10:26:20.240Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Swift5.0边学边记">
 <meta name="twitter:description" content="Swift5.0边学边记swiftc 存放路径 Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin 操作   生成语法树   1$ swiftc -dump-ast main.swift     生成最简洁的SIL代码  1swiftc -emit-sil main.swift   生成LLVM IR代码  1$ swift">
@@ -100,7 +100,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift5-0边学边记"><span class="toc-number">1.</span> <span class="toc-text">Swift5.0边学边记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#swiftc"><span class="toc-number">1.1.</span> <span class="toc-text">swiftc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编"><span class="toc-number">1.2.</span> <span class="toc-text">汇编</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#寄存器"><span class="toc-number">1.2.1.</span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lldb常用指令"><span class="toc-number">1.2.2.</span> <span class="toc-text">lldb常用指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础语法"><span class="toc-number">1.3.</span> <span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程控制"><span class="toc-number">1.4.</span> <span class="toc-text">流程控制</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift5-0边学边记"><span class="toc-number">1.</span> <span class="toc-text">Swift5.0边学边记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#swiftc"><span class="toc-number">1.1.</span> <span class="toc-text">swiftc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编"><span class="toc-number">1.2.</span> <span class="toc-text">汇编</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#寄存器"><span class="toc-number">1.2.1.</span> <span class="toc-text">寄存器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#AT-amp-T"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">AT&amp;T</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ARM64"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">ARM64</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#寄存器-1"><span class="toc-number">1.2.1.2.0.1.</span> <span class="toc-text">寄存器</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lldb常用指令"><span class="toc-number">1.2.2.</span> <span class="toc-text">lldb常用指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础语法"><span class="toc-number">1.3.</span> <span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程控制"><span class="toc-number">1.4.</span> <span class="toc-text">流程控制</span></a></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -161,7 +161,7 @@
 
 生成汇编代码
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ swiftc -emit-assembly main.swift -o main.s</span><br></pre></td></tr></table></figure></code></pre><h2 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h2><h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ swiftc -emit-assembly main.swift -o main.s</span><br></pre></td></tr></table></figure></code></pre><h2 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h2><h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><h4 id="AT-amp-T"><a href="#AT-amp-T" class="headerlink" title="AT&amp;T"></a>AT&amp;T</h4><ul>
 <li><p>16个常用寄存器</p>
 <p>  <code>rax, rbx, rcx, rdx, rsi, rdi, rbp, rsp</code><br>  <code>r8, r9, r10, r11, r12, r13, r14, r15</code></p>
 </li>
@@ -170,6 +170,56 @@
 <p>  rdi, rsi, rdx, rcx, r8, r9等寄存器常用于存放函数参数</p>
 <p>  rsp, rbp用于栈操作</p>
 <p>  rip作为指令指针，存放着CPU下一条要执行的指令地址，一旦CPU读取一条指令，rip会自动指向下一条指令</p>
+</li>
+</ul>
+<h4 id="ARM64"><a href="#ARM64" class="headerlink" title="ARM64"></a>ARM64</h4><h6 id="寄存器-1"><a href="#寄存器-1" class="headerlink" title="寄存器"></a>寄存器</h6><ul>
+<li><p>ARM64 有34个寄存器，包括31个通用寄存器、SP、PC、CPSR</p>
+<table>
+<thead>
+<tr>
+<th align="center">寄存器</th>
+<th align="center">位数</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">x0-x30</td>
+<td align="center">64bit</td>
+<td align="center">通用寄存器，如果有需要可以当做32bit使用：wO-w30</td>
+</tr>
+<tr>
+<td align="center">FP(x29)</td>
+<td align="center">64bit</td>
+<td align="center">保存栈帧地址(栈底指针)</td>
+</tr>
+<tr>
+<td align="center">LR(x30)</td>
+<td align="center">64bit</td>
+<td align="center">通常称X30为程序链接寄存器，保存子程序结束后需要执行的下一条指令</td>
+</tr>
+<tr>
+<td align="center">SP</td>
+<td align="center">64bit</td>
+<td align="center">保存栈指针,使用 SP/WSP 来进行对 SP 寄存器的访问</td>
+</tr>
+<tr>
+<td align="center">PC</td>
+<td align="center">64bit</td>
+<td align="center">程序计数器，俗称PC指针，总是指向即将要执行的下一条指令,在arm64中，软件是不能改写PC寄存器的</td>
+</tr>
+<tr>
+<td align="center">CPSR</td>
+<td align="center">64bit</td>
+<td align="center">状态寄存器</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>用途</p>
+<p>  x0 - x7: 用于子程序调用时的参数传递，x0还用于返回值传递，当使用 r0 - r30 访问时，它就是一个64位的数。当使用 w0 - w30 访问时，访问的是这些寄存器的低32位</p>
+</li>
+<li><p>指令</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MOV    X1，X0         ;将寄存器X0的值传送到寄存器X1</span><br><span class="line">ADD    X0，X1，X2     ;寄存器X1和X2的值相加后传送到X0</span><br><span class="line">SUB    X0，X1，X2     ;寄存器X1和X2的值相减后传送到X0</span><br><span class="line">AND    X0，X0，#0xF    ; X0的值与0xF相位与后的值传送到X0</span><br><span class="line">ORR    X0，X0，#9      ; X0的值与9相位或后的值传送到X0</span><br><span class="line">EOR    X0，X0，#0xF    ; X0的值与0xF相异或后的值传送到X0</span><br><span class="line">LDR    X5，[X6，#0x08]        ；X6寄存器加0x08的和的地址值内的数据传送到X5</span><br><span class="line">STR X0, [SP, #0x8]         ；X0寄存器的数据传送到SP+0x8地址值指向的存储空间</span><br><span class="line">STP  x29, x30, [sp, #0x10]    ;入栈指令</span><br><span class="line">LDP  x29, x30, [sp, #0x10]    ;出栈指令</span><br><span class="line">CBZ  ;比较（Compare），如果结果为零（Zero）就转移（只能跳到后面的指令）</span><br><span class="line">CBNZ ;比较，如果结果非零（Non Zero）就转移（只能跳到后面的指令）</span><br><span class="line">CMP  ;比较指令，相当于SUBS，影响程序状态寄存器CPSR </span><br><span class="line">B/BL  ;绝对跳转#imm， 返回地址保存到LR（X30）</span><br><span class="line">RET   ;子程序返回指令，返回地址默认保存在LR（X30）</span><br></pre></td></tr></table></figure>
+
 </li>
 </ul>
 <h3 id="lldb常用指令"><a href="#lldb常用指令" class="headerlink" title="lldb常用指令"></a>lldb常用指令</h3><ul>
@@ -240,7 +290,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift5-0边学边记"><span class="toc-number">1.</span> <span class="toc-text">Swift5.0边学边记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#swiftc"><span class="toc-number">1.1.</span> <span class="toc-text">swiftc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编"><span class="toc-number">1.2.</span> <span class="toc-text">汇编</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#寄存器"><span class="toc-number">1.2.1.</span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lldb常用指令"><span class="toc-number">1.2.2.</span> <span class="toc-text">lldb常用指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础语法"><span class="toc-number">1.3.</span> <span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程控制"><span class="toc-number">1.4.</span> <span class="toc-text">流程控制</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Swift5-0边学边记"><span class="toc-number">1.</span> <span class="toc-text">Swift5.0边学边记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#swiftc"><span class="toc-number">1.1.</span> <span class="toc-text">swiftc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇编"><span class="toc-number">1.2.</span> <span class="toc-text">汇编</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#寄存器"><span class="toc-number">1.2.1.</span> <span class="toc-text">寄存器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#AT-amp-T"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">AT&amp;T</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ARM64"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">ARM64</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#寄存器-1"><span class="toc-number">1.2.1.2.0.1.</span> <span class="toc-text">寄存器</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#lldb常用指令"><span class="toc-number">1.2.2.</span> <span class="toc-text">lldb常用指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基础语法"><span class="toc-number">1.3.</span> <span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程控制"><span class="toc-number">1.4.</span> <span class="toc-text">流程控制</span></a></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
