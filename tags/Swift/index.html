@@ -346,28 +346,46 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/24/learn_c/" >
+        <a class="abstract-title" href = "/2019/07/25/swift-learn/" >
             
-                <span>笨办法学C</span>
+                <span>Swift5.0边学边记</span>
         </a>
         <div class="abstract-content">
-            使用Make123$ make ex1# or this one too$ CFLAGS=&quot;-Wall&quot; make ex1
+            Swift5.0边学边记swiftc
+存放路径
+Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+操作
+  生成语法树
+  1$ swiftc -dump-ast main.swift
 
-第一个命令中你告诉make，“我想创建名为ex1的文件”, 过程：
-1234文件 ex1 存在吗？-&gt; 没有。好的，有没有其他文件以 ex1 开头？               -&gt; 有，叫做 ex1.c，我知道如何构建 .c 文件吗？               -&gt; 是的，我会运行命令 cc ex1.c -o ex1 来构建它。               -&gt; 我将使用 cc 从 ex1.c 文件来为你构建 ex1
 
 
+
+生成最简洁的SIL代码
+
+1swiftc -emit-sil main.swift
+
+
+生成LLVM IR代码
+
+1$ swiftc -emit-ir main.swift
+
+
+生成汇编代码
+
+1$ swiftc -emit-assembly main.swift -o main.s汇编寄存器AT&amp;T
+16个常用寄...
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/24</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/25</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "C">C</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Swift">Swift</a>
     
 </div>
             

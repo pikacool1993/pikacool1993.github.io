@@ -346,28 +346,33 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/24/learn_c/" >
+        <a class="abstract-title" href = "/2019/07/22/objc-before-main/" >
             
-                <span>笨办法学C</span>
+                <span>App启动时在main函数之前做了什么</span>
         </a>
         <div class="abstract-content">
-            使用Make123$ make ex1# or this one too$ CFLAGS=&quot;-Wall&quot; make ex1
+            App 启动时在执行 main() 之前做了什么
+加载可执行文件 
 
-第一个命令中你告诉make，“我想创建名为ex1的文件”, 过程：
-1234文件 ex1 存在吗？-&gt; 没有。好的，有没有其他文件以 ex1 开头？               -&gt; 有，叫做 ex1.c，我知道如何构建 .c 文件吗？               -&gt; 是的，我会运行命令 cc ex1.c -o ex1 来构建它。               -&gt; 我将使用 cc 从 ex1.c 文件来为你构建 ex1
+加载动态链接库
+  找到可执行文件，找到模拟器下的App可执行文件路径，通过 otool 命令:
+  1$ otool -L ××××××
 
 
+
+
+-L 参数打印出所有 link 的 framework（去掉了版本信息如下）
         </div>
         <div class="abstract-post-meta">
             <!-- date  -->
             <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/24</span>
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/22</span>
             </div>
             <!-- tags  -->
             
             <div class= abstract-tags >
     
-        <a class="post-tag" href="javascript:void(0);" data-tags = "C">C</a>
+        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
     
 </div>
             
