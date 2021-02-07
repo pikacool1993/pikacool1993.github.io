@@ -78,6 +78,8 @@
     <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
     
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
 - testing support for link[rel=preload]
@@ -201,10 +203,8 @@
 </head>
 
     
-        <body class="home-body">
     
-    
-<header class="header index-header">
+<header class="header">
 
     <div class="read-progress"></div>
     <div class="header-sidebar-menu">&#xe775;</div>
@@ -220,34 +220,21 @@
 
 
 
-
-height:50vh;
 ">
     
     <!-- 主页  -->
-    
-    
-    <!-- 文章页  -->
             
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/index-bg.jpg)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
-            Pikacool.
-            <!-- 文章页  -->
-            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
-            
-            
-                it's better to burn out than to fade away
-            
-            <!-- 文章页  -->
             
         </p>
         <!-- 文章页meta -->
@@ -359,33 +346,6 @@ height:50vh;
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2021/02/07/layoutengine/" >
-            
-                <span>Auto Layout</span>
-        </a>
-        <div class="abstract-content">
-            Auto Layout 的生命周期包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。
-布局引擎系统叫作 Layout Engine ，是 Auto Layout 的核心，主导着整个界面布局。
-
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/02/07</span>
-            </div>
-            <!-- tags  -->
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
         <a class="abstract-title" href = "/2020/06/19/xcode-instruments/" >
             
                 <span>Instruments — Time Profiler耗时分析</span>
@@ -409,308 +369,10 @@ height:50vh;
         </div>
     </article>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/03/02/csharp-base-code/" >
-            
-                <span>Unity3D 实用小技巧 - C# 常用基础代码汇总</span>
-        </a>
-        <div class="abstract-content">
-            Unity3D 实用小技巧 - C# 常用基础代码汇总DateTimeDateTime 数字类型，DateTime 是一个包含日期、时间的类型，此类型通过 ToString() 转换为字符串时，可根据传入给 Tostring() 的参数转换为多种字符串格式。
-System.DateTime currentTime=new System.DateTime();
-
-取当前年月日时分秒：currentTime=System.DateTime.Now;
-
-取当前年：int 年=currentTime.Year;
-
-取当前月：int 月=currentTime.Month;
-
-取当前日：int 日...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/02</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Unity">Unity</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/24/learn_c/" >
-            
-                <span>笨办法学C</span>
-        </a>
-        <div class="abstract-content">
-            使用Make123$ make ex1# or this one too$ CFLAGS=&quot;-Wall&quot; make ex1
-
-第一个命令中你告诉make，“我想创建名为ex1的文件”, 过程：
-1234文件 ex1 存在吗？-&gt; 没有。好的，有没有其他文件以 ex1 开头？               -&gt; 有，叫做 ex1.c，我知道如何构建 .c 文件吗？               -&gt; 是的，我会运行命令 cc ex1.c -o ex1 来构建它。               -&gt; 我将使用 cc 从 ex1.c 文件来为你构建 ex1
-
-
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/24</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "C">C</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/25/swift-learn/" >
-            
-                <span>Swift5.0边学边记</span>
-        </a>
-        <div class="abstract-content">
-            Swift5.0边学边记swiftc
-存放路径
-Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
-操作
-  生成语法树
-  1$ swiftc -dump-ast main.swift
-
-
-
-
-生成最简洁的SIL代码
-
-1swiftc -emit-sil main.swift
-
-
-生成LLVM IR代码
-
-1$ swiftc -emit-ir main.swift
-
-
-生成汇编代码
-
-1$ swiftc -emit-assembly main.swift -o main.s汇编寄存器AT&amp;T
-16个常用寄...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Swift">Swift</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/22/objc-before-main/" >
-            
-                <span>App启动时在main函数之前做了什么</span>
-        </a>
-        <div class="abstract-content">
-            App 启动时在执行 main() 之前做了什么
-加载可执行文件 
-
-加载动态链接库
-  找到可执行文件，找到模拟器下的App可执行文件路径，通过 otool 命令:
-  1$ otool -L ××××××
-
-
-
-
--L 参数打印出所有 link 的 framework（去掉了版本信息如下）
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/22</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/18/hexo-install/" >
-            
-                <span>mac下使用hexo搭建blog</span>
-        </a>
-        <div class="abstract-content">
-            安装 nvm（Node Version Manager）Terminal中运行 
-1$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
-
-v0.33.8 是nvm的版本号，最新版本详见： 
-1https://github.com/creationix/nvm/blob/master/README.md
-
-安装完成后会提示 
-1=&gt; Close and reopen your terminal to start using NVM
-
-重启 terminal，输入 n...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/18</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "hexo">hexo</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
     <!-- paginator  -->
     
 </main>
             <!-- profile -->
-            
-            <div class="profile">
-    <img class="profile-avatar" alt="avatar" src= /avatar/Pikacool.jpg >
-    <div class="profile-name">Pikacool</div>
-    
-    <div class="profile-signature">
-        witness me
-    </div>
-    
-    
-    <div class="profile-social">
-        
-    
-        
-            
-                <a href="mailto:pikacool1993@gmail.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-            
-                <a href="//github.com/pikacool1993" class="iconfont-archer github" target="_blank" title=github></a>
-            
-        
-    
-        
-            
-                <span class="iconfont-archer wechat" title=wechat>
-                  
-                  <img class="profile-qr" src="/assets/wechat.png" />
-                </span>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-
-    </div>
-    
-    
-        <div class="friends">
-            <div>FRIENDS</div>
-            
-                
-                    <span>
-                        <a href= //www.baidu.com target="_black">friendA</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href= //www.google.com target="_black">friendB</a>
-                    </span>
-                
-            
-                
-            
-        </div>
-    
-    
-        <div class="about-me">
-            <a href = "/about" >ABOUT ME</a>
-        </div>
-    
-</div>
             
         </div>
         <footer class="footer footer-unloaded">
