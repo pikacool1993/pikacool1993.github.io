@@ -1,1027 +1,1679 @@
 <!DOCTYPE html>
-<html lang="">
-    <!-- title -->
 
 
 
-
-<!-- keywords -->
-
+  
 
 
-
+<html class="theme-next muse use-motion" lang>
 <head><meta name="generator" content="Hexo 3.9.0">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="author" content="pikacool">
-    <meta name="renderer" content="webkit">
-    <meta name="copyright" content="pikacool">
-    
-    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
-    
-    <meta name="description" content>
-    <meta http-equiv="Cache-control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Pikacool</title>
-    <style type="text/css">
-    @font-face {
-        font-family: 'Oswald-Regular';
-        src: url("/font/Oswald-Regular.ttf");
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.0.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.0" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Auto Layout 的生命周期包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。 布局引擎系统叫作 Layout Engine ，是 Auto Layout 的核心，主导着整个界面布局。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Auto Layout">
+<meta property="og:url" content="https://github.com/pikacool1993/2021/02/07/layoutengine/index.html">
+<meta property="og:site_name" content="Pikacool">
+<meta property="og:description" content="Auto Layout 的生命周期包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。 布局引擎系统叫作 Layout Engine ，是 Auto Layout 的核心，主导着整个界面布局。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://i.loli.net/2021/02/07/EPQoJCiapdD6TG5.png">
+<meta property="og:updated_time" content="2021-02-07T02:12:55.666Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Auto Layout">
+<meta name="twitter:description" content="Auto Layout 的生命周期包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。 布局引擎系统叫作 Layout Engine ，是 Auto Layout 的核心，主导着整个界面布局。">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/07/EPQoJCiapdD6TG5.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.0.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     }
-
-    body {
-        margin: 0;
-    }
-
-    header,
-    footer,
-    .back-top,
-    .sidebar,
-    .container,
-    .site-intro-meta,
-    .toc-wrapper {
-        display: none;
-    }
-
-    .site-intro {
-        position: relative;
-        z-index: 3;
-        width: 100%;
-        /* height: 50vh; */
-        overflow: hidden;
-    }
-
-    .site-intro-placeholder {
-        position: absolute;
-        z-index: -2;
-        top: 0;
-        left: 0;
-        width: calc(100% + 300px);
-        height: 100%;
-        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
-        background-position: center center;
-        transform: translate3d(-226px, 0, 0);
-        animation: gradient-move 2.5s ease-out 0s infinite;
-    }
-
-    @keyframes gradient-move {
-        0% {
-            transform: translate3d(-226px, 0, 0);
-        }
-        100% {
-            transform: translate3d(0, 0, 0);
-        }
-    }
-
-</style>
-
-    <link rel="preload" href="/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="stylesheet" href="/css/mobile.css?v=20180824" media="(max-width: 980px)">
-    
-    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
-/* This file is meant as a standalone workflow for
-- testing support for link[rel=preload]
-- enabling async CSS loading in browsers that do not support rel=preload
-- applying rel preload css once loaded, whether supported or not.
-*/ -->
-<script>
-(function( w ){
-	"use strict";
-	// rel=preload support test
-	if( !w.loadCSS ){
-		w.loadCSS = function(){};
-	}
-	// define on the loadCSS obj
-	var rp = loadCSS.relpreload = {};
-	// rel=preload feature support test
-	// runs once and returns a function for compat purposes
-	rp.support = (function(){
-		var ret;
-		try {
-			ret = w.document.createElement( "link" ).relList.supports( "preload" );
-		} catch (e) {
-			ret = false;
-		}
-		return function(){
-			return ret;
-		};
-	})();
-
-	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
-	// then change that media back to its intended value on load
-	rp.bindMediaToggle = function( link ){
-		// remember existing media attr for ultimate state, or default to 'all'
-		var finalMedia = link.media || "all";
-
-		function enableStylesheet(){
-			link.media = finalMedia;
-		}
-
-		// bind load handlers to enable media
-		if( link.addEventListener ){
-			link.addEventListener( "load", enableStylesheet );
-		} else if( link.attachEvent ){
-			link.attachEvent( "onload", enableStylesheet );
-		}
-
-		// Set rel and non-applicable media type to start an async request
-		// note: timeout allows this to happen async to let rendering continue in IE
-		setTimeout(function(){
-			link.rel = "stylesheet";
-			link.media = "only x";
-		});
-		// also enable media after 3 seconds,
-		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
-		setTimeout( enableStylesheet, 3000 );
-	};
-
-	// loop through link elements in DOM
-	rp.poly = function(){
-		// double check this to prevent external calls from running
-		if( rp.support() ){
-			return;
-		}
-		var links = w.document.getElementsByTagName( "link" );
-		for( var i = 0; i < links.length; i++ ){
-			var link = links[ i ];
-			// qualify links to those with rel=preload and as=style attrs
-			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
-				// prevent rerunning on link
-				link.setAttribute( "data-loadcss", true );
-				// bind listeners to toggle media back
-				rp.bindMediaToggle( link );
-			}
-		}
-	};
-
-	// if unsupported, run the polyfill
-	if( !rp.support() ){
-		// run once at least
-		rp.poly();
-
-		// rerun poly on an interval until onload
-		var run = w.setInterval( rp.poly, 500 );
-		if( w.addEventListener ){
-			w.addEventListener( "load", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		} else if( w.attachEvent ){
-			w.attachEvent( "onload", function(){
-				rp.poly();
-				w.clearInterval( run );
-			} );
-		}
-	}
-
-
-	// commonjs
-	if( typeof exports !== "undefined" ){
-		exports.loadCSS = loadCSS;
-	}
-	else {
-		w.loadCSS = loadCSS;
-	}
-}( typeof global !== "undefined" ? global : this ) );
+  };
 </script>
 
-    <link rel="icon" href="/assets/pikacool.ico">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
-    <link rel="preload" href="/scripts/main.js" as="script">
-    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
-    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
-    
-    <!-- fancybox -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
-    <!-- 百度统计  -->
-    
-    <!-- 谷歌统计  -->
-    
+
+
+  <link rel="canonical" href="https://github.com/pikacool1993/2021/02/07/layoutengine/">
+
+
+
+
+
+  <title>Pikacool</title>
+  
+
+
+
+
+
+
+
+
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
     
-        <body class="home-body">
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
     
-    
-<header class="header index-header">
 
-    <div class="read-progress"></div>
-    <div class="header-sidebar-menu">&#xe775;</div>
-    <!-- post页的toggle banner  -->
-    
-    <a class="home-link" href=/>Pikacool.</a>
-</header>
-    <div class="wrapper">
-        <div class="site-intro" style="
-
-
-
-
-
-
-
-height:50vh;
-">
-    
-    <!-- 主页  -->
-    
-    
-    <!-- 文章页  -->
-            
-    <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/index-bg.jpg)"></div>
-    <div class="site-intro-meta">
-        <!-- 标题  -->
-        <h1 class="intro-title">
-            <!-- 主页  -->
-            
-            Pikacool.
-            <!-- 文章页  -->
-            
-        </h1>
-        <!-- 副标题 -->
-        <p class="intro-subtitle">
-            <!-- 主页副标题  -->
-            
-            
-                it's better to burn out than to fade away
-            
-            <!-- 文章页  -->
-            
-        </p>
-        <!-- 文章页meta -->
-        
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pikacool</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
-</div>
-        <script>
- 
-  // get user agent
-  var browser = {
-    versions: function () {
-      var u = window.navigator.userAgent;
-      return {
-        userAgent: u,
-        trident: u.indexOf('Trident') > -1, //IE内核
-        presto: u.indexOf('Presto') > -1, //opera内核
-        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
-        iPad: u.indexOf('iPad') > -1, //是否为iPad
-        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
-        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
-        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
-      };
-    }()
-  }
-  console.log("userAgent:" + browser.versions.userAgent);
+      
+        <p class="site-subtitle">也曾鲜衣怒马少年时，一夜忘尽长安花</p>
+      
+  </div>
 
-  // callback
-  function fontLoaded() {
-    console.log('font loaded');
-    if (document.getElementsByClassName('site-intro-meta')) {
-      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
-      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
-      var postIntros = document.getElementsByClassName('post-intros')[0]
-      if (postIntros) {
-        postIntros.classList.add('post-fade-in');
-      }
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2021/02/07/layoutengine/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pikacool">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/07/layoutengine/" itemprop="url">Auto Layout</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-07T10:06:58+08:00">2021-02-07</time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Auto-Layout-的生命周期"><a href="#Auto-Layout-的生命周期" class="headerlink" title="Auto Layout 的生命周期"></a>Auto Layout 的生命周期</h3><h4 id="包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。"><a href="#包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。" class="headerlink" title="包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。"></a>包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。</h4><ul>
+<li>布局引擎系统叫作 Layout Engine ，是 Auto Layout 的核心，主导着整个界面布局。</li>
+</ul>
+<p><img src="https://i.loli.net/2021/02/07/EPQoJCiapdD6TG5.png" alt="LayoutEngine.png"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2020/06/19/xcode-instruments/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pikacool">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/06/19/xcode-instruments/" itemprop="url">Instruments — Time Profiler耗时分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-19T11:20:42+08:00">2020-06-19</time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2020/03/02/csharp-base-code/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pikacool">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/02/csharp-base-code/" itemprop="url">Unity3D 实用小技巧 - C# 常用基础代码汇总</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-02T10:40:59+08:00">2020-03-02</time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Unity3D-实用小技巧-C-常用基础代码汇总"><a href="#Unity3D-实用小技巧-C-常用基础代码汇总" class="headerlink" title="Unity3D 实用小技巧 - C# 常用基础代码汇总"></a>Unity3D 实用小技巧 - C# 常用基础代码汇总</h2><h3 id="DateTime"><a href="#DateTime" class="headerlink" title="DateTime"></a>DateTime</h3><p>DateTime 数字类型，DateTime 是一个包含日期、时间的类型，此类型通过 ToString() 转换为字符串时，可根据传入给 Tostring() 的参数转换为多种字符串格式。</p>
+<p><code>System.DateTime currentTime=new System.DateTime();</code></p>
+<ul>
+<li><p>取当前年月日时分秒：<br><code>currentTime=System.DateTime.Now;</code></p>
+</li>
+<li><p>取当前年：<code>int 年=currentTime.Year;</code></p>
+</li>
+<li><p>取当前月：<code>int 月=currentTime.Month;</code></p>
+</li>
+<li><p>取当前日：<code>int 日=currentTime.Day;</code></p>
+</li>
+<li><p>取当前时：<code>int 时=currentTime.Hour;</code></p>
+</li>
+<li><p>取当前分：<code>int 分=currentTime.Minute;</code></p>
+</li>
+<li><p>取当前秒：<code>int 秒=currentTime.Second;</code></p>
+</li>
+<li><p>取当前毫秒：<br><code>int 毫秒=currentTime.Millisecond;（变量可用中文）</code></p>
+</li>
+<li><p>取中文日期显示-年月日时分：<br><code>string strY=currentTime.ToString(&quot;f&quot;); //不显示秒</code></p>
+</li>
+<li><p>取中文日期显示-年月：<br><code>string strYM=currentTime.ToString(&quot;y&quot;);</code></p>
+</li>
+<li><p>取中文日期显示-月日：<br><code>string strMD=currentTime.ToString(&quot;m&quot;);</code></p>
+</li>
+<li><p>取中文年月日：<br><code>string strYMD=currentTime.ToString(&quot;D&quot;);</code></p>
+</li>
+<li><p>取当前时分，格式为：(14：24)：<br><code>string strT=currentTime.ToString(&quot;t&quot;);</code></p>
+</li>
+<li><p>取当前时间，格式为：2003-09-23T14:46:48：<br><code>string strT=currentTime.ToString(&quot;s&quot;);</code></p>
+</li>
+<li><p>取当前时间，格式为：2003-09-2314:48:30Z：<br><code>string strT=currentTime.ToString(&quot;u&quot;);</code></p>
+</li>
+<li><p>取当前时间，格式为：2003-09-2314:48：<br><code>string strT=currentTime.ToString(&quot;g&quot;);</code></p>
+</li>
+<li><p>取当前时间，格式为：Tue,23 Sep 2003 14:52:40 GMT：<br><code>string strT=currentTime.ToString(&quot;r&quot;);</code></p>
+</li>
+<li><p>获得当前时间n 天后的日期时间：<br><code>DateTime newDay = DateTime.Now.AddDays(100);</code></p>
+</li>
+</ul>
+<h3 id="其他类型字符串转换-变量-ToString"><a href="#其他类型字符串转换-变量-ToString" class="headerlink" title="其他类型字符串转换  变量.ToString()"></a>其他类型字符串转换  变量.ToString()</h3><pre><code>12345.ToString(&quot;n&quot;); //生成 12,345.00
+
+12345.ToString(&quot;C&quot;); //生成 ￥12,345.00
+
+12345.ToString(&quot;e&quot;);//生成 1.234500e+004
+
+12345.ToString(&quot;f4&quot;); //生成 12345.0000
+
+12345.ToString(&quot;x&quot;); //生成 3039 (16进制)
+
+12345.ToString(&quot;p&quot;); //生成 1,234,500.00%</code></pre><h3 id="字符型转换转为-32-位数字型"><a href="#字符型转换转为-32-位数字型" class="headerlink" title="字符型转换转为 32 位数字型"></a>字符型转换转为 32 位数字型</h3><pre><code>Int32.Parse(变量) Int32.Parse(&quot;常量&quot;)
+Int32.Parse(&quot;123&quot;);//生成 123</code></pre><h3 id="变量-Length-数字型"><a href="#变量-Length-数字型" class="headerlink" title="变量.Length 数字型"></a>变量.Length 数字型</h3><pre><code>取字串长度：如：string str=&quot;中国&quot;
+int Len = str.Length ; //Len是自定义变量， str是求测的字串的变量名</code></pre><h3 id="System-Text-Encoding-Default-GetBytes-变量-：字码转换转为比特码"><a href="#System-Text-Encoding-Default-GetBytes-变量-：字码转换转为比特码" class="headerlink" title="System.Text.Encoding.Default.GetBytes(变量)：字码转换转为比特码"></a>System.Text.Encoding.Default.GetBytes(变量)：字码转换转为比特码</h3><pre><code>byte[]bytStr = System.Text.Encoding.Default.GetBytes(str);
+然后可得到比特长度：len = bytStr.Length;</code></pre><h3 id="System-Text-StringBuilder-“”-字符串相加，（-号是不是也一样？）"><a href="#System-Text-StringBuilder-“”-字符串相加，（-号是不是也一样？）" class="headerlink" title="System.Text.StringBuilder(“”)- 字符串相加，（+号是不是也一样？）"></a>System.Text.StringBuilder(“”)- 字符串相加，（+号是不是也一样？）</h3><pre><code>System.Text.StringBuilder sb = new System.Text.StringBuilder(&quot;&quot;);
+sb.Append(&quot;中华&quot;);
+sb.Append(&quot;人民&quot;);
+sb.Append(&quot;共和国&quot;);</code></pre><h3 id="变量-Substring-参数1-参数2-：截取字串的一部分，参数1为左起始位数，参数2为截取几位。"><a href="#变量-Substring-参数1-参数2-：截取字串的一部分，参数1为左起始位数，参数2为截取几位。" class="headerlink" title="变量.Substring(参数1,参数2)：截取字串的一部分，参数1为左起始位数，参数2为截取几位。"></a>变量.Substring(参数1,参数2)：截取字串的一部分，参数1为左起始位数，参数2为截取几位。</h3><pre><code>strings1 = str.Substring(0,2);</code></pre><h3 id="char-IsWhiteSpce-字串变量，位数-——逻辑型：查指定位置是否空字符"><a href="#char-IsWhiteSpce-字串变量，位数-——逻辑型：查指定位置是否空字符" class="headerlink" title="char.IsWhiteSpce(字串变量，位数)——逻辑型：查指定位置是否空字符"></a>char.IsWhiteSpce(字串变量，位数)——逻辑型：查指定位置是否空字符</h3><pre><code>string str=&quot;你好 AnimeKing&quot;;
+char.IsWhiteSpace(str,2); //结果为：True, 第一个字符是0位，2是第三个字符。</code></pre><h3 id="char-IsPunctuation-‘字符’-——逻辑型：查字符是否是标点符号"><a href="#char-IsPunctuation-‘字符’-——逻辑型：查字符是否是标点符号" class="headerlink" title="char.IsPunctuation(‘字符’) ——逻辑型：查字符是否是标点符号"></a>char.IsPunctuation(‘字符’) ——逻辑型：查字符是否是标点符号</h3><pre><code>char.IsPunctuation(&apos;A&apos;);//返回：False</code></pre><h3 id="int-’字符’-：把字符转为数字，查代码点，注意是单引号"><a href="#int-’字符’-：把字符转为数字，查代码点，注意是单引号" class="headerlink" title="(int)’字符’ ：把字符转为数字，查代码点，注意是单引号"></a>(int)’字符’ ：把字符转为数字，查代码点，注意是单引号</h3><pre><code>(int)&apos;A&apos;; //结果为A字的代码：20013</code></pre><h3 id="char-代码-：把数字转为字符，查代码代表的字符"><a href="#char-代码-：把数字转为字符，查代码代表的字符" class="headerlink" title="(char)代码 ：把数字转为字符，查代码代表的字符"></a>(char)代码 ：把数字转为字符，查代码代表的字符</h3><pre><code>(char)22269; //返回“国”字。</code></pre><h3 id="清除字串前后空格："><a href="#清除字串前后空格：" class="headerlink" title="清除字串前后空格："></a>清除字串前后空格：</h3><pre><code>变量.Trim()</code></pre><h3 id="字串替换-：字串变量-Replace-“子字串”-”替换为”"><a href="#字串替换-：字串变量-Replace-“子字串”-”替换为”" class="headerlink" title="字串替换 ：字串变量.Replace(“子字串”,”替换为”)"></a>字串替换 ：字串变量.Replace(“子字串”,”替换为”)</h3><pre><code>string str=&quot;中国&quot;;
+str=str.Replace(&quot;国&quot;,&quot;央&quot;); //将国字换为央字
+Response.Write(str); //输出结果为“中央”</code></pre><h3 id="字串对比一般都用-if-str1-str2-，并且也有别的方法"><a href="#字串对比一般都用-if-str1-str2-，并且也有别的方法" class="headerlink" title="字串对比一般都用: if(str1==str2){ }  ，并且也有别的方法"></a>字串对比一般都用: if(str1==str2){ }  ，并且也有别的方法</h3><pre><code>(1)  string str1; str2
+//语法:str1.EndsWith(str2); __检测字串str1是否以字串str2结尾,返回布尔值.如：    if(str1.EndsWith(str2)){ Response.Write(&quot;字串str1是以&quot;+str2+&quot;结束的&quot;); }
+(2) //语法:str1.Equals(str2);__检测字串str1是否与字串str2相等,返回布尔值,用法同上
+(3) //语法Equals(str1,str2); __检测字串str1是否与字串str2相等,返回布尔值,用法同上</code></pre><h3 id="IndexOf-、LastIndexOf-：查找字串中指定字符或字串首次（最后一次）出现的位置，返回索引值"><a href="#IndexOf-、LastIndexOf-：查找字串中指定字符或字串首次（最后一次）出现的位置，返回索引值" class="headerlink" title="IndexOf()、LastIndexOf()：查找字串中指定字符或字串首次（最后一次）出现的位置，返回索引值"></a>IndexOf()、LastIndexOf()：查找字串中指定字符或字串首次（最后一次）出现的位置，返回索引值</h3><pre><code>str1.IndexOf(&quot;字&quot;)；//查找“字”在str1中的索引值（位置）
+str1.IndexOf(&quot;字串&quot;)；//查找“字串”的第一个字符在str1中的索引值（位置）
+str1.IndexOf(&quot;字串&quot;,3,2)；//从str1第4个字符起，查找2个字符，查找“字串”的第一个字符在str1中的索引值（位置）</code></pre><h3 id="Insert-在字串中指定索引位插入指定字符"><a href="#Insert-在字串中指定索引位插入指定字符" class="headerlink" title="Insert()在字串中指定索引位插入指定字符"></a>Insert()在字串中指定索引位插入指定字符</h3><pre><code>str1.Insert(1,&quot;字&quot;);在str1的第二个字符处插入“字”，如果str1=&quot;中国&quot;，插入后为“中字国”；</code></pre><h3 id="PadLeft-、PadRight-：在字串左（或右）加空格或指定char字符，使字串达到指定长度"><a href="#PadLeft-、PadRight-：在字串左（或右）加空格或指定char字符，使字串达到指定长度" class="headerlink" title="PadLeft()、PadRight() ：在字串左（或右）加空格或指定char字符，使字串达到指定长度"></a>PadLeft()、PadRight() ：在字串左（或右）加空格或指定char字符，使字串达到指定长度</h3><pre><code>string str1=&quot;中国人&quot;;
+str1=str1.PadLeft(10,&apos;1&apos;); //无第二参数为加空格 ,结果为“1111111中国人” ， 字串长为10</code></pre><h3 id="Remove-：从指定位置开始删除指定数的字符"><a href="#Remove-：从指定位置开始删除指定数的字符" class="headerlink" title="Remove()：从指定位置开始删除指定数的字符"></a>Remove()：从指定位置开始删除指定数的字符</h3><pre><code>string str1=&quot;我是萨达姆的崇拜者之一&quot;;
+str1.Remove(5,4); //结果为“我是萨达姆之一”</code></pre><h3 id="判断是否存在文件夹，没有则创建"><a href="#判断是否存在文件夹，没有则创建" class="headerlink" title="判断是否存在文件夹，没有则创建"></a>判断是否存在文件夹，没有则创建</h3><pre><code>if (Directory.Exists(url) == false)
+{
+    Directory.CreateDirectory(url);
+}</code></pre><h3 id="方法中的参数，返回值"><a href="#方法中的参数，返回值" class="headerlink" title="方法中的参数，返回值"></a>方法中的参数，返回值</h3><p>ref 型参数：该种类型的参数传递变量地址给方法（引用传递），传递前变量必须初始化。该类型与out型的区别在于：</p>
+<ul>
+<li>ref 型传递变量前，变量必须初始化，否则编译器会报错, 而 out 型则不需要初始化。</li>
+<li>ref 型传递变量，数值可以传入方法中，而 out 型无法将数据传入方法中。换而言之，ref 型有进有出，out 型只出不进。</li>
+</ul>
+<p>out 型参数：与 ref 型类似，仅用于传回结果。</p>
+<p>注意：</p>
+<ul>
+<li><p>out 型数据在方法中必须要赋值，否则编译器会报错。</p>
+<p>  如:如下若将代码中的 sum 1 方法的方法体</p>
+<p>  改为 a+=b ; 则编译器会报错。原因：out 型只出不进，在没给 a 赋值前是不能使用的</p>
+<p>  改为 b+=b+2 ; 编译器也会报错。原因：out 型数据在方法中必须要赋值。</p>
+</li>
+<li><p>重载方法时若两个方法的区别仅限于一个参数类型为 ref 另一个方法中为 out ，编译器会报错</p>
+<p>  如：若将下面的代码中将方法名 vsum1 改为 sum（或者将方法名 sum 改为 sum1），编译器会报错。</p>
+<p>  Error 1 Cannot define overloaded method ‘sum’ because it differs from another method only on ref and out</p>
+<p>  原因：参数类型区别仅限于 为 ref 与为 out 时，若重载对编译器而言两者的元数据表示完全相同。</p>
+<pre><code>classC
+{
+    //1. in型参数
+    publicvoidsum(int a, int b) {
+        a += b;
     }
-  }
-
-  // UC不支持跨域，所以直接显示
-  function asyncCb(){
-    if (browser.versions.uc) {
-      console.log("UCBrowser");
-      fontLoaded();
-    } else {
-      WebFont.load({
-        custom: {
-          families: ['Oswald-Regular']
-        },
-        loading: function () {  //所有字体开始加载
-          // console.log('loading');
-        },
-        active: function () {  //所有字体已渲染
-          fontLoaded();
-        },
-        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
-          console.log('inactive: timeout');
-          fontLoaded();
-        },
-        timeout: 5000 // Set the timeout to two seconds
-      });
+    //2. ref型参数
+    publicvoidsum(refint a, int b)
+    {
+        a += b;
     }
-  }
+    //3. out型参数
+    publicvoidsum1(outint a, int b)
+    {
+        a = b+2;
+    }
+    publicstaticvoidMain(string[] args)
+    {
+        C c = new C();
+        int a = 1, b = 2;
+        c.sum(a,b);
+        Console.WriteLine(&quot;a:{0}&quot;, a);
+        a = 1; b = 2;
+        c.sum(ref a, b);
+        Console.WriteLine(&quot;ref a:{0}&quot;, a);
+        a = 1; b = 2;
+        c.sum1(out a, b);
+        Console.WriteLine(&quot;out a:{0}&quot;, a);
+    }
+}</code></pre></li>
+</ul>
 
-  function asyncErr(){
-    console.warn('script load from CDN failed, will load local script')
-  }
+          
+        
+      
+    </div>
+    
+    
+    
 
-  // load webfont-loader async, and add callback function
-  function async(u, cb, err) {
-    var d = document, t = 'script',
-      o = d.createElement(t),
-      s = d.getElementsByTagName(t)[0];
-    o.src = u;
-    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
-    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
-    s.parentNode.insertBefore(o, s);
-  }
+    
 
-  var asyncLoadWithFallBack = function(arr, success, reject) {
-      var currReject = function(){
-        reject()
-        arr.shift()
-        if(arr.length)
-          async(arr[0], success, currReject)
-        }
+    
 
-      async(arr[0], success, currReject)
-  }
+    
 
-  asyncLoadWithFallBack([
-    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
-    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
-    "/lib/webfontloader.min.js"
-  ], asyncCb, asyncErr)
-</script>        
-        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
-        <div class="container container-unloaded">
-            <main class="main index-page">
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2019/10/24/learn_c/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pikacool">
+    </span>
+
     
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2021/02/07/layoutengine/" >
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/24/learn_c/" itemprop="url">笨办法学C</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
             
-                <span>Auto Layout</span>
-        </a>
-        <div class="abstract-content">
-            Auto Layout 的生命周期包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。
-布局引擎系统叫作 Layout Engine ，是 Auto Layout 的核心，主导着整个界面布局。
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-24T12:34:19+08:00">2019-10-24</time>
+            
 
+            
 
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
 
         </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2021/02/07</span>
-            </div>
-            <!-- tags  -->
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="使用Make"><a href="#使用Make" class="headerlink" title="使用Make"></a>使用Make</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ make ex1</span><br><span class="line"># or this one too</span><br><span class="line">$ CFLAGS=&quot;-Wall&quot; make ex1</span><br></pre></td></tr></table></figure>
+
+<p>第一个命令中你告诉make，“我想创建名为ex1的文件”, 过程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">文件 ex1 存在吗？-&gt; 没有。好的，有没有其他文件以 ex1 开头？</span><br><span class="line">               -&gt; 有，叫做 ex1.c，我知道如何构建 .c 文件吗？</span><br><span class="line">               -&gt; 是的，我会运行命令 cc ex1.c -o ex1 来构建它。</span><br><span class="line">               -&gt; 我将使用 cc 从 ex1.c 文件来为你构建 ex1</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2019/07/25/swift-learn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pikacool">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/25/swift-learn/" itemprop="url">Swift5.0边学边记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
             
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-25T22:35:37+08:00">2019-07-25</time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
         </div>
-    </article>
+      </header>
     
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/06/19/xcode-instruments/" >
-            
-                <span>Instruments — Time Profiler耗时分析</span>
-        </a>
-        <div class="abstract-content">
-            
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/06/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Xcode">Xcode</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2020/03/02/csharp-base-code/" >
-            
-                <span>Unity3D 实用小技巧 - C# 常用基础代码汇总</span>
-        </a>
-        <div class="abstract-content">
-            Unity3D 实用小技巧 - C# 常用基础代码汇总DateTimeDateTime 数字类型，DateTime 是一个包含日期、时间的类型，此类型通过 ToString() 转换为字符串时，可根据传入给 Tostring() 的参数转换为多种字符串格式。
-System.DateTime currentTime=new System.DateTime();
 
-取当前年月日时分秒：currentTime=System.DateTime.Now;
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
-取当前年：int 年=currentTime.Year;
+      
+      
 
-取当前月：int 月=currentTime.Month;
-
-取当前日：int 日...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/03/02</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Unity">Unity</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/10/24/learn_c/" >
-            
-                <span>笨办法学C</span>
-        </a>
-        <div class="abstract-content">
-            使用Make123$ make ex1# or this one too$ CFLAGS=&quot;-Wall&quot; make ex1
-
-第一个命令中你告诉make，“我想创建名为ex1的文件”, 过程：
-1234文件 ex1 存在吗？-&gt; 没有。好的，有没有其他文件以 ex1 开头？               -&gt; 有，叫做 ex1.c，我知道如何构建 .c 文件吗？               -&gt; 是的，我会运行命令 cc ex1.c -o ex1 来构建它。               -&gt; 我将使用 cc 从 ex1.c 文件来为你构建 ex1
+      
+        
+          
+            <h1 id="Swift5-0边学边记"><a href="#Swift5-0边学边记" class="headerlink" title="Swift5.0边学边记"></a>Swift5.0边学边记</h1><h2 id="swiftc"><a href="#swiftc" class="headerlink" title="swiftc"></a>swiftc</h2><ul>
+<li><p>存放路径</p>
+<pre><code>Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin</code></pre></li>
+<li><p>操作</p>
+<p>  生成语法树</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ swiftc -dump-ast main.swift</span><br></pre></td></tr></table></figure>
 
 
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/10/24</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "C">C</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/25/swift-learn/" >
-            
-                <span>Swift5.0边学边记</span>
-        </a>
-        <div class="abstract-content">
-            Swift5.0边学边记swiftc
-存放路径
-Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
-操作
-  生成语法树
-  1$ swiftc -dump-ast main.swift
+</li>
+</ul>
+<pre><code>生成最简洁的SIL代码
 
-
-
-
-生成最简洁的SIL代码
-
-1swiftc -emit-sil main.swift
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">swiftc -emit-sil main.swift</span><br></pre></td></tr></table></figure>
 
 
 生成LLVM IR代码
 
-1$ swiftc -emit-ir main.swift
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ swiftc -emit-ir main.swift</span><br></pre></td></tr></table></figure>
 
 
 生成汇编代码
 
-1$ swiftc -emit-assembly main.swift -o main.s汇编寄存器AT&amp;T
-16个常用寄...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Swift">Swift</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/22/objc-before-main/" >
-            
-                <span>App启动时在main函数之前做了什么</span>
-        </a>
-        <div class="abstract-content">
-            App 启动时在执行 main() 之前做了什么
-加载可执行文件 
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ swiftc -emit-assembly main.swift -o main.s</span><br></pre></td></tr></table></figure></code></pre><h2 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h2><h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><h4 id="AT-amp-T"><a href="#AT-amp-T" class="headerlink" title="AT&amp;T"></a>AT&amp;T</h4><ul>
+<li><p>16个常用寄存器</p>
+<p>  <code>rax, rbx, rcx, rdx, rsi, rdi, rbp, rsp</code><br>  <code>r8, r9, r10, r11, r12, r13, r14, r15</code></p>
+</li>
+<li><p>寄存器具体用途</p>
+<p>  rax, rdx常作为函数返回值使用</p>
+<p>  rdi, rsi, rdx, rcx, r8, r9等寄存器常用于存放函数参数</p>
+<p>  rsp, rbp用于栈操作</p>
+<p>  rip作为指令指针，存放着CPU下一条要执行的指令地址，一旦CPU读取一条指令，rip会自动指向下一条指令</p>
+</li>
+</ul>
+<h4 id="ARM64"><a href="#ARM64" class="headerlink" title="ARM64"></a>ARM64</h4><h6 id="寄存器-1"><a href="#寄存器-1" class="headerlink" title="寄存器"></a>寄存器</h6><ul>
+<li><p>ARM64 有34个寄存器，包括31个通用寄存器、SP、PC、CPSR</p>
+<table>
+<thead>
+<tr>
+<th align="center">寄存器</th>
+<th align="center">位数</th>
+<th align="center">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">x0-x30</td>
+<td align="center">64bit</td>
+<td align="center">通用寄存器，如果有需要可以当做32bit使用：wO-w30</td>
+</tr>
+<tr>
+<td align="center">FP(x29)</td>
+<td align="center">64bit</td>
+<td align="center">保存栈帧地址(栈底指针)</td>
+</tr>
+<tr>
+<td align="center">LR(x30)</td>
+<td align="center">64bit</td>
+<td align="center">通常称X30为程序链接寄存器，保存子程序结束后需要执行的下一条指令</td>
+</tr>
+<tr>
+<td align="center">SP</td>
+<td align="center">64bit</td>
+<td align="center">保存栈指针,使用 SP/WSP 来进行对 SP 寄存器的访问</td>
+</tr>
+<tr>
+<td align="center">PC</td>
+<td align="center">64bit</td>
+<td align="center">程序计数器，俗称PC指针，总是指向即将要执行的下一条指令,在arm64中，软件是不能改写PC寄存器的</td>
+</tr>
+<tr>
+<td align="center">CPSR</td>
+<td align="center">64bit</td>
+<td align="center">状态寄存器</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>用途</p>
+<p>  x0 - x7: 用于子程序调用时的参数传递，x0还用于返回值传递，当使用 r0 - r30 访问时，它就是一个64位的数。当使用 w0 - w30 访问时，访问的是这些寄存器的低32位</p>
+</li>
+<li><p>指令</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">MOV    X1，X0         ;将寄存器X0的值传送到寄存器X1</span><br><span class="line">ADD    X0，X1，X2     ;寄存器X1和X2的值相加后传送到X0</span><br><span class="line">SUB    X0，X1，X2     ;寄存器X1和X2的值相减后传送到X0</span><br><span class="line">AND    X0，X0，#0xF    ; X0的值与0xF相位与后的值传送到X0</span><br><span class="line">ORR    X0，X0，#9      ; X0的值与9相位或后的值传送到X0</span><br><span class="line">EOR    X0，X0，#0xF    ; X0的值与0xF相异或后的值传送到X0</span><br><span class="line">LDR    X5，[X6，#0x08]        ；X6寄存器加0x08的和的地址值内的数据传送到X5</span><br><span class="line">STR X0, [SP, #0x8]         ；X0寄存器的数据传送到SP+0x8地址值指向的存储空间</span><br><span class="line">STP  x29, x30, [sp, #0x10]    ;入栈指令</span><br><span class="line">LDP  x29, x30, [sp, #0x10]    ;出栈指令</span><br><span class="line">CBZ  ;比较（Compare），如果结果为零（Zero）就转移（只能跳到后面的指令）</span><br><span class="line">CBNZ ;比较，如果结果非零（Non Zero）就转移（只能跳到后面的指令）</span><br><span class="line">CMP  ;比较指令，相当于SUBS，影响程序状态寄存器CPSR </span><br><span class="line">B/BL  ;绝对跳转#imm， 返回地址保存到LR（X30）</span><br><span class="line">RET   ;子程序返回指令，返回地址默认保存在LR（X30）</span><br></pre></td></tr></table></figure>
 
-加载动态链接库
-  找到可执行文件，找到模拟器下的App可执行文件路径，通过 otool 命令:
-  1$ otool -L ××××××
+</li>
+</ul>
+<h3 id="lldb常用指令"><a href="#lldb常用指令" class="headerlink" title="lldb常用指令"></a>lldb常用指令</h3><ul>
+<li><p>读取寄存器的值</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ register read/格式</span><br><span class="line">exp:</span><br><span class="line">$ register read/x</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改寄存器的值</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ register write 寄存器名称 数值</span><br><span class="line">exp:</span><br><span class="line">$ register write rax 0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>读取内存中的值</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ x/数量-格式-字节大小 内存地址</span><br><span class="line">exp:</span><br><span class="line">$ x/3xw 0x0000010</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改内存中的值</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ memory write 内存地址 数值</span><br><span class="line">exp:</span><br><span class="line">$ memory write 0x0000010 10</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>格式</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x 是16进制</span><br><span class="line">f 是浮点</span><br><span class="line">d 是十进制</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>字节大小</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">b - byte 1字节</span><br><span class="line">h - half word 2字节</span><br><span class="line">w - word 4字节</span><br><span class="line">g - giant word 8字节</span><br></pre></td></tr></table></figure>
 
 
+</li>
+</ul>
+<ul>
+<li><p>规律</p>
+<p>  内存地址格式为： 0x4bdc(%rip), 一般是全局变量， 全局区（数据段）</p>
+<p>  内存地址格式为： -0x78(%rbp), 一般是局部变量，栈空间</p>
+<p>  内存地址格式为： 0x10(%rax), 一般是堆空间</p>
+</li>
+<li><p>查看调用栈</p>
+<p>  <code>bt</code></p>
+</li>
+</ul>
+<h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><ul>
+<li><p>双重可选</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var num : Int?? = nil</span><br><span class="line">print(num ?? 10)</span><br></pre></td></tr></table></figure>
 
 
--L 参数打印出所有 link 的 framework（去掉了版本信息如下）
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/22</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "iOS">iOS</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/18/hexo-install/" >
-            
-                <span>mac下使用hexo搭建blog</span>
-        </a>
-        <div class="abstract-content">
-            安装 nvm（Node Version Manager）Terminal中运行 
-1$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+</li>
+</ul>
+<pre><code>输出结果：
 
-v0.33.8 是nvm的版本号，最新版本详见： 
-1https://github.com/creationix/nvm/blob/master/README.md
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Optional(10)  // 为什么还会输出一个可选的10</span><br></pre></td></tr></table></figure>
 
-安装完成后会提示 
-1=&gt; Close and reopen your terminal to start using NVM
 
-重启 terminal，输入 n...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/18</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "hexo">hexo</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    <!-- paginator  -->
-    
-</main>
-            <!-- profile -->
-            
-            <div class="profile">
-    <img class="profile-avatar" alt="avatar" src= /avatar/Pikacool.jpg >
-    <div class="profile-name">Pikacool</div>
-    
-    <div class="profile-signature">
-        witness me
+在Swift源码中是这样描述的
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">///   - defaultValue: A value to use as a default. `defaultValue` is the same</span><br><span class="line">///     type as the `Wrapped` type of `optional`.</span><br><span class="line"></span><br><span class="line">public func ?? &lt;T&gt;(optional: T?, defaultValue: @autoclosure () throws -&gt; T)</span><br><span class="line">   rethrows -&gt; T &#123;</span><br><span class="line"> 		switch optional &#123;</span><br><span class="line"> 			case .some(let value):</span><br><span class="line">   			return value</span><br><span class="line"> 			case .none:</span><br><span class="line">   			return try defaultValue()</span><br><span class="line"> 		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></code></pre><h2 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h2>
+          
+        
+      
     </div>
     
     
-    <div class="profile-social">
-        
-    
-        
-            
-                <a href="mailto:pikacool1993@gmail.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-            
-                <a href="//github.com/pikacool1993" class="iconfont-archer github" target="_blank" title=github></a>
-            
-        
-    
-        
-            
-                <span class="iconfont-archer wechat" title=wechat>
-                  
-                  <img class="profile-qr" src="/assets/wechat.png" />
-                </span>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
     
 
-    </div>
     
+
     
-        <div class="friends">
-            <div>FRIENDS</div>
-            
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2019/07/22/objc-before-main/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pikacool">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
                 
-                    <span>
-                        <a href= //www.baidu.com target="_black">friendA</a>
-                    </span>
-                
+                <a class="post-title-link" href="/2019/07/22/objc-before-main/" itemprop="url">App启动时在main函数之前做了什么</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
             
-                
-                    <span>
-                        <a href= //www.google.com target="_black">friendB</a>
-                    </span>
-                
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-22T16:01:06+08:00">2019-07-22</time>
             
-                
+
             
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
         </div>
-    
-    
-        <div class="about-me">
-            <a href = "/about" >ABOUT ME</a>
-        </div>
-    
-</div>
-            
-        </div>
-        <footer class="footer footer-unloaded">
-    <!-- social  -->
-    
-    <div class="social">
-        
-    
-        
-            
-                <a href="mailto:pikacool1993@gmail.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-            
-                <a href="//github.com/pikacool1993" class="iconfont-archer github" target="_blank" title=github></a>
-            
-        
-    
-        
-            
-                <span class="iconfont-archer wechat" title=wechat>
-                  
-                  <img class="profile-qr" src="/assets/wechat.png" />
-                </span>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
+      </header>
     
 
-    </div>
     
-    <!-- powered by Hexo  -->
-    <div class="copyright">
-        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
-    </div>
-    <!-- 不蒜子  -->
     
-    <div class="busuanzi-container">
     
-     
-    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
-    
-    </div>
-    
-</footer>
-    </div>
-    <!-- toc -->
-    
-    <div class="back-top iconfont-archer">&#xe639;</div>
-    <div class="sidebar sidebar-hide">
-    <ul class="sidebar-tabs sidebar-tabs-active-0">
-        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
-        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
-        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
-    </ul>
-    <div class="sidebar-content sidebar-content-show-archive">
-          <div class="sidebar-panel-archives">
-    <!-- 在ejs中将archive按照时间排序 -->
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <div class="total-and-search">
-        <div class="total-archive">
-        Total : 7
-        </div>
-        <!-- search  -->
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
         
+          
+            <h2 id="App-启动时在执行-main-之前做了什么"><a href="#App-启动时在执行-main-之前做了什么" class="headerlink" title="App 启动时在执行 main() 之前做了什么"></a>App 启动时在执行 main() 之前做了什么</h2><ul>
+<li><p>加载可执行文件 </p>
+</li>
+<li><p>加载动态链接库</p>
+<p>  找到可执行文件，找到模拟器下的App可执行文件路径，通过 <code>otool</code> 命令:</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ otool -L ××××××</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<pre><code>-L 参数打印出所有 link 的 framework（去掉了版本信息如下）</code></pre>
+          
+        
+      
     </div>
     
-    <div class="post-archive">
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2019/07/18/hexo-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pikacool">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/18/hexo-install/" itemprop="url">mac下使用hexo搭建blog</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-18T13:01:25+08:00">2019-07-18</time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
     
     
     
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="安装-nvm（Node-Version-Manager）"><a href="#安装-nvm（Node-Version-Manager）" class="headerlink" title="安装 nvm（Node Version Manager）"></a>安装 nvm（Node Version Manager）</h2><p>Terminal中运行 <br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash</span><br></pre></td></tr></table></figure>
+
+<p><code>v0.33.8</code> 是nvm的版本号，最新版本详见： <br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/creationix/nvm/blob/master/README.md</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后会提示 <br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=&gt; Close and reopen your terminal to start using NVM</span><br></pre></td></tr></table></figure>
+
+<p>重启 terminal，输入 <code>nvm</code> 验证是否安装成功, 当一行出现 <code>Node Version Manager</code> 时说明安装成功</p>
+<p>使用 nvm 安装 note.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nvm install stable</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后安装 hexo，这一步时间稍微比较长：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g -hexo</span><br></pre></td></tr></table></figure>
+
+<p>然后选择一个文件路径创建一个文件夹：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir Blog</span><br><span class="line">$ cd Blog</span><br><span class="line">$ hexo init .</span><br><span class="line">$ ls</span><br></pre></td></tr></table></figure>
+
+<p>如果遇到 <code>hexo: command not found</code> 的错误， 解决方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nvm ls</span><br></pre></td></tr></table></figure>
+
+<p>log信息如下：</p>
+<pre><code>       v0.10.48
+-&gt;      v12.6.0
+default -&gt; v12.6.0
+node -&gt; stable (-&gt; v12.6.0) (default)
+stable -&gt; 12.6 (-&gt; v12.6.0) (default)
+iojs -&gt; N/A (default)
+unstable -&gt; N/A (default)
+lts/* -&gt; lts/dubnium (-&gt; N/A)
+lts/argon -&gt; v4.9.1 (-&gt; N/A)
+lts/boron -&gt; v6.17.1 (-&gt; N/A)
+lts/carbon -&gt; v8.16.0 (-&gt; N/A)
+lts/dubnium -&gt; v10.16.0 (-&gt; N/A)</code></pre><p>选择使用版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ nvm use v12.6.0</span><br><span class="line">$ nvm alias default v12.6.0</span><br></pre></td></tr></table></figure>
+
+<p>生成出的目录结构：</p>
+<pre><code>.
+├── _config.yml
+├── package.json
+├── db.json
+├── package-lock.json
+├── node_modules
+├── scaffolds
+├── public
+├── source
+|   └── _posts
+└── themes</code></pre><p>新建一篇文章</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new mac下使用hexo搭建blog</span><br><span class="line">$ open source/_posts/mac下使用hexo搭建blog.md</span><br></pre></td></tr></table></figure>
+
+<p>编辑完成后生成html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>本地预览</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">=&gt; [info] Hexo is running at localhost:4000/. Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
+
+<p>Theme，去官方提供的<a href="https://github.com/tommy351/hexo/wiki/Themes">主题列表</a>中选个现成的，按照里面的方法pull下来，如light主题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone git://github.com/tommy351/hexo-theme-light.git themes/light</span><br></pre></td></tr></table></figure>
+
+<p><code>_config.yml</code> 配置文件中设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: light</span><br></pre></td></tr></table></figure>
+
+<p>重新generate和server预览，就看到变化了。</p>
+<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h2><p>在 github 上创建一个 respository <br><br>在 <code>_config.yml</code> 中配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type: git</span><br><span class="line">repository: https://github.com/pikacool1993/pikacool1993.github.io.git</span><br></pre></td></tr></table></figure>
+
+<p>然后执行 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>以下提示说明部署成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INFO  Deploy done: git</span><br></pre></td></tr></table></figure>
+
+<p>若出现错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR Deployer not found: git</span><br></pre></td></tr></table></figure>
+
+<p>执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<h2 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h2><p>在万网买了个域名 <code>pikacool.cn</code>, 然后将独立域名与GitHub Pages的空间绑定 <br></p>
+<p>在Blog站点 public 目录下创建一个名为CNAME的文本文件，并写入你要绑定的域名 <code>pikacool.cn</code> <br></p>
+<p>提交到github上去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>域名后台解析设置中添加记录，DNS域名解析最常用的是A记录和CNAME记录，A记录把域名解析到服务器IP，CNAME相当于把一个域名指向另一个域名，因此我这个用的是CNAME，要是托管的服务器也是自己搭的那就用A记录了。 <br></p>
+<p>添加一个 A 记录</p>
+<pre><code>记录类型：A
+主机记录：@
+解析线路：默认
+记录值：创建的GitHub respository ip地址( ping 一下就看到了) 如：185.199.109.153</code></pre><p>添加一个 CNAME 记录</p>
+<pre><code>记录类型：CNAME
+主机记录：www
+解析线路：默认
+记录值：pikacool1993.github.io</code></pre><p>使用下面的命令测一下域名的解析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ dig pikacool.cn +nostats +nocomments +nocmd</span><br><span class="line">	</span><br><span class="line">output =&gt;:</span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; pikacool.cn +nostats +nocomments +nocmd</span><br><span class="line">;; global options: +cmd</span><br><span class="line">;pikacool.cn.			IN	A</span><br><span class="line">pikacool.cn.		60	IN	A	185.199.109.153</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><h4 id="添加sitemap"><a href="#添加sitemap" class="headerlink" title="添加sitemap"></a>添加sitemap</h4><p>使用hexo提供的插件，安装sitemap到本地：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-generator-sitemap</span><br></pre></td></tr></table></figure>
+
+<p>开启sitemap功能：编辑hexo/_config.yml，添加如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plugins:</span><br><span class="line">- hexo-generator-sitemap</span><br></pre></td></tr></table></figure>
+
+<p>访问zipperary/sitemap.xml即可看到站点地图。</p>
+<h2 id="图床"><a href="#图床" class="headerlink" title="图床"></a>图床</h2><p>使用七牛（10G空间，免费），还可以使用Yupoo（100m免费空间）</p>
+<p><a href="https://www.jianshu.com/p/bfc5281fcbeb" target="_blank" rel="noopener">使用七牛作为github博客的图床</a></p>
+
+          
+        
+      
+    </div>
     
-    <div class="archive-year"> 2021 </div>
-    <ul class="year-list">
     
     
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/07</span><a class="archive-post-title" href= "/2021/02/07/layoutengine/" >Auto Layout</a>
-        </li>
+
     
+
     
+
     
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
-    
-        </ul>
-    
-    <div class="archive-year"> 2020 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">06/19</span><a class="archive-post-title" href= "/2020/06/19/xcode-instruments/" >Instruments — Time Profiler耗时分析</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2020/03/02/csharp-base-code/" >Unity3D 实用小技巧 - C# 常用基础代码汇总</a>
-        </li>
-    
-    
-    
-    
-    
-        </ul>
-    
-    <div class="archive-year"> 2019 </div>
-    <ul class="year-list">
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">10/24</span><a class="archive-post-title" href= "/2019/10/24/learn_c/" >笨办法学C</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">07/25</span><a class="archive-post-title" href= "/2019/07/25/swift-learn/" >Swift5.0边学边记</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">07/22</span><a class="archive-post-title" href= "/2019/07/22/objc-before-main/" >App启动时在main函数之前做了什么</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">07/18</span><a class="archive-post-title" href= "/2019/07/18/hexo-install/" >mac下使用hexo搭建blog</a>
-        </li>
-    
+  </section>
+
+  
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
   </div>
-        <div class="sidebar-panel-tags">
-    <div class="sidebar-tags-name">
+
+  <aside id="sidebar" class="sidebar">
     
-        <span class="sidebar-tag-name" data-tags="Unity"><span class="iconfont-archer">&#xe606;</span>Unity</span>
-    
-        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
-    
-        <span class="sidebar-tag-name" data-tags="C"><span class="iconfont-archer">&#xe606;</span>C</span>
-    
-        <span class="sidebar-tag-name" data-tags="Swift"><span class="iconfont-archer">&#xe606;</span>Swift</span>
-    
-        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
-    
-        <span class="sidebar-tag-name" data-tags="Xcode"><span class="iconfont-archer">&#xe606;</span>Xcode</span>
-    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">pikacool</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
     </div>
-    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
-    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-    缺失模块。<br/>
-    1、请确保node版本大于6.2<br/>
-    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
-    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
-    3、在根目录_config.yml里添加配置：
-    <pre style="color: #787878; font-size: 0.6rem;">
-jsonContent:
-  meta: false
-  pages: false
-  posts:
-    title: true
-    date: true
-    path: true
-    text: false
-    raw: false
-    content: false
-    slug: false
-    updated: false
-    comments: false
-    link: false
-    permalink: false
-    excerpt: false
-    categories: true
-    tags: true</pre>
-    </div> 
-    <div class="sidebar-tags-list"></div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pikacool</span>
+
+  
+
+  
 </div>
-        <div class="sidebar-panel-categories">
-    <div class="sidebar-categories-name">
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.0.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
     
-    </div>
-    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
-    <div class="sidebar-categories-list"></div>
-</div>
-    </div>
-</div> 
-    <script>
-    var siteMeta = {
-        root: "/",
-        author: "pikacool"
-    }
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
-    <!-- CDN failover -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <script type="text/javascript">
-        if (typeof window.$ === 'undefined')
-        {
-            console.warn('jquery load from jsdelivr failed, will load local script')
-            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
-        }
-    </script>
-    <script src="/scripts/main.js"></script>
-    <!-- algolia -->
-    
-    <!-- busuanzi  -->
-    
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-    
-    <!-- CNZZ  -->
-    
-    </div>
-    <!-- async load share.js -->
-     
-    </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.0"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
 </html>
-
-
