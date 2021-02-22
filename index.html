@@ -64,7 +64,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Xcode,">
 
 
 
@@ -75,19 +75,15 @@
 
 
 
-<meta name="description" content="Auto Layout 的生命周期包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。 布局引擎系统叫作 Layout Engine ，是 Auto Layout 的核心，主导着整个界面布局。">
+<meta name="keywords" content="Xcode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Auto Layout">
-<meta property="og:url" content="https://github.com/pikacool1993/2021/02/07/layoutengine/index.html">
+<meta property="og:title" content="Instruments — Time Profiler耗时分析">
+<meta property="og:url" content="https://github.com/pikacool1993/2020/06/19/xcode-instruments/index.html">
 <meta property="og:site_name" content="Pikacool">
-<meta property="og:description" content="Auto Layout 的生命周期包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。 布局引擎系统叫作 Layout Engine ，是 Auto Layout 的核心，主导着整个界面布局。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://i.loli.net/2021/02/07/EPQoJCiapdD6TG5.png">
-<meta property="og:updated_time" content="2021-02-07T02:12:55.666Z">
+<meta property="og:updated_time" content="2020-06-19T03:26:22.212Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Auto Layout">
-<meta name="twitter:description" content="Auto Layout 的生命周期包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。 布局引擎系统叫作 Layout Engine ，是 Auto Layout 的核心，主导着整个界面布局。">
-<meta name="twitter:image" content="https://i.loli.net/2021/02/07/EPQoJCiapdD6TG5.png">
+<meta name="twitter:title" content="Instruments — Time Profiler耗时分析">
 
 
 
@@ -119,7 +115,7 @@
 
 
 
-  <link rel="canonical" href="https://github.com/pikacool1993/2021/02/07/layoutengine/">
+  <link rel="canonical" href="https://github.com/pikacool1993/2020/06/19/xcode-instruments/">
 
 
 
@@ -219,6 +215,150 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2021/02/22/objc-interface/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pikacool">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/22/objc-interface/" itemprop="url">objc_interface</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-22T17:09:33+08:00">2021-02-22</time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Objective-C中的-interface和-implementation"><a href="#Objective-C中的-interface和-implementation" class="headerlink" title="Objective-C中的@interface和@implementation"></a>Objective-C中的@interface和@implementation</h3><h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>Objc的类声明使用 <code>interface</code> ，但是在其它面向对象的语言中使用 <code>class</code> 来表示，<code>interface</code> 在 Java 中近似于 Objc 中的 <code>protocol</code>, 所以 Objc 中的 <code>interface</code> 以及 <code>implementation</code> 的设计思想是什么呢？</p>
+<h4 id="interface"><a href="#interface" class="headerlink" title="@interface"></a>@interface</h4><p>引用一段官方的解释</p>
+<blockquote>
+<p>This information goes into the interface for your class—it defines the way you intend other objects to interact with instances of your class. The public interface is described separately from the internal behavior of your class, which makes up the class implementation. In Objective-C, the interface and implementation are usually placed in separate files so that you only need to make the interface public. </p>
+</blockquote>
+<p>大概意思就是它定义了你希望与其它对象和类实例进行交互的方式，也就是 <code>interface</code> 只存在于能相互影响的两者间</p>
+<h4 id="那么问题来了-interface-生成了-class"><a href="#那么问题来了-interface-生成了-class" class="headerlink" title="那么问题来了 @interface 生成了 class?"></a>那么问题来了 <code>@interface</code> 生成了 <code>class</code>?</h4><p>刚接触 Objc 时肯定是从怎么写一个类开始的，在 <code>.h</code> 文件中写 <code>@interface</code> 声明类，然后在 <code>.m</code> 文件中写 <code>@implementation</code>，所以自然就会觉得是 <code>@interface</code> 就相当于 java 或者 C# 中写一个 <code>class</code></p>
+<p>Talk is cheap. Show me the code</p>
+<p>在 <code>Dog</code> 类中只有 <code>.m</code> 文件只写 <code>@implementation</code>，在 <code>Cat</code> 类中只有 <code>.h</code> 文件只写 <code>@interface</code></p>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Dog</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Cat</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<p>验证</p>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Class dogClass = <span class="built_in">NSClassFromString</span>(<span class="string">@"Dog"</span>);</span><br><span class="line">Class catClass = <span class="built_in">NSClassFromString</span>(<span class="string">@"Cat"</span>);</span><br><span class="line">    </span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"Dog: %@"</span>, dogClass);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"Cat: %@"</span>, catClass);</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ Dog: Dog</span><br><span class="line">$ Cat: (null)</span><br></pre></td></tr></table></figure>
+
+<p>这个结果说明是 <code>@implementation</code> 生成了 <code>class</code></p>
+<h4 id="interface和-implementation"><a href="#interface和-implementation" class="headerlink" title="@interface和@implementation"></a>@interface和@implementation</h4><p><code>@interface</code> 对类结构的合成没有决定性的作用， 只是没有它会丢失一些类自身的原始数据，如属性列表和协议列表，对对象消息发送并没有影响，所以 <code>@interface</code> 就是为了给调用者看，暴露自己的公有方法和属性等，是一个升级版的 <code>protocol</code></p>
+<h4 id="interface和-protocol"><a href="#interface和-protocol" class="headerlink" title="@interface和@protocol"></a>@interface和@protocol</h4><p><code>@interface</code> 和 <code>@protocal</code> 间唯一的区别就是是否和一个类型绑定</p>
+<p>比如我们常常定义一个代理 <code>id&lt;XXDelegate&gt; delegate</code> 我们就不用知道这个代理到底是什么类型的，只用知道它能干什么就好了，同样可以这样定义 <code>XXDelegate *delegate</code>, 这样就会耦合一个 <code>XXDelegate</code> 类型，我们并不需要关心它是什么</p>
+<h4 id="一个问题"><a href="#一个问题" class="headerlink" title="一个问题"></a>一个问题</h4><p>当子类需要使用父类的一个私有属性（方法）时，需要把这个属性（方法）放到父类的header中，但暴露给子类的同时暴露给了外部调用者，如何解决?</p>
+<p>建立一个私有header，使用类扩展定义父类需要暴露给子类的属性（方法），然后在各自的 <code>.m</code> 文件中引用，如：</p>
+<p>有 <code>Father</code> 类和 <code>Son</code> 类，继承关系，可以考虑建一个如 <code>FatherPrivate.h</code> 的私有header：</p>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// FatherPrivate.h</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Father</span> ()</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *privateThingSonNeed;</span><br><span class="line">- (<span class="keyword">void</span>)privateMethodNeedsSonOverride;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<p>同时在 <code>Father.m</code> 和 <code>Son.m</code> 中同时 <code>import</code> 这个私有header，这样 <code>Father</code> 和 <code>Son</code> 内部对于定义的属性和方法都是透明的，而对外部是隐藏的（因为两个类的header中都没有 <code>import</code> 这个私有header）</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -1455,7 +1595,7 @@ lts/dubnium -&gt; v10.16.0 (-&gt; N/A)</code></pre><p>选择使用版本：</p>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1468,7 +1608,7 @@ lts/dubnium -&gt; v10.16.0 (-&gt; N/A)</code></pre><p>选择使用版本：</p>
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
