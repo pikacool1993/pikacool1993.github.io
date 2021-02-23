@@ -232,6 +232,172 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2021/02/23/unity-ios-plugin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pikacool">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/02/23/unity-ios-plugin/" itemprop="url">Unity iOS 插件实践</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-02-23T10:37:22+08:00">2021-02-23</time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Unity-和-Objective-C-交互"><a href="#Unity-和-Objective-C-交互" class="headerlink" title="Unity 和 Objective-C 交互"></a>Unity 和 Objective-C 交互</h3><h4 id="Unity-调用-iOS-原生方法"><a href="#Unity-调用-iOS-原生方法" class="headerlink" title="Unity 调用 iOS 原生方法"></a>Unity 调用 iOS 原生方法</h4><p>在 <code>iOS</code> 中，<code>C</code> 语言可以和 <code>Objective-C</code> 语言进行混合编译的，<code>C#</code> 语言又提供了一种调用 <code>C</code>（非 <code>C++</code>）语言的机制， 这样就可以实现 <code>C#</code> 调用 <code>Objective-C</code> 的功能</p>
+<h5 id="IL2CPP"><a href="#IL2CPP" class="headerlink" title="IL2CPP"></a>IL2CPP</h5><blockquote>
+<p>What is IL2CPP?<br>The technology that we refer to as IL2CPP has two distinct parts.<br>1. An ahead-of-time (AOT) compiler<br>2. A runtime library to support the virtual machine<br>The AOT compiler translates Intermediate Language (IL), the low-level output from .NET compilers, to C++ source code. The runtime library provides services and abstractions like a garbage collector, platform-independent access to threads and files, and implementations of internal calls (native code which modifies managed data structures directly).</p>
+</blockquote>
+<p><img src="https://blogs.unity3d.com/wp-content/uploads/2015/04/il2cpp-toolchain-smaller.png" alt="LayoutEngine.png"></p>
+<p>Unity脚本编译成中间语言（<code>IL</code>，动态库等），通过IL2CPP程序将 <code>IL</code> 转换成 <code>C++</code>语言</p>
+<h5 id="DllImport"><a href="#DllImport" class="headerlink" title="DllImport"></a>DllImport</h5><p><code>C#</code> 提供了 <code>DllImport</code> 机制来实现 <code>C#</code> 于 <code>C</code> 语言的方法调用</p>
+<ul>
+<li>无参无返回值</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">DllImport(<span class="meta-string">"__Internal"</span>)</span>]</span><br><span class="line"><span class="function"><span class="keyword">internal</span> <span class="keyword">static</span> <span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">CallFunction</span>(<span class="params"></span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>有参无返回值</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">DllImport(<span class="meta-string">"__Internal"</span>)</span>]</span><br><span class="line"><span class="function"><span class="keyword">internal</span> <span class="keyword">static</span> <span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">CallFunction</span>(<span class="params"><span class="keyword">string</span> param</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>有参有返回值</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">DllImport(<span class="meta-string">"__Internal"</span>)</span>]</span><br><span class="line"><span class="function"><span class="keyword">internal</span> <span class="keyword">static</span> <span class="keyword">extern</span> <span class="keyword">string</span> <span class="title">CallFunction</span>(<span class="params"><span class="keyword">string</span> param</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<h6 id="DllImport-的语法规则"><a href="#DllImport-的语法规则" class="headerlink" title="DllImport 的语法规则"></a>DllImport 的语法规则</h6><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">DllImport(<span class="meta-string">"__Internal"</span>)</span>]</span><br><span class="line"><span class="function"><span class="keyword">internal</span> <span class="keyword">static</span> <span class="keyword">extern</span> ReturnValue <span class="title">FunctionName</span>(<span class="params"><span class="keyword">string</span> parameter1, <span class="keyword">int</span> parameter2</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>由于是 <code>C</code> 语言，支持的参数及其数据类型是非常有限的，诸如 <code>int</code>、<code>float</code>、<code>double</code>、<code>char</code> 等这类两种语言中都存在的基础数据类型，是可以实现直接映射的，但是 <code>C#</code> 中的 <code>string</code> 对应到 <code>C</code> 中，就是 <code>char*</code> 了</p>
+<h6 id="iOS-实现-DllImport"><a href="#iOS-实现-DllImport" class="headerlink" title="iOS 实现 DllImport"></a>iOS 实现 DllImport</h6><p><code>.h</code> 文件中</p>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span> &#123;</span><br><span class="line">	<span class="keyword">char</span>* CallFunction(<span class="keyword">char</span> *parma);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>.mm</code> 文件中</p>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span>* CallFunction(<span class="keyword">char</span> *parma) &#123;</span><br><span class="line">	<span class="comment">// return ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h6 id="iOS-调用-Unity-原生方法"><a href="#iOS-调用-Unity-原生方法" class="headerlink" title="iOS 调用 Unity 原生方法"></a>iOS 调用 Unity 原生方法</h6><p>这种方式用于 <code>iOS</code> 给 <code>Unity</code> 一些方法回调</p>
+<ul>
+<li><code>MonoPInvokeCallback</code></li>
+</ul>
+<blockquote>
+<p>Attribute used to annotate functions that will be called back from the unmanaged world.</p>
+</blockquote>
+<p>举个栗子🌰，比如我们现在需要使用手机相册权限拿一张图片在 <code>Unity</code> 中使用</p>
+<p><code>C#</code> 中：</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明 Unity 中接收回调的事件</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> UnityAction&lt;<span class="keyword">string</span>&gt; _selectPhotoAction;</span><br><span class="line"><span class="comment">// 声明回调代理</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">delegate</span> <span class="keyword">void</span> <span class="title">SelectPhotoCallback</span>(<span class="params"><span class="keyword">string</span> photo</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在一个初始化方法中设置回调</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Init</span>(<span class="params"></span>) </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	_SetSelectPhotoCallback(DidReceiveSelectPhotoCallback);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 供 Unity 中调用选择照片的方法，并传入一个选择结果的回调</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnSelectPhoto</span>(<span class="params">UnityAction&lt;<span class="keyword">string</span>&gt; callback</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	_selectPhotoAction = callback;</span><br><span class="line">	_SelectPhoto();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// iOS 原生的回调</span></span><br><span class="line">[<span class="meta">AOT.MonoPInvokeCallback(typeof(SelectPhotoCallback))</span>]</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">DidReceiveSelectPhotoCallback</span>(<span class="params"><span class="keyword">string</span> photo</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	_selectPhotoAction?.Invoke(photo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把 Unity 中定义的接收原生事件回调传给 OC</span></span><br><span class="line">[<span class="meta">DllImport(<span class="meta-string">"__Internal"</span>)</span>]</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">extern</span> <span class="keyword">void</span> _SetupSelectPhotoCallback(SelectPhotoCallback callback);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用 OC 原生方法</span></span><br><span class="line">[<span class="meta">DllImport(<span class="meta-string">"__Internal"</span>)</span>]</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">extern</span> <span class="keyword">void</span> _SelectPhoto();</span><br></pre></td></tr></table></figure>
+
+<p><code>OC</code> 中</p>
+<p><code>.h</code> 文件中：</p>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NativeUtils</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">void</span>(*SelectPhotoCallback)(<span class="keyword">const</span> <span class="keyword">char</span> *photo);</span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">"C"</span>&#123;</span><br><span class="line">    <span class="keyword">void</span> _SetupSelectPhotoCallback(SelectPhotoCallback callback);</span><br><span class="line">    <span class="keyword">void</span> _SelectPhoto();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+<p><code>.mm</code> 文件中：</p>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#define Convert2Char( _x_ ) ( _x_ != NULL &amp;&amp; [_x_ isKindOfClass:[NSString class]] ) ? strdup( [_x_ UTF8String] ) : strdup( [@<span class="meta-string">""</span> UTF8String] )</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">NativeUtils</span> ()</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">assign</span>) SelectPhotoCallback selectPhotoCallback;</span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">WMNativeUtils</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="keyword">instancetype</span>)shared &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</span><br><span class="line">    <span class="keyword">static</span> NativeUtils *instance = <span class="literal">nil</span>;</span><br><span class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken,^&#123;</span><br><span class="line">        instance = [[<span class="keyword">self</span> alloc] init];</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> instance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)bindSelectPhotoCallback:(SelectPhotoCallback)callback &#123;</span><br><span class="line">    <span class="keyword">self</span>.selectPhotoCallback = callback;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)selectPhoto &#123;</span><br><span class="line">	<span class="comment">// 调起系统相册，选择...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#pragma mark UIImagePickerControllerDelegate</span></span><br><span class="line">- (<span class="keyword">void</span>)imagePickerController:(<span class="built_in">UIImagePickerController</span> *)picker didFinishPickingMediaWithInfo:(<span class="built_in">NSDictionary</span>&lt;<span class="built_in">UIImagePickerControllerInfoKey</span>,<span class="keyword">id</span>&gt; *)info &#123;</span><br><span class="line">    [picker dismissViewControllerAnimated:<span class="literal">YES</span> completion:<span class="literal">nil</span>];</span><br><span class="line">    <span class="built_in">UIImage</span> *image = info[<span class="built_in">UIImagePickerControllerEditedImage</span>];</span><br><span class="line">    <span class="comment">// base64 形式</span></span><br><span class="line">    <span class="built_in">NSString</span> *imageBase64String = [imageData base64EncodedStringWithOptions:<span class="built_in">NSDataBase64EncodingEndLineWithLineFeed</span>];</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.selectPhotoCallback) &#123;</span><br><span class="line">        <span class="keyword">self</span>.selectPhotoCallback(Convert2Char(imageBase64String));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#pragma mark - CPlusPlus</span></span><br><span class="line"><span class="keyword">void</span> _SetupSelectPhotoCallback(SelectPhotoCallback callback) &#123;</span><br><span class="line">    [[NativeUtils shared] bindSelectPhotoCallback:callback];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> _SelectPhoto() &#123;</span><br><span class="line">    [[NativeUtils shared] selectPhoto];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2021/02/22/objc-interface/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1598,7 +1764,7 @@ lts/dubnium -&gt; v10.16.0 (-&gt; N/A)</code></pre><p>选择使用版本：</p>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1611,7 +1777,7 @@ lts/dubnium -&gt; v10.16.0 (-&gt; N/A)</code></pre><p>选择使用版本：</p>
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
