@@ -64,7 +64,7 @@
 
 
 
-  <meta name="keywords" content="Unity OC,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -75,20 +75,19 @@
 
 
 
-<meta name="description" content="Unity 和 Objective-C 交互Unity 调用 iOS 原生方法在 iOS 中，C 语言可以和 Objective-C 语言进行混合编译的，C# 语言又提供了一种调用 C（非 C++）语言的机制， 这样就可以实现 C# 调用 Objective-C 的功能 IL2CPP What is IL2CPP?The technology that we refer to as IL2CPP">
-<meta name="keywords" content="Unity OC">
+<meta name="description" content="Auto Layout 的生命周期包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。 布局引擎系统叫作 Layout Engine ，是 Auto Layout 的核心，主导着整个界面布局。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Unity iOS 插件实践">
-<meta property="og:url" content="https://github.com/pikacool1993/2021/02/23/unity-ios-plugin/index.html">
+<meta property="og:title" content="Auto Layout">
+<meta property="og:url" content="https://github.com/pikacool1993/2021/02/07/layoutengine/index.html">
 <meta property="og:site_name" content="Pikacool">
-<meta property="og:description" content="Unity 和 Objective-C 交互Unity 调用 iOS 原生方法在 iOS 中，C 语言可以和 Objective-C 语言进行混合编译的，C# 语言又提供了一种调用 C（非 C++）语言的机制， 这样就可以实现 C# 调用 Objective-C 的功能 IL2CPP What is IL2CPP?The technology that we refer to as IL2CPP">
+<meta property="og:description" content="Auto Layout 的生命周期包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。 布局引擎系统叫作 Layout Engine ，是 Auto Layout 的核心，主导着整个界面布局。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://blogs.unity3d.com/wp-content/uploads/2015/04/il2cpp-toolchain-smaller.png">
-<meta property="og:updated_time" content="2021-02-23T06:39:52.853Z">
+<meta property="og:image" content="https://i.loli.net/2021/02/07/EPQoJCiapdD6TG5.png">
+<meta property="og:updated_time" content="2021-02-07T02:12:55.666Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Unity iOS 插件实践">
-<meta name="twitter:description" content="Unity 和 Objective-C 交互Unity 调用 iOS 原生方法在 iOS 中，C 语言可以和 Objective-C 语言进行混合编译的，C# 语言又提供了一种调用 C（非 C++）语言的机制， 这样就可以实现 C# 调用 Objective-C 的功能 IL2CPP What is IL2CPP?The technology that we refer to as IL2CPP">
-<meta name="twitter:image" content="https://blogs.unity3d.com/wp-content/uploads/2015/04/il2cpp-toolchain-smaller.png">
+<meta name="twitter:title" content="Auto Layout">
+<meta name="twitter:description" content="Auto Layout 的生命周期包含了布局在运行时的生命周期等一整套布局引擎系统，用来统一管理布局的创建、更新和销毁。 布局引擎系统叫作 Layout Engine ，是 Auto Layout 的核心，主导着整个界面布局。">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/07/EPQoJCiapdD6TG5.png">
 
 
 
@@ -120,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="https://github.com/pikacool1993/2021/02/23/unity-ios-plugin/">
+  <link rel="canonical" href="https://github.com/pikacool1993/2021/02/07/layoutengine/">
 
 
 
@@ -1016,128 +1015,6 @@ str1.Remove(5,4); //结果为“我是萨达姆之一”</code></pre><h3 id="判
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2019/10/24/learn_c/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="pikacool">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pikacool">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/24/learn_c/" itemprop="url">笨办法学C</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-24T12:34:19+08:00">2019-10-24</time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="使用Make"><a href="#使用Make" class="headerlink" title="使用Make"></a>使用Make</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ make ex1</span><br><span class="line"># or this one too</span><br><span class="line">$ CFLAGS=&quot;-Wall&quot; make ex1</span><br></pre></td></tr></table></figure>
-
-<p>第一个命令中你告诉make，“我想创建名为ex1的文件”, 过程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">文件 ex1 存在吗？-&gt; 没有。好的，有没有其他文件以 ex1 开头？</span><br><span class="line">               -&gt; 有，叫做 ex1.c，我知道如何构建 .c 文件吗？</span><br><span class="line">               -&gt; 是的，我会运行命令 cc ex1.c -o ex1 来构建它。</span><br><span class="line">               -&gt; 我将使用 cc 从 ex1.c 文件来为你构建 ex1</span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2019/07/25/swift-learn/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1766,7 +1643,7 @@ lts/dubnium -&gt; v10.16.0 (-&gt; N/A)</code></pre><p>选择使用版本：</p>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
