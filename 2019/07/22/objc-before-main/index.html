@@ -64,7 +64,7 @@
 
 
 
-  <meta name="keywords" content="iOS OC,">
+  <meta name="keywords" content="Unity OC,">
 
 
 
@@ -75,18 +75,20 @@
 
 
 
-<meta name="description" content="Objective-C中的@interface和@implementation前言Objc的类声明使用 interface ，但是在其它面向对象的语言中使用 class 来表示，interface 在 Java 中近似于 Objc 中的 protocol, 所以 Objc 中的 interface 以及 implementation 的设计思想是什么呢？ @interface引用一段官方的解释">
-<meta name="keywords" content="iOS OC">
+<meta name="description" content="Unity 和 Objective-C 交互Unity 调用 iOS 原生方法在 iOS 中，C 语言可以和 Objective-C 语言进行混合编译的，C# 语言又提供了一种调用 C（非 C++）语言的机制， 这样就可以实现 C# 调用 Objective-C 的功能 IL2CPP What is IL2CPP?The technology that we refer to as IL2CPP">
+<meta name="keywords" content="Unity OC">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Objective-C中的@interface和@implementation">
-<meta property="og:url" content="https://github.com/pikacool1993/2021/02/22/objc-interface/index.html">
+<meta property="og:title" content="Unity iOS 插件实践">
+<meta property="og:url" content="https://github.com/pikacool1993/2021/02/23/unity-ios-plugin/index.html">
 <meta property="og:site_name" content="Pikacool">
-<meta property="og:description" content="Objective-C中的@interface和@implementation前言Objc的类声明使用 interface ，但是在其它面向对象的语言中使用 class 来表示，interface 在 Java 中近似于 Objc 中的 protocol, 所以 Objc 中的 interface 以及 implementation 的设计思想是什么呢？ @interface引用一段官方的解释">
+<meta property="og:description" content="Unity 和 Objective-C 交互Unity 调用 iOS 原生方法在 iOS 中，C 语言可以和 Objective-C 语言进行混合编译的，C# 语言又提供了一种调用 C（非 C++）语言的机制， 这样就可以实现 C# 调用 Objective-C 的功能 IL2CPP What is IL2CPP?The technology that we refer to as IL2CPP">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2021-02-22T10:52:15.141Z">
+<meta property="og:image" content="https://blogs.unity3d.com/wp-content/uploads/2015/04/il2cpp-toolchain-smaller.png">
+<meta property="og:updated_time" content="2021-02-23T06:39:52.853Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Objective-C中的@interface和@implementation">
-<meta name="twitter:description" content="Objective-C中的@interface和@implementation前言Objc的类声明使用 interface ，但是在其它面向对象的语言中使用 class 来表示，interface 在 Java 中近似于 Objc 中的 protocol, 所以 Objc 中的 interface 以及 implementation 的设计思想是什么呢？ @interface引用一段官方的解释">
+<meta name="twitter:title" content="Unity iOS 插件实践">
+<meta name="twitter:description" content="Unity 和 Objective-C 交互Unity 调用 iOS 原生方法在 iOS 中，C 语言可以和 Objective-C 语言进行混合编译的，C# 语言又提供了一种调用 C（非 C++）语言的机制， 这样就可以实现 C# 调用 Objective-C 的功能 IL2CPP What is IL2CPP?The technology that we refer to as IL2CPP">
+<meta name="twitter:image" content="https://blogs.unity3d.com/wp-content/uploads/2015/04/il2cpp-toolchain-smaller.png">
 
 
 
@@ -118,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="https://github.com/pikacool1993/2021/02/22/objc-interface/">
+  <link rel="canonical" href="https://github.com/pikacool1993/2021/02/23/unity-ios-plugin/">
 
 
 
@@ -297,16 +299,60 @@
 
       
         <h2 id="App-启动时在执行-main-之前做了什么"><a href="#App-启动时在执行-main-之前做了什么" class="headerlink" title="App 启动时在执行 main() 之前做了什么"></a>App 启动时在执行 main() 之前做了什么</h2><ul>
-<li><p>加载可执行文件 </p>
+<li><p>编译的几个主要过程，生成可执行文件</p>
+<ul>
+<li>首先，你写好代码后，<code>LLVM</code> 会预处理你的代码，比如把宏嵌入到对应的位置</li>
+<li>预处理完后，<code>LLVM</code> 会对代码进行词法分析和语法分析，生成 <code>AST</code> 。<code>AST</code> 是抽象语法树，结构上比代码更精简，遍历起来更快，所以使用 <code>AST</code> 能够更快速地进行静态检查，同时还能更快地生成 <code>IR</code>（中间表示）</li>
+<li>最后 <code>AST</code> 会生成 <code>IR</code>，<code>IR</code> 是一种更接近机器码的语言，区别在于和平台无关，通过 <code>IR</code> 可以生成多份适合不同平台的机器码。对于 <code>iOS</code> 系统，<code>IR</code> 生成的可执行文件就是 <code>Mach-O</code></li>
+</ul>
 </li>
 <li><p>加载动态链接库</p>
-<p>  找到可执行文件，找到模拟器下的App可执行文件路径，通过 <code>otool</code> 命令:</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ otool -L ××××××</span><br></pre></td></tr></table></figure>
+<p>  查看一个 APP 都使用了哪些动态库，包括系统自带的动态库和第三方动态库，这些动态库将会在动态链接过程中被加载</p>
+<p>  找到App可执行文件路径，通过 <code>otool</code> 命令:</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ otool -L TestMain</span><br></pre></td></tr></table></figure>
 
 
 </li>
 </ul>
-<pre><code>-L 参数打印出所有 link 的 framework（去掉了版本信息如下）</code></pre>
+<pre><code>-L 参数打印出所有 link 的 framework（去掉了版本信息如下）
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TestMain:</span><br><span class="line">	/System/Library/Frameworks/Foundation.framework/Foundation</span><br><span class="line">	/usr/lib/libobjc.A.dylib</span><br><span class="line">	/usr/lib/libSystem.B.dylib</span><br><span class="line">	/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation</span><br><span class="line">	/System/Library/Frameworks/UIKit.framework/UIKit</span><br></pre></td></tr></table></figure>
+
+
+可以看到有两个默认添加的 `lib`: `libobjc`(`objc` 和 `runtime`), `libSystem` 中包含了很多系统级别的 `lib`, 比如我们熟知的 `libdispatch`（GCD）, `libsystem_c`（C语言库）, `libsystem_blocks`（Block）, `libcommonCrypto`（加密库，比如常用的 `md5` 函数）
+
+这些 `lib` 都是 `dylib` 格式的（如 `Windows` 中的 `dll`）, 使用动态链接有如下优点：
+
+- 代码共用： 很多程序都动态链接了这些 lib，但它们在内存和磁盘中中只有一份
+- 易于维护： 由于被依赖的 lib 是程序执行时才 link 的，所以这些 lib 很容易做更新，比如`libSystem.dylib` 是 `libSystem.B.dylib` 的替身，哪天想升级直接换成 `libSystem.C.dylib` 然后再替换替身就行了
+- 减少可执行文件体积：相比静态链接，动态链接在编译时不需要打进去，所以可执行文件的体积要小很多</code></pre><ul>
+<li><p>dyld</p>
+<p>  <code>dyld(the dynamic link editor)</code>, 动态链接器，概述 <code>dyld</code> 做了如下几件事：</p>
+<ul>
+<li>先执行 <code>Mach-O</code> 文件，根据 <code>Mach-O</code> 文件里 <code>undefined</code> 的符号加载对应的动态库，系统会设置一个共享缓存来解决加载的递归依赖问题</li>
+<li>加载后，将 <code>undefined</code> 的符号绑定到动态库里对应的地址上</li>
+<li>最后再处理 <code>+load</code> 方法，<code>main</code> 函数返回后运行 <code>static terminator</code></li>
+</ul>
+</li>
+<li><p>ImageLoader</p>
+<p>  将文件加载进内存，且每一个文件对应一个 <code>ImageLoader</code> 实例来负责加载。</p>
+<ul>
+<li>在程序运行时它先将动态链接的 <code>image</code> 递归加载 （也就是上面加载的递归依赖问题）</li>
+<li>再从可执行文件 <code>image</code> 递归加载所有符号</li>
+</ul>
+</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li><code>dyld</code> 开始将程序二进制文件(<code>Mach-O</code>)初始化</li>
+<li>交由 <code>ImageLoader</code> 读取 <code>image</code>，其中包含了我们的类、方法等各种符号</li>
+<li>由于 <code>runtime</code> 向 <code>dyld</code> 绑定了回调，当 <code>image</code> 加载到内存后，<code>dyld</code> 会通知 <code>runtime</code> 进行处理</li>
+<li><code>runtime</code> 接手后调用 <code>map_images</code> 做解析和处理，接下来 <code>load_images</code> 中调用 <code>call_load_methods</code> 方法，遍历所有加载进来的 <code>Class</code>，按继承层级依次调用 <code>Class</code> 的 <code>+load</code> 方法和其 <code>Category</code> 的 <code>+load</code> 方法</li>
+</ul>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>Q: 重载自己 <code>Class</code> 的 <code>+load</code> 方法时需不需要调父类？<br><br>A: <code>runtime</code> 负责按继承顺序递归调用，所以不能调 <code>super</code></p>
+<p>Q: 在自己 <code>Class</code> 的 <code>+load</code> 方法时能不能替换系统 <code>framework</code>（比如 <code>UIKit</code>）中的某个类的方法实现<br><br>A: 可以，因为动态链接过程中，所有依赖库的类是先于自己的类加载的</p>
+<p>Q: 重载 <code>+load</code> 时需要手动添加 <code>@autoreleasepool</code> 么？<br><br>A: 不需要，在 <code>runtime</code> 调用 <code>+load</code> 方法前后是加了 <code>objc_autoreleasePoolPush()</code> 和 <code>objc_autoreleasePoolPop()</code> 的。</p>
+<p>Q: 想让一个类的 <code>+load</code> 方法被调用是否需要在某个地方 <code>import</code> 这个文件？<br><br>A: 不需要，只要这个类的符号被编译到最后的可执行文件中，<code>+load</code> 方法就会被调用（Reveal SDK 就是利用这一点，只要引入到工程中就能工作）</p>
+
       
     </div>
     
@@ -471,7 +517,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#App-启动时在执行-main-之前做了什么"><span class="nav-number">1.</span> <span class="nav-text">App 启动时在执行 main() 之前做了什么</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#App-启动时在执行-main-之前做了什么"><span class="nav-number">1.</span> <span class="nav-text">App 启动时在执行 main() 之前做了什么</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">1.0.1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题"><span class="nav-number">1.0.2.</span> <span class="nav-text">问题</span></a></li></ol></li></ol></div>
             
 
           </div>
