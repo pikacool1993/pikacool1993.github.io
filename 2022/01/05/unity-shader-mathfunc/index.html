@@ -64,7 +64,7 @@
 
 
 
-  <meta name="keywords" content="swift mvvm,">
+  <meta name="keywords" content="Unity,">
 
 
 
@@ -75,20 +75,18 @@
 
 
 
-<meta name="description" content="MVVM设计模式 实践（基于Swift）文件夹结构目录">
-<meta name="keywords" content="swift mvvm">
+<meta name="description" content="Unity Shader常用函数CG标准函数库Unity坐标转换数学函数数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数    函数 功能    abs(x) 返回输入参数的绝对值   acos(x) 反余切函数，输入参数范围为[-1, 1]， 返回[0, π]区间的角度值   all(x) 如果输入参数">
+<meta name="keywords" content="Unity">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Swift MVVM 实践">
-<meta property="og:url" content="https://github.com/pikacool1993/2021/05/13/swift-mvvm/index.html">
+<meta property="og:title" content="Unity Shader常用函数">
+<meta property="og:url" content="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/index.html">
 <meta property="og:site_name" content="pikacool">
-<meta property="og:description" content="MVVM设计模式 实践（基于Swift）文件夹结构目录">
+<meta property="og:description" content="Unity Shader常用函数CG标准函数库Unity坐标转换数学函数数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数    函数 功能    abs(x) 返回输入参数的绝对值   acos(x) 反余切函数，输入参数范围为[-1, 1]， 返回[0, π]区间的角度值   all(x) 如果输入参数">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://i.loli.net/2021/05/13/4kIza2MFXHgPOfm.png">
-<meta property="og:updated_time" content="2021-05-13T10:32:11.085Z">
+<meta property="og:updated_time" content="2022-01-05T06:12:48.279Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Swift MVVM 实践">
-<meta name="twitter:description" content="MVVM设计模式 实践（基于Swift）文件夹结构目录">
-<meta name="twitter:image" content="https://i.loli.net/2021/05/13/4kIza2MFXHgPOfm.png">
+<meta name="twitter:title" content="Unity Shader常用函数">
+<meta name="twitter:description" content="Unity Shader常用函数CG标准函数库Unity坐标转换数学函数数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数    函数 功能    abs(x) 返回输入参数的绝对值   acos(x) 反余切函数，输入参数范围为[-1, 1]， 返回[0, π]区间的角度值   all(x) 如果输入参数">
 
 
 
@@ -120,7 +118,7 @@
 
 
 
-  <link rel="canonical" href="https://github.com/pikacool1993/2021/05/13/swift-mvvm/">
+  <link rel="canonical" href="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/">
 
 
 
@@ -339,8 +337,8 @@
 <td align="center"><font color="red">对输入参数向上取整。例如：ceil(float(1.3))，其返回值为2.0</font></td>
 </tr>
 <tr>
-<td align="center">clamp(x, a, b)</td>
-<td align="center">如果 x 值小于 a ，返回 a ； 如果 x 值大于 b ，返回 b ；否则返回 x</td>
+<td align="center"><font color="red">clamp(x, a, b)</font></td>
+<td align="center"><font color="red">如果 x 值小于 a ，返回 a ； 如果 x 值大于 b ，返回 b ；否则返回 x</font></td>
 </tr>
 <tr>
 <td align="center">cos(x)</td>
@@ -492,7 +490,7 @@
 </tr>
 <tr>
 <td align="center"><font color="red">smoothstep(min, max, x)</font></td>
-<td align="center"><font color="red">值 x 位于 min、max 区间中。如果 x = min，返回0；如果 x = max，返回1；如果 x 在两者之间，按照下列公式返回数据：</font></td>
+<td align="center"><font color="red">值 x 位于 min、max 区间中。如果 x = min，返回0；如果 x = max，返回1；如果 x 在两者之间，按照下列公式返回数据：<br><code>float smoothstep(float min, float max, float x) { x = clamp((x - min)/(max - min), 0.0, 1.0); }</code></font></td>
 </tr>
 <tr>
 <td align="center"><font color="red">step(a, x)</font></td>
