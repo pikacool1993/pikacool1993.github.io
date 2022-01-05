@@ -64,7 +64,7 @@
 
 
 
-  <meta name="keywords" content="Unity,">
+  <meta name="keywords" content="swift mvvm,">
 
 
 
@@ -75,18 +75,20 @@
 
 
 
-<meta name="description" content="Unity Shader常用函数CG标准函数库Unity坐标转换数学函数数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数    函数 功能    abs(x) 返回输入参数的绝对值   acos(x) 反余切函数，输入参数范围为[-1, 1]， 返回[0, π]区间的角度值   all(x) 如果输入参数">
-<meta name="keywords" content="Unity">
+<meta name="description" content="MVVM设计模式 实践（基于Swift）文件夹结构目录">
+<meta name="keywords" content="swift mvvm">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Unity Shader常用函数">
-<meta property="og:url" content="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/index.html">
+<meta property="og:title" content="Swift MVVM 实践">
+<meta property="og:url" content="https://github.com/pikacool1993/2021/05/13/swift-mvvm/index.html">
 <meta property="og:site_name" content="pikacool">
-<meta property="og:description" content="Unity Shader常用函数CG标准函数库Unity坐标转换数学函数数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数    函数 功能    abs(x) 返回输入参数的绝对值   acos(x) 反余切函数，输入参数范围为[-1, 1]， 返回[0, π]区间的角度值   all(x) 如果输入参数">
+<meta property="og:description" content="MVVM设计模式 实践（基于Swift）文件夹结构目录">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2022-01-05T06:12:48.279Z">
+<meta property="og:image" content="https://i.loli.net/2021/05/13/4kIza2MFXHgPOfm.png">
+<meta property="og:updated_time" content="2021-05-13T10:32:11.085Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Unity Shader常用函数">
-<meta name="twitter:description" content="Unity Shader常用函数CG标准函数库Unity坐标转换数学函数数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数    函数 功能    abs(x) 返回输入参数的绝对值   acos(x) 反余切函数，输入参数范围为[-1, 1]， 返回[0, π]区间的角度值   all(x) 如果输入参数">
+<meta name="twitter:title" content="Swift MVVM 实践">
+<meta name="twitter:description" content="MVVM设计模式 实践（基于Swift）文件夹结构目录">
+<meta name="twitter:image" content="https://i.loli.net/2021/05/13/4kIza2MFXHgPOfm.png">
 
 
 
@@ -118,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/">
+  <link rel="canonical" href="https://github.com/pikacool1993/2021/05/13/swift-mvvm/">
 
 
 
@@ -296,7 +298,21 @@
       
 
       
-        <h2 id="Unity-Shader常用函数"><a href="#Unity-Shader常用函数" class="headerlink" title="Unity Shader常用函数"></a>Unity Shader常用函数</h2><h3 id="CG标准函数库"><a href="#CG标准函数库" class="headerlink" title="CG标准函数库"></a>CG标准函数库</h3><h4 id="Unity坐标转换"><a href="#Unity坐标转换" class="headerlink" title="Unity坐标转换"></a>Unity坐标转换</h4><h4 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h4><p>数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数</p>
+        <h1 id="Unity-Shader常用函数"><a href="#Unity-Shader常用函数" class="headerlink" title="Unity Shader常用函数"></a>Unity Shader常用函数</h1><h2 id="CG标准函数库"><a href="#CG标准函数库" class="headerlink" title="CG标准函数库"></a>CG标准函数库</h2><h3 id="Unity坐标转换"><a href="#Unity坐标转换" class="headerlink" title="Unity坐标转换"></a>Unity坐标转换</h3><ul>
+<li><code>transform.localToWorldMatrix</code> 本地坐标转世界坐标的矩阵</li>
+<li><code>transform.worldToLocalMatrix</code> 世界坐标转本地坐标的矩阵</li>
+<li>Unity Shader中 左乘 <code>_World2Object</code> 矩阵来实现世界坐标转本地坐标变换</li>
+<li>Unity Shader中 左乘 <code>_Object2World</code> 矩阵来实现本地坐标转世界坐标变换</li>
+<li><code>UNITY_MATRIX_MV</code> 基本变换矩阵 × 摄像机变换矩阵</li>
+<li><code>UNITY_MATRIX_MVP</code> 基本变换矩阵 × 摄像机变换矩阵 × 投影变换矩阵</li>
+<li><code>UNITY_MATRIX_V</code> 摄像机变换矩阵</li>
+<li><code>UNITY_MATRIX_P</code> 投影变换矩阵</li>
+<li><code>UNITY_MATRIX_VP</code> 摄像机变换矩阵 × 投影变换矩阵</li>
+<li><code>UNITY_MATRIX_T_MV</code> （基本变换矩阵 × 摄像机变换矩阵）的转置矩阵</li>
+<li><code>UNITY_MATRIX_IT_MV</code> （基本变换矩阵 × 摄像机变换矩阵）的逆转置矩阵</li>
+<li><code>UNITY_MATRIX_TEXTURE0</code> 纹理变换矩阵</li>
+</ul>
+<h3 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h3><p>数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数</p>
 <table>
 <thead>
 <tr>
@@ -490,30 +506,39 @@
 </tr>
 <tr>
 <td align="center"><font color="red">smoothstep(min, max, x)</font></td>
-<td align="center"><font color="red">值 x 位于 min、max 区间中。如果 x = min，返回0；如果 x = max，返回1；如果 x 在两者之间，按照下列公式返回数据：<br><code>float smoothstep(float min, float max, float x) { x = clamp((x - min)/(max - min), 0.0, 1.0); }</code></font></td>
-</tr>
-<tr>
-<td align="center"><font color="red">step(a, x)</font></td>
-<td align="center"><font color="red">如果 x &lt; a，返回0；否则返回1</font></td>
-</tr>
-<tr>
-<td align="center">sqrt(x)</td>
-<td align="center">求 x 的平方根，x 必须大于0</td>
-</tr>
-<tr>
-<td align="center">tan(x)</td>
-<td align="center">输入参数为弧度，计算正切值</td>
-</tr>
-<tr>
-<td align="center">tanh(x)</td>
-<td align="center">计算双曲正切值</td>
-</tr>
-<tr>
-<td align="center">transpose(M)</td>
-<td align="center">M 为矩阵，计算其转置矩阵</td>
+<td align="center"><font color="red">值 x 位于 min、max 区间中。如果 x = min，返回0；如果 x = max，返回1；如果 x 在两者之间，按照下列公式返回数据：<br><figure class="highlight plain"><figcaption><span>smoothstep(float min, float max, float x) &#123; x </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">| &lt;font color=red&gt;step(a, x)&lt;/font&gt; | &lt;font color=red&gt;如果 x &lt; a，返回0；否则返回1&lt;/font&gt; |</span><br><span class="line">| sqrt(x) | 求 x 的平方根，x 必须大于0 |</span><br><span class="line">| tan(x) | 输入参数为弧度，计算正切值 |</span><br><span class="line">| tanh(x) | 计算双曲正切值 |</span><br><span class="line">| transpose(M) | M 为矩阵，计算其转置矩阵 |</span><br><span class="line"></span><br><span class="line">### 几何函数</span><br><span class="line"></span><br><span class="line">CG语言标准函数库中有3个几何函数会经常被使用到，分别是：</span><br><span class="line"></span><br><span class="line">- `normalize`，对向量进行归一化</span><br><span class="line">- `reflect`，计算反射关方向向量</span><br><span class="line">- `refract`，计算折射光方向向量</span><br><span class="line"></span><br><span class="line">注意：</span><br><span class="line"></span><br><span class="line">- 着色程序中的向量最好进行归一化之后再使用，否则会出现难以预料的错误</span><br><span class="line">- `reflect` 函数和 `refract` 函数都存在以“入射光方向向量”作为参数，注意这两个函数中使用的入射光方向向量是从外指向几何顶点的；平时我们在着色程序中或者在课本上都是将入射光方向向量作为从顶点发出</span><br><span class="line"></span><br><span class="line">| 函数 | 功能 |</span><br><span class="line">| :----: | :----: |</span><br><span class="line">| tex1D(sampler1D tex, float s) | 一维纹理查询 |</span><br><span class="line">| tex1D(sampler1D tex, float s, float dsdx, float dsdy) | 使用导数值（derivatives）查询一维纹理 |</span><br><span class="line">| tex1D(sampler1D tex, float2 sz) | 一维纹理查询，并进行深度值比较 |</span><br><span class="line">| tex1D(sampler1D tex, float2 sz, float dsdx, float dsdy) | 使用导数值（derivatives）查询一维纹理，并进行深度值比较 |</span><br><span class="line">| tex1Dproj(sampler1D tex，float2 sq) | 一维投影纹理查询 |</span><br><span class="line">| tex1Dproj(sampler1D tex，float3 szq) | 一维投影纹理查询，并比较深度值 |</span><br><span class="line">| &lt;font color=red&gt;tex2D(sampler2D tex, float2 sq)&lt;/font&gt; | &lt;font color=red&gt;二维纹理查询&lt;/font&gt; |</span><br><span class="line">| tex2D(sampler2D tex, float2 s, float2 dsdx, float2 dsdy) | 使用导数值（derivatives）查询二维纹理 |</span><br><span class="line">| tex2D(sampler2D tex, float3 sz) | 二维纹理查询，并进行深度值比较 |</span><br><span class="line">| tex2D(sampler2D tex, float3 sz, float2 dsdx, float2 dsdy) | 使用导数值（derivatives）查询二维纹理，并进行深度值比较 |</span><br><span class="line">| &lt;font color=red&gt;tex2Dproj(sampler2D tex, float3 sq)&lt;/font&gt; | &lt;font color=red&gt;二维投影纹理查询&lt;/font&gt; |</span><br><span class="line">| tex2Dproj(sampler2D tex，float4 szq) | 二维投影纹理查询，并比较深度值 |</span><br><span class="line">| texRECT(samplerRECT tex, float2 s) |  |</span><br><span class="line">| texRECT(samplerRECT tex, float2 s, float2 dsdx, float2 dsdy) |  |</span><br><span class="line">| texRECT(samplerRECT tex, float3 sz) |  |</span><br><span class="line">| texRECT(samplerRECT tex, float3 sz, float2 dsdx, float2 dsdy) |  |</span><br><span class="line">| texRECTproj(samplerRECT tex，float3 sq) |  |</span><br><span class="line">| texRECTproj(samplerRECT tex，float4 szq) |  |</span><br><span class="line">| tex3D(sampler3D tex, float3 s) | 三维纹理查询 |</span><br><span class="line">| tex3D(sampler3D tex, float3 s, float3 dsdx, float3 dsdy) | 结合导数值（derivatives）查询三维纹理 |</span><br><span class="line">| tex3Dproj(sampler3D tex，float4 szq) | 三维投影纹理查询，并比较深度值 |</span><br><span class="line">| &lt;font color=red&gt;texCUBE(samplerCUBE tex，float3 s)&lt;/font&gt; | &lt;font color=red&gt;查询立方体纹理&lt;/font&gt; |</span><br><span class="line">| texCUBE(samplerCUBE tex, float3 s, float3 dsdx, float3 dsdy) | 结合导数值（derivatives）查询立方体纹理 |</span><br><span class="line">| texCUBE(samplerCUBE tex，float4 sq) | 立方体投影纹理查询 |</span><br><span class="line"></span><br><span class="line">s 象征一元、二元和三元纹理坐标&lt;br&gt;</span><br><span class="line">z 代表使用深度比较的值&lt;br&gt;</span><br><span class="line">q 表示一个透视值（其实就是透视投影后所得到的的齐次坐标的后一位），这个值被用来除以纹理坐标（S），得到新的纹理坐标（已归一化到0和1之间）然后用于纹理查询</span><br><span class="line"></span><br><span class="line">纹理函数非常多，总的来说，按照纹理数进行分类，即1D纹理函数、2D纹理函数、3D纹理函数以及立方体纹理函数。需要注意，`texRECT` 函数查询的纹理实际上也是二维纹理。3D纹理，另一个比较学术化的名称是“体纹理”，体纹理通常用于体绘制，体纹理用于记录空间中的体细节数据。</span><br><span class="line"></span><br><span class="line">还有一类比较特殊的纹理查询函数以 `proj` 结尾，主要针对投影纹理进行查询。所谓投影纹理是指：将纹理当做一张幻灯片投影到场景中，使用投影纹理技术需要计算投影纹理坐标，然后使用投影纹理坐标进行查询，使用投影纹理坐标进行查询的函数就是投影纹理查询函数。本质来说，投影纹理查询函数和普通的纹理查询函数没什么不同，唯一区别在于“投影纹理查询函数使用计算得到的投影纹理坐标，并在使用之前会将该投影纹理坐标除以透视值”。</span><br><span class="line"></span><br><span class="line">🌰：计算得到的投影纹理坐标为`float4 uvproj`, 使用二维投影纹理查询函数：`tex2Dproj(texture, uvproj)`;&lt;br&gt;</span><br><span class="line">等价于按如下方式使用普通二维纹理查询函数：&lt;br&gt;</span><br></pre></td></tr></table></figure></font></td>
 </tr>
 </tbody></table>
-<h4 id="几何函数"><a href="#几何函数" class="headerlink" title="几何函数"></a>几何函数</h4><h4 id="偏导函数"><a href="#偏导函数" class="headerlink" title="偏导函数"></a>偏导函数</h4>
+<p>float4 uvproj = uvproj/uvproj.q;<br>tex2D(texture, uvproj);<br>```</p>
+<h3 id="偏导函数"><a href="#偏导函数" class="headerlink" title="偏导函数"></a>偏导函数</h3><table>
+<thead>
+<tr>
+<th align="center">函数</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ddx(a)</td>
+<td align="center">参数a对应一个像素位置，返回该像素值在X轴上的偏导数</td>
+</tr>
+<tr>
+<td align="center">ddy(a)</td>
+<td align="center">参数a对应一个像素位置，返回该像素值在Y轴上的偏导数</td>
+</tr>
+</tbody></table>
+<ul>
+<li>函数 <code>ddx</code> 和 <code>ddy</code> 用于求取相邻像素间某属性的差值；</li>
+<li>函数 <code>ddx</code> 和 <code>ddy</code> 的输入参数通常是纹理坐标；</li>
+<li>函数 <code>ddx</code> 和 <code>ddy</code> 返回相邻像素间的属性差值；</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="旋转公式"><a href="#旋转公式" class="headerlink" title="旋转公式"></a>旋转公式</h4><ul>
+<li><p>顺时针旋转：<code>x = x * cos(α) - y*cos(α)</code>, <code>y = x * sin(α) + y * cos(α)</code></p>
+</li>
+<li><p>逆时针旋转：<code>x = x * cos(α) + y*cos(α)</code>, <code>y = x * sin(α) - y * cos(α)</code></p>
+</li>
+</ul>
+<h4 id="坐标转换"><a href="#坐标转换" class="headerlink" title="坐标转换"></a>坐标转换</h4><p><code>UnityObjectToClipPos(v.vertex) == mul(UNITY_MATRIX_MVP, v.vertex)</code></p>
+
       
     </div>
     
@@ -674,7 +699,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Unity-Shader常用函数"><span class="nav-number">1.</span> <span class="nav-text">Unity Shader常用函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CG标准函数库"><span class="nav-number">1.1.</span> <span class="nav-text">CG标准函数库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Unity坐标转换"><span class="nav-number">1.1.1.</span> <span class="nav-text">Unity坐标转换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数学函数"><span class="nav-number">1.1.2.</span> <span class="nav-text">数学函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#几何函数"><span class="nav-number">1.1.3.</span> <span class="nav-text">几何函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#偏导函数"><span class="nav-number">1.1.4.</span> <span class="nav-text">偏导函数</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Unity-Shader常用函数"><span class="nav-number">1.</span> <span class="nav-text">Unity Shader常用函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CG标准函数库"><span class="nav-number">1.1.</span> <span class="nav-text">CG标准函数库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Unity坐标转换"><span class="nav-number">1.1.1.</span> <span class="nav-text">Unity坐标转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数学函数"><span class="nav-number">1.1.2.</span> <span class="nav-text">数学函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#偏导函数"><span class="nav-number">1.1.3.</span> <span class="nav-text">偏导函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">1.1.4.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#旋转公式"><span class="nav-number">1.1.4.1.</span> <span class="nav-text">旋转公式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#坐标转换"><span class="nav-number">1.1.4.2.</span> <span class="nav-text">坐标转换</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
