@@ -64,7 +64,7 @@
 
 
 
-  <meta name="keywords" content="Unity OC,">
+  <meta name="keywords" content="Unity,">
 
 
 
@@ -75,20 +75,18 @@
 
 
 
-<meta name="description" content="Unity 和 Objective-C 交互Unity 调用 iOS 原生方法在 iOS 中，C 语言可以和 Objective-C 语言进行混合编译的，C# 语言又提供了一种调用 C（非 C++）语言的机制， 这样就可以实现 C# 调用 Objective-C 的功能 IL2CPP What is IL2CPP?The technology that we refer to as IL2CPP">
-<meta name="keywords" content="Unity OC">
+<meta name="description" content="Unity Shader常用函数CG标准函数库Unity坐标转换数学函数数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数    函数 功能    abs(x) 返回输入参数的绝对值   acos(x) 反余切函数，输入参数范围为[-1, 1]， 返回[0, π]区间的角度值   all(x) 如果输入参数">
+<meta name="keywords" content="Unity">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Unity iOS 插件实践">
-<meta property="og:url" content="https://github.com/pikacool1993/2021/02/23/unity-ios-plugin/index.html">
+<meta property="og:title" content="Unity Shader常用函数">
+<meta property="og:url" content="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/index.html">
 <meta property="og:site_name" content="Pikacool">
-<meta property="og:description" content="Unity 和 Objective-C 交互Unity 调用 iOS 原生方法在 iOS 中，C 语言可以和 Objective-C 语言进行混合编译的，C# 语言又提供了一种调用 C（非 C++）语言的机制， 这样就可以实现 C# 调用 Objective-C 的功能 IL2CPP What is IL2CPP?The technology that we refer to as IL2CPP">
+<meta property="og:description" content="Unity Shader常用函数CG标准函数库Unity坐标转换数学函数数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数    函数 功能    abs(x) 返回输入参数的绝对值   acos(x) 反余切函数，输入参数范围为[-1, 1]， 返回[0, π]区间的角度值   all(x) 如果输入参数">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://blogs.unity3d.com/wp-content/uploads/2015/04/il2cpp-toolchain-smaller.png">
-<meta property="og:updated_time" content="2021-02-23T06:39:52.853Z">
+<meta property="og:updated_time" content="2022-01-05T04:06:55.981Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Unity iOS 插件实践">
-<meta name="twitter:description" content="Unity 和 Objective-C 交互Unity 调用 iOS 原生方法在 iOS 中，C 语言可以和 Objective-C 语言进行混合编译的，C# 语言又提供了一种调用 C（非 C++）语言的机制， 这样就可以实现 C# 调用 Objective-C 的功能 IL2CPP What is IL2CPP?The technology that we refer to as IL2CPP">
-<meta name="twitter:image" content="https://blogs.unity3d.com/wp-content/uploads/2015/04/il2cpp-toolchain-smaller.png">
+<meta name="twitter:title" content="Unity Shader常用函数">
+<meta name="twitter:description" content="Unity Shader常用函数CG标准函数库Unity坐标转换数学函数数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数    函数 功能    abs(x) 返回输入参数的绝对值   acos(x) 反余切函数，输入参数范围为[-1, 1]， 返回[0, π]区间的角度值   all(x) 如果输入参数">
 
 
 
@@ -120,7 +118,7 @@
 
 
 
-  <link rel="canonical" href="https://github.com/pikacool1993/2021/02/23/unity-ios-plugin/">
+  <link rel="canonical" href="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/">
 
 
 
@@ -220,6 +218,458 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pikacool">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/01/05/unity-shader-mathfunc/" itemprop="url">Unity Shader常用函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-01-05T10:06:36+08:00">2022-01-05</time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Unity-Shader常用函数"><a href="#Unity-Shader常用函数" class="headerlink" title="Unity Shader常用函数"></a>Unity Shader常用函数</h2><h3 id="CG标准函数库"><a href="#CG标准函数库" class="headerlink" title="CG标准函数库"></a>CG标准函数库</h3><h4 id="Unity坐标转换"><a href="#Unity坐标转换" class="headerlink" title="Unity坐标转换"></a>Unity坐标转换</h4><h4 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h4><p>数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数</p>
+<table>
+<thead>
+<tr>
+<th align="center">函数</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><font color="red">abs(x)</font></td>
+<td align="center"><font color="red">返回输入参数的绝对值</font></td>
+</tr>
+<tr>
+<td align="center">acos(x)</td>
+<td align="center">反余切函数，输入参数范围为[-1, 1]， 返回[0, π]区间的角度值</td>
+</tr>
+<tr>
+<td align="center">all(x)</td>
+<td align="center">如果输入参数均不为0，则返回<code>true</code>，否则返回<code>false</code>。<code>&amp;&amp;</code> 运算</td>
+</tr>
+<tr>
+<td align="center">any(x)</td>
+<td align="center">输入参数只要有其中一个不为0，则返回<code>true</code>。`</td>
+</tr>
+<tr>
+<td align="center">asin(x)</td>
+<td align="center">反正弦函数，输入参数范围为[-1, 1]，返回[-π/2, π/2]区间的角度值</td>
+</tr>
+<tr>
+<td align="center">atan(x)</td>
+<td align="center">反正切函数，返回角度值范围为[-π/2, π/2]</td>
+</tr>
+<tr>
+<td align="center">atan2(y, x)</td>
+<td align="center">计算 y/x 的反正切值。实际上和 atan(x) 函数功能完全一样，只是输入参数不同。atan(x) = atan2(x, float(1))</td>
+</tr>
+<tr>
+<td align="center"><font color="red">ceil(x)</font></td>
+<td align="center"><font color="red">对输入参数向上取整。例如：ceil(float(1.3))，其返回值为2.0</font></td>
+</tr>
+<tr>
+<td align="center">clamp(x, a, b)</td>
+<td align="center">如果 x 值小于 a ，返回 a ； 如果 x 值大于 b ，返回 b ；否则返回 x</td>
+</tr>
+<tr>
+<td align="center">cos(x)</td>
+<td align="center">返回弧度 x 的余弦值。返回值范围为 [-1, 1]</td>
+</tr>
+<tr>
+<td align="center">cosh(x)</td>
+<td align="center">双曲余弦函数，计算 x 的双曲余弦值</td>
+</tr>
+<tr>
+<td align="center"><font color="red">cross(A, B)</font></td>
+<td align="center"><font color="red">返回两个三元向量的叉积。注意，输入参数必须是三元向量</font></td>
+</tr>
+<tr>
+<td align="center">degrees(x)</td>
+<td align="center">输入参数为弧度值（radians）, 函数将其转换为角度值（degrees）</td>
+</tr>
+<tr>
+<td align="center">determinant(m)</td>
+<td align="center">计算矩阵的行列式因子</td>
+</tr>
+<tr>
+<td align="center"><font color="red">dot(A, B)</font></td>
+<td align="center"><font color="red">计算 A 和 B 的点积。参数 A 和 B 可以是标量，也可以是向量（输入参数方面，点积和叉积函数有很大的不同）</font></td>
+</tr>
+<tr>
+<td align="center">exp(x)</td>
+<td align="center">计算 e^x 的值，e = 2.71828182845904523536</td>
+</tr>
+<tr>
+<td align="center">exp2(x)</td>
+<td align="center">计算 2^x 的值</td>
+</tr>
+<tr>
+<td align="center"><font color="red">floor(x)</font></td>
+<td align="center"><font color="red">对输入参数向下取整。例如：floor(float(1.3)) 返回的值为1.0；但是 floor(float(-1.3)) 返回的值为-2.0</font></td>
+</tr>
+<tr>
+<td align="center">fmod(x, y)</td>
+<td align="center">返回 x/y 的余数。如果 y 为0，结果不可预料</td>
+</tr>
+<tr>
+<td align="center">frexp(x, out exp)</td>
+<td align="center">将浮点数 x 分解为尾数和指数，即 x = m * 2^exp， 返回m，并将指数存入exp中；如果 x 为 0，则尾数和指数都返回0</td>
+</tr>
+<tr>
+<td align="center"><font color="red">frac(x)</font></td>
+<td align="center"><font color="red">向下取整</font></td>
+</tr>
+<tr>
+<td align="center">isfinite(x)</td>
+<td align="center">判断标量或者向量中的每个数据是否是有限数，如果是返回<code>true</code>；否则返回<code>false</code>；无限的或者非数据（not-a-number NaN）</td>
+</tr>
+<tr>
+<td align="center">isinf(x)</td>
+<td align="center">判断标量或者向量中的每个数据是否是无限数，如果是返回<code>true</code>；否则返回<code>false</code></td>
+</tr>
+<tr>
+<td align="center">isnan(x)</td>
+<td align="center">判断标量或者向量中的每个数据是否是非数据（not-a-number NaN），如果是返回<code>true</code>；否则返回<code>false</code></td>
+</tr>
+<tr>
+<td align="center">ldexp(x, n)</td>
+<td align="center">计算 x*2^n 的值</td>
+</tr>
+<tr>
+<td align="center"><font color="red">lerp(a, b, f)</font></td>
+<td align="center"><font color="red">计算(1 - f) * a + b * f 或者 a + f * (b - a) 的值。即在下限 a 和上限 b 之间进行插值，f 表示权值。注意：如果 a 和 b 是向量，则权值 f 必须是标量或者等长的向量</font></td>
+</tr>
+<tr>
+<td align="center">lit(NdotL, NdotH, m)</td>
+<td align="center">N 表示法向量；L 表示入射光向量；H 表示半角向量；m 表示高光系数。 函数计算环境光、散射光、镜面光的贡献，返回的 4 元向量：X 位表示环境光的贡献，总是 1.0。 Y 位代表散射光的贡献，如果 N • L &lt; 0 ，则为 0；否则为 N • L。Z 位代表镜面光的贡献，如果 N • L &lt; 0 或者 N • H &lt; 0，则为 0；否则为 (N • H) ^ m。 W 位始终为 1.0</td>
+</tr>
+<tr>
+<td align="center">log(x)</td>
+<td align="center">计算 ln(x) 的值，x 必须大于0</td>
+</tr>
+<tr>
+<td align="center">log2(x)</td>
+<td align="center">计算 log2(x) 的值，x 必须大于0 （函数返回一个数字以2为底的对数）</td>
+</tr>
+<tr>
+<td align="center">log10(x)</td>
+<td align="center">计算 log10(x) 的值，x 必须大于 0 （函数返回一个数字以10为底的对数）</td>
+</tr>
+<tr>
+<td align="center">max(a, b)</td>
+<td align="center">比较两个标量或等长向量元素，返回大值</td>
+</tr>
+<tr>
+<td align="center">min(a, b)</td>
+<td align="center">比较两个标量或等长向量元素，返回小值</td>
+</tr>
+<tr>
+<td align="center"><font color="red">pow(x, y)</font></td>
+<td align="center"><font color="red">x 的 y 次方</font></td>
+</tr>
+<tr>
+<td align="center">round(x)</td>
+<td align="center">离 x 最近的整数</td>
+</tr>
+<tr>
+<td align="center">modf(x, out lp)</td>
+<td align="center">将值 x 分成小数部分和整数部分</td>
+</tr>
+<tr>
+<td align="center"><font color="red">mul(M, N)</font></td>
+<td align="center"><font color="red">计算两个矩阵相乘，如果 M 为 AxB 阶矩阵， N 为 BxC 阶矩阵，则返回 AxC 阶矩阵。下面两个函数为其重载函数。</font></td>
+</tr>
+<tr>
+<td align="center">mul(M, v)</td>
+<td align="center">计算矩阵和向量相乘</td>
+</tr>
+<tr>
+<td align="center">mul(v, M)</td>
+<td align="center">计算向量和矩阵相乘</td>
+</tr>
+<tr>
+<td align="center">noise(x)</td>
+<td align="center">噪声函数，返回值始终在[0, 1]之间；对于同样的输入，始终返回相同的值（也就是说，并不是真正意义上的随机噪声）。</td>
+</tr>
+<tr>
+<td align="center">radians(x)</td>
+<td align="center">函数将角度值转换为弧度值</td>
+</tr>
+<tr>
+<td align="center">rsqrt(x)</td>
+<td align="center">x 的反平方根，x 必须大于0</td>
+</tr>
+<tr>
+<td align="center"><font color="red">saturate(x)</font></td>
+<td align="center"><font color="red">如果 x 小于0，返回0；如果 x 大于1，返回1；否则返回 x</font></td>
+</tr>
+<tr>
+<td align="center"><font color="red">sign(x)</font></td>
+<td align="center"><font color="red">如果 x 大于0，返回1；如果 x 小于0，返回 0；否则返回 0</font></td>
+</tr>
+<tr>
+<td align="center">sin(x)</td>
+<td align="center">输入参数为弧度，计算正弦值，返回值范围为[-1, 1]</td>
+</tr>
+<tr>
+<td align="center">sincos(float x, out s, out c)</td>
+<td align="center">该函数是同时计算 x 的 sin 值和 cos 值，其中 s=sin(x)，c=cos(x)。该函数用于“同时需要计算 sin 值和 cos 值的情况”，比分别运算要快很多!</td>
+</tr>
+<tr>
+<td align="center">sinh(x)</td>
+<td align="center">计算双曲正弦值</td>
+</tr>
+<tr>
+<td align="center"><font color="red">smoothstep(min, max, x)</font></td>
+<td align="center"><font color="red">值 x 位于 min、max 区间中。如果 x = min，返回0；如果 x = max，返回1；如果 x 在两者之间，按照下列公式返回数据：</font></td>
+</tr>
+<tr>
+<td align="center"><font color="red">step(a, x)</font></td>
+<td align="center"><font color="red">如果 x &lt; a，返回0；否则返回1</font></td>
+</tr>
+<tr>
+<td align="center">sqrt(x)</td>
+<td align="center">求 x 的平方根，x 必须大于0</td>
+</tr>
+<tr>
+<td align="center">tan(x)</td>
+<td align="center">输入参数为弧度，计算正切值</td>
+</tr>
+<tr>
+<td align="center">tanh(x)</td>
+<td align="center">计算双曲正切值</td>
+</tr>
+<tr>
+<td align="center">transpose(M)</td>
+<td align="center">M 为矩阵，计算其转置矩阵</td>
+</tr>
+</tbody></table>
+<h4 id="几何函数"><a href="#几何函数" class="headerlink" title="几何函数"></a>几何函数</h4><h4 id="偏导函数"><a href="#偏导函数" class="headerlink" title="偏导函数"></a>偏导函数</h4>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2021/05/13/swift-mvvm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pikacool">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/05/13/swift-mvvm/" itemprop="url">Swift MVVM 实践</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-05-13T18:20:33+08:00">2021-05-13</time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="MVVM设计模式-实践（基于Swift）"><a href="#MVVM设计模式-实践（基于Swift）" class="headerlink" title="MVVM设计模式 实践（基于Swift）"></a>MVVM设计模式 实践（基于Swift）</h3><h4 id="文件夹结构目录"><a href="#文件夹结构目录" class="headerlink" title="文件夹结构目录"></a>文件夹结构目录</h4><p><img src="https://i.loli.net/2021/05/13/4kIza2MFXHgPOfm.png" alt="mvvm_files.png"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -1673,7 +2123,7 @@ lts/dubnium -&gt; v10.16.0 (-&gt; N/A)</code></pre><p>选择使用版本：</p>
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -1723,7 +2173,7 @@ lts/dubnium -&gt; v10.16.0 (-&gt; N/A)</code></pre><p>选择使用版本：</p>
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
