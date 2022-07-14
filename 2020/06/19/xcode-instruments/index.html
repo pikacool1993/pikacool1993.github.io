@@ -64,7 +64,7 @@
 
 
 
-  <meta name="keywords" content="Unity,">
+  <meta name="keywords" content="swift mvvm,">
 
 
 
@@ -75,18 +75,20 @@
 
 
 
-<meta name="description" content="Unity Shader常用函数CG标准函数库Unity坐标转换 transform.localToWorldMatrix 本地坐标转世界坐标的矩阵 transform.worldToLocalMatrix 世界坐标转本地坐标的矩阵 Unity Shader中 左乘 _World2Object 矩阵来实现世界坐标转本地坐标变换 Unity Shader中 左乘 _Object2World 矩阵来实">
-<meta name="keywords" content="Unity">
+<meta name="description" content="MVVM设计模式 实践（基于Swift）文件夹结构目录">
+<meta name="keywords" content="swift mvvm">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Unity Shader常用函数">
-<meta property="og:url" content="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/index.html">
+<meta property="og:title" content="Swift MVVM 实践">
+<meta property="og:url" content="https://github.com/pikacool1993/2021/05/13/swift-mvvm/index.html">
 <meta property="og:site_name" content="pikacool">
-<meta property="og:description" content="Unity Shader常用函数CG标准函数库Unity坐标转换 transform.localToWorldMatrix 本地坐标转世界坐标的矩阵 transform.worldToLocalMatrix 世界坐标转本地坐标的矩阵 Unity Shader中 左乘 _World2Object 矩阵来实现世界坐标转本地坐标变换 Unity Shader中 左乘 _Object2World 矩阵来实">
+<meta property="og:description" content="MVVM设计模式 实践（基于Swift）文件夹结构目录">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2022-01-05T09:34:58.766Z">
+<meta property="og:image" content="https://i.loli.net/2021/05/13/4kIza2MFXHgPOfm.png">
+<meta property="og:updated_time" content="2021-05-13T10:32:11.085Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Unity Shader常用函数">
-<meta name="twitter:description" content="Unity Shader常用函数CG标准函数库Unity坐标转换 transform.localToWorldMatrix 本地坐标转世界坐标的矩阵 transform.worldToLocalMatrix 世界坐标转本地坐标的矩阵 Unity Shader中 左乘 _World2Object 矩阵来实现世界坐标转本地坐标变换 Unity Shader中 左乘 _Object2World 矩阵来实">
+<meta name="twitter:title" content="Swift MVVM 实践">
+<meta name="twitter:description" content="MVVM设计模式 实践（基于Swift）文件夹结构目录">
+<meta name="twitter:image" content="https://i.loli.net/2021/05/13/4kIza2MFXHgPOfm.png">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/">
+  <link rel="canonical" href="https://github.com/pikacool1993/2021/05/13/swift-mvvm/">
 
 
 
 
 
-  <title>Instruments — Time Profiler耗时分析 | pikacool</title>
+  <title>App 方法耗时检查工具 | pikacool</title>
   
 
 
@@ -248,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Instruments — Time Profiler耗时分析</h1>
+          <h1 class="post-title" itemprop="name headline">App 方法耗时检查工具</h1>
         
 
         <div class="post-meta">
@@ -296,7 +298,16 @@
       
 
       
-        
+        <h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><ul>
+<li>定时抓取主线程上的方法调用堆栈，计算一段时间里各个方法的耗时</li>
+</ul>
+<h3 id="定时器设计"><a href="#定时器设计" class="headerlink" title="定时器设计"></a>定时器设计</h3><p><img src="https://s2.loli.net/2022/07/14/M97KuaXJDGEcCxN.png" alt="D4211C5F-44CF-42D8-81B6-5CE97220ADF9.png"></p>
+<h3 id="获取方法调用堆栈"><a href="#获取方法调用堆栈" class="headerlink" title="获取方法调用堆栈"></a>获取方法调用堆栈</h3><p>callstackSymbols 是一种获取方法调用栈的方法，但是只能获取当前线程的调用栈，为了把对主线程的影响降到最小，获取当前线程调用栈的工作就需要在其他线程去做。所以，这个解题思路就需要换成：使用系统提供的 task_threads 去获取所有线程，使用 thread_info 得到各个线程的详细信息，使用 thread_get_state 方法去获取线程栈里的所有栈指针</p>
+<p>如果接下来立刻进行符号化去获取方法名，那么就需要去 __LINKEDIT segment 里查找栈指针地址所对应符号表的符号，特别当你设置的时间隔较小的时候，符号化过程会持续消耗较多的 CPU 资源，从而影响主线程。</p>
+<p>所以，获取到栈指针后，我们可以不用立刻做符号化，而是先使用一个结构体将栈地址记录下来，最后再统一符号化，将对主线程的影响降到最低，这样获取的数据也会更加准确。</p>
+<h3 id="设计记录栈地址的结构体"><a href="#设计记录栈地址的结构体" class="headerlink" title="设计记录栈地址的结构体"></a>设计记录栈地址的结构体</h3><p><img src="https://s2.loli.net/2022/07/14/YOfXNp32lZVmK5B.png" alt="C728D3BE-925F-4816-855A-845E22A5C1A0.png"></p>
+<p>previous 记录的是上一个栈指针的地址</p>
+
       
     </div>
     
@@ -390,8 +401,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -406,7 +426,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -442,6 +462,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现思路"><span class="nav-number">1.</span> <span class="nav-text">实现思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定时器设计"><span class="nav-number">1.1.</span> <span class="nav-text">定时器设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取方法调用堆栈"><span class="nav-number">1.2.</span> <span class="nav-text">获取方法调用堆栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计记录栈地址的结构体"><span class="nav-number">1.3.</span> <span class="nav-text">设计记录栈地址的结构体</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
