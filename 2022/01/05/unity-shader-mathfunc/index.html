@@ -1,37 +1,763 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Unity Shader常用函数CG标准函数库Unity坐标转换 transform.localToWorldMatrix 本地坐标转世界坐标的矩阵 transform.worldToLocalMatrix 世界坐标转本地坐标的矩阵 Unity Shader中 左乘 _World2Object 矩阵来实现世界坐标转本地坐标变换 Unity Shader中 左乘 _Object2World 矩阵来实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity Shader常用函数">
+<meta property="og:url" content="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/index.html">
+<meta property="og:site_name" content="pikacool">
+<meta property="og:description" content="Unity Shader常用函数CG标准函数库Unity坐标转换 transform.localToWorldMatrix 本地坐标转世界坐标的矩阵 transform.worldToLocalMatrix 世界坐标转本地坐标的矩阵 Unity Shader中 左乘 _World2Object 矩阵来实现世界坐标转本地坐标变换 Unity Shader中 左乘 _Object2World 矩阵来实">
+<meta property="og:locale">
+<meta property="article:published_time" content="2022-01-05T02:06:36.000Z">
+<meta property="article:modified_time" content="2022-01-05T09:34:58.000Z">
+<meta property="article:author" content="pikacool">
+<meta property="article:tag" content="Unity">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>Unity Shader常用函数 | pikacool</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="تشغيل شريط التصفح">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">pikacool</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">也曾鲜衣怒马少年时，一夜忘尽长安花</p>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>الأرشيفات</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="default">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pikacool">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Unity Shader常用函数
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">نُشر في</span>
+              
+
+              <time title="أُنشأ: 2022-01-05 10:06:36 / عُدل: 17:34:58" itemprop="dateCreated datePublished" datetime="2022-01-05T10:06:36+08:00">2022-01-05</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Unity-Shader常用函数"><a href="#Unity-Shader常用函数" class="headerlink" title="Unity Shader常用函数"></a>Unity Shader常用函数</h1><h2 id="CG标准函数库"><a href="#CG标准函数库" class="headerlink" title="CG标准函数库"></a>CG标准函数库</h2><h3 id="Unity坐标转换"><a href="#Unity坐标转换" class="headerlink" title="Unity坐标转换"></a>Unity坐标转换</h3><ul>
+<li><code>transform.localToWorldMatrix</code> 本地坐标转世界坐标的矩阵</li>
+<li><code>transform.worldToLocalMatrix</code> 世界坐标转本地坐标的矩阵</li>
+<li>Unity Shader中 左乘 <code>_World2Object</code> 矩阵来实现世界坐标转本地坐标变换</li>
+<li>Unity Shader中 左乘 <code>_Object2World</code> 矩阵来实现本地坐标转世界坐标变换</li>
+<li><code>UNITY_MATRIX_MV</code> 基本变换矩阵 × 摄像机变换矩阵</li>
+<li><code>UNITY_MATRIX_MVP</code> 基本变换矩阵 × 摄像机变换矩阵 × 投影变换矩阵</li>
+<li><code>UNITY_MATRIX_V</code> 摄像机变换矩阵</li>
+<li><code>UNITY_MATRIX_P</code> 投影变换矩阵</li>
+<li><code>UNITY_MATRIX_VP</code> 摄像机变换矩阵 × 投影变换矩阵</li>
+<li><code>UNITY_MATRIX_T_MV</code> （基本变换矩阵 × 摄像机变换矩阵）的转置矩阵</li>
+<li><code>UNITY_MATRIX_IT_MV</code> （基本变换矩阵 × 摄像机变换矩阵）的逆转置矩阵</li>
+<li><code>UNITY_MATRIX_TEXTURE0</code> 纹理变换矩阵</li>
+</ul>
+<h3 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h3><p>数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数</p>
+<table>
+<thead>
+<tr>
+<th align="center">函数</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><font color=red>abs(x)</font></td>
+<td align="center"><font color=red>返回输入参数的绝对值</font></td>
+</tr>
+<tr>
+<td align="center">acos(x)</td>
+<td align="center">反余切函数，输入参数范围为[-1, 1]， 返回[0, π]区间的角度值</td>
+</tr>
+<tr>
+<td align="center">all(x)</td>
+<td align="center">如果输入参数均不为0，则返回<code>true</code>，否则返回<code>false</code>。与运算</td>
+</tr>
+<tr>
+<td align="center">any(x)</td>
+<td align="center">输入参数只要有其中一个不为0，则返回<code>true</code>。 或运算</td>
+</tr>
+<tr>
+<td align="center">asin(x)</td>
+<td align="center">反正弦函数，输入参数范围为[-1, 1]，返回[-π&#x2F;2, π&#x2F;2]区间的角度值</td>
+</tr>
+<tr>
+<td align="center">atan(x)</td>
+<td align="center">反正切函数，返回角度值范围为[-π&#x2F;2, π&#x2F;2]</td>
+</tr>
+<tr>
+<td align="center">atan2(y, x)</td>
+<td align="center">计算 y&#x2F;x 的反正切值。实际上和 atan(x) 函数功能完全一样，只是输入参数不同。atan(x) &#x3D; atan2(x, float(1))</td>
+</tr>
+<tr>
+<td align="center"><font color=red>ceil(x)</font></td>
+<td align="center"><font color=red>对输入参数向上取整。例如：ceil(float(1.3))，其返回值为2.0</font></td>
+</tr>
+<tr>
+<td align="center"><font color=red>clamp(x, a, b)</font></td>
+<td align="center"><font color=red>如果 x 值小于 a ，返回 a ； 如果 x 值大于 b ，返回 b ；否则返回 x</font></td>
+</tr>
+<tr>
+<td align="center">cos(x)</td>
+<td align="center">返回弧度 x 的余弦值。返回值范围为 [-1, 1]</td>
+</tr>
+<tr>
+<td align="center">cosh(x)</td>
+<td align="center">双曲余弦函数，计算 x 的双曲余弦值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>cross(A, B)</font></td>
+<td align="center"><font color=red>返回两个三元向量的叉积。注意，输入参数必须是三元向量</font></td>
+</tr>
+<tr>
+<td align="center">degrees(x)</td>
+<td align="center">输入参数为弧度值（radians）, 函数将其转换为角度值（degrees）</td>
+</tr>
+<tr>
+<td align="center">determinant(m)</td>
+<td align="center">计算矩阵的行列式因子</td>
+</tr>
+<tr>
+<td align="center"><font color=red>dot(A, B)</font></td>
+<td align="center"><font color=red>计算 A 和 B 的点积。参数 A 和 B 可以是标量，也可以是向量（输入参数方面，点积和叉积函数有很大的不同）</font></td>
+</tr>
+<tr>
+<td align="center">exp(x)</td>
+<td align="center">计算 e^x 的值，e &#x3D; 2.71828182845904523536</td>
+</tr>
+<tr>
+<td align="center">exp2(x)</td>
+<td align="center">计算 2^x 的值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>floor(x)</font></td>
+<td align="center"><font color=red>对输入参数向下取整。例如：floor(float(1.3)) 返回的值为1.0；但是 floor(float(-1.3)) 返回的值为-2.0</font></td>
+</tr>
+<tr>
+<td align="center">fmod(x, y)</td>
+<td align="center">返回 x&#x2F;y 的余数。如果 y 为0，结果不可预料</td>
+</tr>
+<tr>
+<td align="center">frexp(x, out exp)</td>
+<td align="center">将浮点数 x 分解为尾数和指数，即 x &#x3D; m * 2^exp， 返回m，并将指数存入exp中；如果 x 为 0，则尾数和指数都返回0</td>
+</tr>
+<tr>
+<td align="center"><font color=red>frac(x)</font></td>
+<td align="center"><font color=red>向下取整</font></td>
+</tr>
+<tr>
+<td align="center">isfinite(x)</td>
+<td align="center">判断标量或者向量中的每个数据是否是有限数，如果是返回<code>true</code>；否则返回<code>false</code>；无限的或者非数据（not-a-number NaN）</td>
+</tr>
+<tr>
+<td align="center">isinf(x)</td>
+<td align="center">判断标量或者向量中的每个数据是否是无限数，如果是返回<code>true</code>；否则返回<code>false</code></td>
+</tr>
+<tr>
+<td align="center">isnan(x)</td>
+<td align="center">判断标量或者向量中的每个数据是否是非数据（not-a-number NaN），如果是返回<code>true</code>；否则返回<code>false</code></td>
+</tr>
+<tr>
+<td align="center">ldexp(x, n)</td>
+<td align="center">计算 x*2^n 的值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>lerp(a, b, f)</font></td>
+<td align="center"><font color=red>计算(1 - f) * a + b * f 或者 a + f * (b - a) 的值。即在下限 a 和上限 b 之间进行插值，f 表示权值。注意：如果 a 和 b 是向量，则权值 f 必须是标量或者等长的向量</font></td>
+</tr>
+<tr>
+<td align="center">lit(NdotL, NdotH, m)</td>
+<td align="center">N 表示法向量；L 表示入射光向量；H 表示半角向量；m 表示高光系数。 函数计算环境光、散射光、镜面光的贡献，返回的 4 元向量：X 位表示环境光的贡献，总是 1.0。 Y 位代表散射光的贡献，如果 N • L &lt; 0 ，则为 0；否则为 N • L。Z 位代表镜面光的贡献，如果 N • L &lt; 0 或者 N • H &lt; 0，则为 0；否则为 (N • H) ^ m。 W 位始终为 1.0</td>
+</tr>
+<tr>
+<td align="center">log(x)</td>
+<td align="center">计算 ln(x) 的值，x 必须大于0</td>
+</tr>
+<tr>
+<td align="center">log2(x)</td>
+<td align="center">计算 log2(x) 的值，x 必须大于0 （函数返回一个数字以2为底的对数）</td>
+</tr>
+<tr>
+<td align="center">log10(x)</td>
+<td align="center">计算 log10(x) 的值，x 必须大于 0 （函数返回一个数字以10为底的对数）</td>
+</tr>
+<tr>
+<td align="center">max(a, b)</td>
+<td align="center">比较两个标量或等长向量元素，返回大值</td>
+</tr>
+<tr>
+<td align="center">min(a, b)</td>
+<td align="center">比较两个标量或等长向量元素，返回小值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>pow(x, y)</font></td>
+<td align="center"><font color=red>x 的 y 次方</font></td>
+</tr>
+<tr>
+<td align="center">round(x)</td>
+<td align="center">离 x 最近的整数</td>
+</tr>
+<tr>
+<td align="center">modf(x, out lp)</td>
+<td align="center">将值 x 分成小数部分和整数部分</td>
+</tr>
+<tr>
+<td align="center"><font color=red>mul(M, N)</font></td>
+<td align="center"><font color=red>计算两个矩阵相乘，如果 M 为 AxB 阶矩阵， N 为 BxC 阶矩阵，则返回 AxC 阶矩阵。下面两个函数为其重载函数。</font></td>
+</tr>
+<tr>
+<td align="center">mul(M, v)</td>
+<td align="center">计算矩阵和向量相乘</td>
+</tr>
+<tr>
+<td align="center">mul(v, M)</td>
+<td align="center">计算向量和矩阵相乘</td>
+</tr>
+<tr>
+<td align="center">noise(x)</td>
+<td align="center">噪声函数，返回值始终在[0, 1]之间；对于同样的输入，始终返回相同的值（也就是说，并不是真正意义上的随机噪声）。</td>
+</tr>
+<tr>
+<td align="center">radians(x)</td>
+<td align="center">函数将角度值转换为弧度值</td>
+</tr>
+<tr>
+<td align="center">rsqrt(x)</td>
+<td align="center">x 的反平方根，x 必须大于0</td>
+</tr>
+<tr>
+<td align="center"><font color=red>saturate(x)</font></td>
+<td align="center"><font color=red>如果 x 小于0，返回0；如果 x 大于1，返回1；否则返回 x</font></td>
+</tr>
+<tr>
+<td align="center"><font color=red>sign(x)</font></td>
+<td align="center"><font color=red>如果 x 大于0，返回1；如果 x 小于0，返回 0；否则返回 0</font></td>
+</tr>
+<tr>
+<td align="center">sin(x)</td>
+<td align="center">输入参数为弧度，计算正弦值，返回值范围为[-1, 1]</td>
+</tr>
+<tr>
+<td align="center">sincos(float x, out s, out c)</td>
+<td align="center">该函数是同时计算 x 的 sin 值和 cos 值，其中 s&#x3D;sin(x)，c&#x3D;cos(x)。该函数用于“同时需要计算 sin 值和 cos 值的情况”，比分别运算要快很多!</td>
+</tr>
+<tr>
+<td align="center">sinh(x)</td>
+<td align="center">计算双曲正弦值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>smoothstep(min, max, x)</font></td>
+<td align="center"><font color=red>值 x 位于 min、max 区间中。如果 x &#x3D; min，返回0；如果 x &#x3D; max，返回1；如果 x 在两者之间，按照下列公式返回数据：<code>float smoothstep(float min, float max, float x) &#123; x = clamp((x - min)/(max - min), 0.0, 1.0); &#125;</code>	</font></td>
+</tr>
+<tr>
+<td align="center"><font color=red>step(a, x)</font></td>
+<td align="center"><font color=red>如果 x &lt; a，返回0；否则返回1</font></td>
+</tr>
+<tr>
+<td align="center">sqrt(x)</td>
+<td align="center">求 x 的平方根，x 必须大于0</td>
+</tr>
+<tr>
+<td align="center">tan(x)</td>
+<td align="center">输入参数为弧度，计算正切值</td>
+</tr>
+<tr>
+<td align="center">tanh(x)</td>
+<td align="center">计算双曲正切值</td>
+</tr>
+<tr>
+<td align="center">transpose(M)</td>
+<td align="center">M 为矩阵，计算其转置矩阵</td>
+</tr>
+</tbody></table>
+<h3 id="几何函数"><a href="#几何函数" class="headerlink" title="几何函数"></a>几何函数</h3><p>CG语言标准函数库中有3个几何函数会经常被使用到，分别是：</p>
+<ul>
+<li><code>normalize</code>，对向量进行归一化</li>
+<li><code>reflect</code>，计算反射关方向向量</li>
+<li><code>refract</code>，计算折射光方向向量</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li>着色程序中的向量最好进行归一化之后再使用，否则会出现难以预料的错误</li>
+<li><code>reflect</code> 函数和 <code>refract</code> 函数都存在以“入射光方向向量”作为参数，注意这两个函数中使用的入射光方向向量是从外指向几何顶点的；平时我们在着色程序中或者在课本上都是将入射光方向向量作为从顶点发出</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">函数</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">tex1D(sampler1D tex, float s)</td>
+<td align="center">一维纹理查询</td>
+</tr>
+<tr>
+<td align="center">tex1D(sampler1D tex, float s, float dsdx, float dsdy)</td>
+<td align="center">使用导数值（derivatives）查询一维纹理</td>
+</tr>
+<tr>
+<td align="center">tex1D(sampler1D tex, float2 sz)</td>
+<td align="center">一维纹理查询，并进行深度值比较</td>
+</tr>
+<tr>
+<td align="center">tex1D(sampler1D tex, float2 sz, float dsdx, float dsdy)</td>
+<td align="center">使用导数值（derivatives）查询一维纹理，并进行深度值比较</td>
+</tr>
+<tr>
+<td align="center">tex1Dproj(sampler1D tex，float2 sq)</td>
+<td align="center">一维投影纹理查询</td>
+</tr>
+<tr>
+<td align="center">tex1Dproj(sampler1D tex，float3 szq)</td>
+<td align="center">一维投影纹理查询，并比较深度值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>tex2D(sampler2D tex, float2 sq)</font></td>
+<td align="center"><font color=red>二维纹理查询</font></td>
+</tr>
+<tr>
+<td align="center">tex2D(sampler2D tex, float2 s, float2 dsdx, float2 dsdy)</td>
+<td align="center">使用导数值（derivatives）查询二维纹理</td>
+</tr>
+<tr>
+<td align="center">tex2D(sampler2D tex, float3 sz)</td>
+<td align="center">二维纹理查询，并进行深度值比较</td>
+</tr>
+<tr>
+<td align="center">tex2D(sampler2D tex, float3 sz, float2 dsdx, float2 dsdy)</td>
+<td align="center">使用导数值（derivatives）查询二维纹理，并进行深度值比较</td>
+</tr>
+<tr>
+<td align="center"><font color=red>tex2Dproj(sampler2D tex, float3 sq)</font></td>
+<td align="center"><font color=red>二维投影纹理查询</font></td>
+</tr>
+<tr>
+<td align="center">tex2Dproj(sampler2D tex，float4 szq)</td>
+<td align="center">二维投影纹理查询，并比较深度值</td>
+</tr>
+<tr>
+<td align="center">texRECT(samplerRECT tex, float2 s)</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">texRECT(samplerRECT tex, float2 s, float2 dsdx, float2 dsdy)</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">texRECT(samplerRECT tex, float3 sz)</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">texRECT(samplerRECT tex, float3 sz, float2 dsdx, float2 dsdy)</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">texRECTproj(samplerRECT tex，float3 sq)</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">texRECTproj(samplerRECT tex，float4 szq)</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">tex3D(sampler3D tex, float3 s)</td>
+<td align="center">三维纹理查询</td>
+</tr>
+<tr>
+<td align="center">tex3D(sampler3D tex, float3 s, float3 dsdx, float3 dsdy)</td>
+<td align="center">结合导数值（derivatives）查询三维纹理</td>
+</tr>
+<tr>
+<td align="center">tex3Dproj(sampler3D tex，float4 szq)</td>
+<td align="center">三维投影纹理查询，并比较深度值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>texCUBE(samplerCUBE tex，float3 s)</font></td>
+<td align="center"><font color=red>查询立方体纹理</font></td>
+</tr>
+<tr>
+<td align="center">texCUBE(samplerCUBE tex, float3 s, float3 dsdx, float3 dsdy)</td>
+<td align="center">结合导数值（derivatives）查询立方体纹理</td>
+</tr>
+<tr>
+<td align="center">texCUBE(samplerCUBE tex，float4 sq)</td>
+<td align="center">立方体投影纹理查询</td>
+</tr>
+</tbody></table>
+<p>s 象征一元、二元和三元纹理坐标<br><br>z 代表使用深度比较的值<br><br>q 表示一个透视值（其实就是透视投影后所得到的的齐次坐标的后一位），这个值被用来除以纹理坐标（S），得到新的纹理坐标（已归一化到0和1之间）然后用于纹理查询</p>
+<p>纹理函数非常多，总的来说，按照纹理数进行分类，即1D纹理函数、2D纹理函数、3D纹理函数以及立方体纹理函数。需要注意，<code>texRECT</code> 函数查询的纹理实际上也是二维纹理。3D纹理，另一个比较学术化的名称是“体纹理”，体纹理通常用于体绘制，体纹理用于记录空间中的体细节数据。</p>
+<p>还有一类比较特殊的纹理查询函数以 <code>proj</code> 结尾，主要针对投影纹理进行查询。所谓投影纹理是指：将纹理当做一张幻灯片投影到场景中，使用投影纹理技术需要计算投影纹理坐标，然后使用投影纹理坐标进行查询，使用投影纹理坐标进行查询的函数就是投影纹理查询函数。本质来说，投影纹理查询函数和普通的纹理查询函数没什么不同，唯一区别在于“投影纹理查询函数使用计算得到的投影纹理坐标，并在使用之前会将该投影纹理坐标除以透视值”。</p>
+<p>🌰：计算得到的投影纹理坐标为<code>float4 uvproj</code>, 使用二维投影纹理查询函数：<code>tex2Dproj(texture, uvproj)</code>;<br><br>等价于按如下方式使用普通二维纹理查询函数：<br></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">float4 uvproj = uvproj/uvproj.q;</span><br><span class="line">tex2D(texture, uvproj);</span><br></pre></td></tr></table></figure>
+
+<h3 id="偏导函数"><a href="#偏导函数" class="headerlink" title="偏导函数"></a>偏导函数</h3><table>
+<thead>
+<tr>
+<th align="center">函数</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ddx(a)</td>
+<td align="center">参数a对应一个像素位置，返回该像素值在X轴上的偏导数</td>
+</tr>
+<tr>
+<td align="center">ddy(a)</td>
+<td align="center">参数a对应一个像素位置，返回该像素值在Y轴上的偏导数</td>
+</tr>
+</tbody></table>
+<ul>
+<li>函数 <code>ddx</code> 和 <code>ddy</code> 用于求取相邻像素间某属性的差值；</li>
+<li>函数 <code>ddx</code> 和 <code>ddy</code> 的输入参数通常是纹理坐标；</li>
+<li>函数 <code>ddx</code> 和 <code>ddy</code> 返回相邻像素间的属性差值；</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="旋转公式"><a href="#旋转公式" class="headerlink" title="旋转公式"></a>旋转公式</h4><ul>
+<li><p>顺时针旋转：<code>x = x * cos(α) - y*cos(α)</code>, <code>y = x * sin(α) + y * cos(α)</code></p>
+</li>
+<li><p>逆时针旋转：<code>x = x * cos(α) + y*cos(α)</code>, <code>y = x * sin(α) - y * cos(α)</code></p>
+</li>
+</ul>
+<h4 id="坐标转换"><a href="#坐标转换" class="headerlink" title="坐标转换"></a>坐标转换</h4><p><code>UnityObjectToClipPos(v.vertex) == mul(UNITY_MATRIX_MVP, v.vertex)</code></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Unity/" rel="tag"># Unity</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/13/swift-mvvm/" rel="prev" title="Swift MVVM 实践">
+      <i class="fa fa-chevron-left"></i> Swift MVVM 实践
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/14/unity-procedural-grid/" rel="next" title="在Unity中创建程序网格">
+      在Unity中创建程序网格 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          المحتويات
+        </li>
+        <li class="sidebar-nav-overview">
+          عام
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Unity-Shader%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">Unity Shader常用函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CG%E6%A0%87%E5%87%86%E5%87%BD%E6%95%B0%E5%BA%93"><span class="nav-number">1.1.</span> <span class="nav-text">CG标准函数库</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Unity%E5%9D%90%E6%A0%87%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.1.1.</span> <span class="nav-text">Unity坐标转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.2.</span> <span class="nav-text">数学函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%A0%E4%BD%95%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.3.</span> <span class="nav-text">几何函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%8F%E5%AF%BC%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.4.</span> <span class="nav-text">偏导函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">1.1.5.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%8B%E8%BD%AC%E5%85%AC%E5%BC%8F"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">旋转公式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9D%90%E6%A0%87%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.1.5.2.</span> <span class="nav-text">坐标转换</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">pikacool</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">المقالات</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">الوسوم</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pikacool</span>
+</div>
+  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

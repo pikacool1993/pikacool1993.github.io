@@ -1,23 +1,585 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="pikacool">
+<meta property="og:url" content="https://github.com/pikacool1993/page/2/index.html">
+<meta property="og:site_name" content="pikacool">
+<meta property="og:locale">
+<meta property="article:author" content="pikacool">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://github.com/pikacool1993/page/2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'default'
+  };
+</script>
+
+  <title>pikacool</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="تشغيل شريط التصفح">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">pikacool</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">也曾鲜衣怒马少年时，一夜忘尽长安花</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>الأرشيفات</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2019/07/22/objc-before-main/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pikacool">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/07/22/objc-before-main/" class="post-title-link" itemprop="url">App启动时在main函数之前做了什么</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">نُشر في</span>
+
+              <time title="أُنشأ: 2019-07-22 16:01:06" itemprop="dateCreated datePublished" datetime="2019-07-22T16:01:06+08:00">2019-07-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">عُدل في</span>
+                <time title="عُدل: 2021-05-13 14:48:27" itemprop="dateModified" datetime="2021-05-13T14:48:27+08:00">2021-05-13</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="App-启动时在执行-main-之前做了什么"><a href="#App-启动时在执行-main-之前做了什么" class="headerlink" title="App 启动时在执行 main() 之前做了什么"></a>App 启动时在执行 main() 之前做了什么</h2><h4 id="编译的几个主要过程，生成可执行文件"><a href="#编译的几个主要过程，生成可执行文件" class="headerlink" title="编译的几个主要过程，生成可执行文件"></a>编译的几个主要过程，生成可执行文件</h4><ul>
+<li>首先，你写好代码后，<code>LLVM</code> 会预处理你的代码，比如把宏嵌入到对应的位置</li>
+<li>预处理完后，<code>LLVM</code> 会对代码进行词法分析和语法分析，生成 <code>AST</code> 。<code>AST</code> 是抽象语法树，结构上比代码更精简，遍历起来更快，所以使用 <code>AST</code> 能够更快速地进行静态检查，同时还能更快地生成 <code>IR</code>（中间表示）</li>
+<li>最后 <code>AST</code> 会生成 <code>IR</code>，<code>IR</code> 是一种更接近机器码的语言，区别在于和平台无关，通过 <code>IR</code> 可以生成多份适合不同平台的机器码。对于 <code>iOS</code> 系统，<code>IR</code> 生成的可执行文件就是 <code>Mach-O</code></li>
+</ul>
+<h4 id="加载动态链接库"><a href="#加载动态链接库" class="headerlink" title="加载动态链接库"></a>加载动态链接库</h4><p>查看一个 APP 都使用了哪些动态库，包括系统自带的动态库和第三方动态库，这些动态库将会在动态链接过程中被加载</p>
+<p>找到App可执行文件路径，通过 <code>otool</code> 命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ otool -L TestMain</span><br></pre></td></tr></table></figure>
+<p>-L 参数打印出所有 link 的 framework（去掉了版本信息如下)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TestMain:</span><br><span class="line">	/System/Library/Frameworks/Foundation.framework/Foundation</span><br><span class="line">	/usr/lib/libobjc.A.dylib</span><br><span class="line">	/usr/lib/libSystem.B.dylib</span><br><span class="line">	/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation</span><br><span class="line">	/System/Library/Frameworks/UIKit.framework/UIKit</span><br></pre></td></tr></table></figure>
+<p>可以看到有两个默认添加的 <code>lib</code>: <code>libobjc</code>(<code>objc</code> 和 <code>runtime</code>), <code>libSystem</code> 中包含了很多系统级别的 <code>lib</code>, 比如我们熟知的 <code>libdispatch</code>（GCD）, <code>libsystem_c</code>（C语言库）, <code>libsystem_blocks</code>（Block）, <code>libcommonCrypto</code>（加密库，比如常用的 <code>md5</code> 函数）</p>
+<p>这些 <code>lib</code> 都是 <code>dylib</code> 格式的（如 <code>Windows</code> 中的 <code>dll</code>）, 使用动态链接有如下优点：</p>
+<ul>
+<li>代码共用： 很多程序都动态链接了这些 lib，但它们在内存和磁盘中中只有一份</li>
+<li>易于维护： 由于被依赖的 lib 是程序执行时才 link 的，所以这些 lib 很容易做更新，比如<code>libSystem.dylib</code> 是 <code>libSystem.B.dylib</code> 的替身，哪天想升级直接换成 <code>libSystem.C.dylib</code> 然后再替换替身就行了</li>
+<li>减少可执行文件体积：相比静态链接，动态链接在编译时不需要打进去，所以可执行文件的体积要小很多</li>
+</ul>
+<h4 id="dyld"><a href="#dyld" class="headerlink" title="dyld"></a>dyld</h4><p><code>dyld(the dynamic link editor)</code>, 动态链接器，概述 <code>dyld</code> 做了如下几件事：</p>
+<ul>
+<li>先执行 <code>Mach-O</code> 文件，根据 <code>Mach-O</code> 文件里 <code>undefined</code> 的符号加载对应的动态库，系统会设置一个共享缓存来解决加载的递归依赖问题</li>
+<li>加载后，将 <code>undefined</code> 的符号绑定到动态库里对应的地址上</li>
+<li>最后再处理 <code>+load</code> 方法，<code>main</code> 函数返回后运行 <code>static terminator</code></li>
+</ul>
+<h4 id="ImageLoader"><a href="#ImageLoader" class="headerlink" title="ImageLoader"></a>ImageLoader</h4><p>将文件加载进内存，且每一个文件对应一个 <code>ImageLoader</code> 实例来负责加载。</p>
+<ul>
+<li>在程序运行时它先将动态链接的 <code>image</code> 递归加载 （也就是上面加载的递归依赖问题）</li>
+<li>再从可执行文件 <code>image</code> 递归加载所有符号</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li><code>dyld</code> 开始将程序二进制文件(<code>Mach-O</code>)初始化</li>
+<li>交由 <code>ImageLoader</code> 读取 <code>image</code>，其中包含了我们的类、方法等各种符号</li>
+<li>由于 <code>runtime</code> 向 <code>dyld</code> 绑定了回调，当 <code>image</code> 加载到内存后，<code>dyld</code> 会通知 <code>runtime</code> 进行处理</li>
+<li><code>runtime</code> 接手后调用 <code>map_images</code> 做解析和处理，接下来 <code>load_images</code> 中调用 <code>call_load_methods</code> 方法，遍历所有加载进来的 <code>Class</code>，按继承层级依次调用 <code>Class</code> 的 <code>+load</code> 方法和其 <code>Category</code> 的 <code>+load</code> 方法</li>
+</ul>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>Q: 重载自己 <code>Class</code> 的 <code>+load</code> 方法时需不需要调父类？<br><br>A: <code>runtime</code> 负责按继承顺序递归调用，所以不能调 <code>super</code></p>
+<p>Q: 在自己 <code>Class</code> 的 <code>+load</code> 方法时能不能替换系统 <code>framework</code>（比如 <code>UIKit</code>）中的某个类的方法实现<br><br>A: 可以，因为动态链接过程中，所有依赖库的类是先于自己的类加载的</p>
+<p>Q: 重载 <code>+load</code> 时需要手动添加 <code>@autoreleasepool</code> 么？<br><br>A: 不需要，在 <code>runtime</code> 调用 <code>+load</code> 方法前后是加了 <code>objc_autoreleasePoolPush()</code> 和 <code>objc_autoreleasePoolPop()</code> 的。</p>
+<p>Q: 想让一个类的 <code>+load</code> 方法被调用是否需要在某个地方 <code>import</code> 这个文件？<br><br>A: 不需要，只要这个类的符号被编译到最后的可执行文件中，<code>+load</code> 方法就会被调用（Reveal SDK 就是利用这一点，只要引入到工程中就能工作）</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="">
+    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2019/07/18/hexo-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="pikacool">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pikacool">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/07/18/hexo-install/" class="post-title-link" itemprop="url">mac下使用hexo搭建blog</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">نُشر في</span>
+
+              <time title="أُنشأ: 2019-07-18 13:01:25" itemprop="dateCreated datePublished" datetime="2019-07-18T13:01:25+08:00">2019-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">عُدل في</span>
+                <time title="عُدل: 2021-05-12 09:50:41" itemprop="dateModified" datetime="2021-05-12T09:50:41+08:00">2021-05-12</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="安装-nvm（Node-Version-Manager）"><a href="#安装-nvm（Node-Version-Manager）" class="headerlink" title="安装 nvm（Node Version Manager）"></a>安装 nvm（Node Version Manager）</h2><p>Terminal中运行 <br></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash </span><br></pre></td></tr></table></figure>
+<p><code>v0.33.8</code> 是nvm的版本号，最新版本详见： <br></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/creationix/nvm/blob/master/README.md</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后会提示 <br></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=&gt; Close and reopen your terminal to start using NVM</span><br></pre></td></tr></table></figure>
+
+<p>重启 terminal，输入 <code>nvm</code> 验证是否安装成功, 当一行出现 <code>Node Version Manager</code> 时说明安装成功</p>
+<p>使用 nvm 安装 note.js</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nvm install stable</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后安装 hexo，这一步时间稍微比较长：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g -hexo</span><br></pre></td></tr></table></figure>
+
+<p>然后选择一个文件路径创建一个文件夹：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir Blog</span><br><span class="line">$ cd Blog</span><br><span class="line">$ hexo init .</span><br><span class="line">$ ls</span><br></pre></td></tr></table></figure>
+
+<p>如果遇到 <code>hexo: command not found</code> 的错误， 解决方法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nvm ls</span><br></pre></td></tr></table></figure>
+
+<p>log信息如下：</p>
+<pre><code>       v0.10.48
+-&gt;      v12.6.0
+default -&gt; v12.6.0
+node -&gt; stable (-&gt; v12.6.0) (default)
+stable -&gt; 12.6 (-&gt; v12.6.0) (default)
+iojs -&gt; N/A (default)
+unstable -&gt; N/A (default)
+lts/* -&gt; lts/dubnium (-&gt; N/A)
+lts/argon -&gt; v4.9.1 (-&gt; N/A)
+lts/boron -&gt; v6.17.1 (-&gt; N/A)
+lts/carbon -&gt; v8.16.0 (-&gt; N/A)
+lts/dubnium -&gt; v10.16.0 (-&gt; N/A)
+</code></pre>
+<p>选择使用版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ nvm use v12.6.0</span><br><span class="line">$ nvm alias default v12.6.0</span><br></pre></td></tr></table></figure>
+
+<p>生成出的目录结构：</p>
+<pre><code>.
+├── _config.yml
+├── package.json
+├── db.json
+├── package-lock.json
+├── node_modules
+├── scaffolds
+├── public
+├── source
+|   └── _posts
+└── themes
+</code></pre>
+<p>新建一篇文章</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new mac下使用hexo搭建blog</span><br><span class="line">$ open source/_posts/mac下使用hexo搭建blog.md</span><br></pre></td></tr></table></figure>
+
+<p>编辑完成后生成html</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>本地预览</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br><span class="line">=&gt; [info] Hexo is running at localhost:4000/. Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
+
+<p>Theme，去官方提供的<a href="https://github.com/tommy351/hexo/wiki/Themes">主题列表</a>中选个现成的，按照里面的方法pull下来，如light主题</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone git://github.com/tommy351/hexo-theme-light.git themes/light</span><br></pre></td></tr></table></figure>
+
+<p><code>_config.yml</code> 配置文件中设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: light</span><br></pre></td></tr></table></figure>
+
+<p>重新generate和server预览，就看到变化了。</p>
+<h2 id="deploy"><a href="#deploy" class="headerlink" title="deploy"></a>deploy</h2><p>在 github 上创建一个 respository <br><br>在 <code>_config.yml</code> 中配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type: git</span><br><span class="line">repository: https://github.com/pikacool1993/pikacool1993.github.io.git</span><br></pre></td></tr></table></figure>
+
+<p>然后执行 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>以下提示说明部署成功</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">INFO  Deploy done: git</span><br></pre></td></tr></table></figure>
+
+<p>若出现错误</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR Deployer not found: git</span><br></pre></td></tr></table></figure>
+
+<p>执行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<h2 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h2><p>在万网买了个域名 <code>pikacool.cn</code>, 然后将独立域名与GitHub Pages的空间绑定 <br></p>
+<p>在Blog站点 public 目录下创建一个名为CNAME的文本文件，并写入你要绑定的域名 <code>pikacool.cn</code> <br></p>
+<p>提交到github上去</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>域名后台解析设置中添加记录，DNS域名解析最常用的是A记录和CNAME记录，A记录把域名解析到服务器IP，CNAME相当于把一个域名指向另一个域名，因此我这个用的是CNAME，要是托管的服务器也是自己搭的那就用A记录了。 <br></p>
+<p>添加一个 A 记录</p>
+<pre><code>记录类型：A
+主机记录：@
+解析线路：默认
+记录值：创建的GitHub respository ip地址( ping 一下就看到了) 如：185.199.109.153
+</code></pre>
+<p>添加一个 CNAME 记录</p>
+<pre><code>记录类型：CNAME
+主机记录：www
+解析线路：默认
+记录值：pikacool1993.github.io
+</code></pre>
+<p>使用下面的命令测一下域名的解析</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ dig pikacool.cn +nostats +nocomments +nocmd</span><br><span class="line">	</span><br><span class="line">output =&gt;:</span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; pikacool.cn +nostats +nocomments +nocmd</span><br><span class="line">;; global options: +cmd</span><br><span class="line">;pikacool.cn.			IN	A</span><br><span class="line">pikacool.cn.		60	IN	A	185.199.109.153	</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><h4 id="添加sitemap"><a href="#添加sitemap" class="headerlink" title="添加sitemap"></a>添加sitemap</h4><p>使用hexo提供的插件，安装sitemap到本地：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-generator-sitemap</span><br></pre></td></tr></table></figure>
+
+<p>开启sitemap功能：编辑hexo&#x2F;_config.yml，添加如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">plugins:</span><br><span class="line">- hexo-generator-sitemap</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>访问zipperary&#x2F;sitemap.xml即可看到站点地图。</p>
+<h2 id="图床"><a href="#图床" class="headerlink" title="图床"></a>图床</h2><p><a target="_blank" rel="noopener" href="https://sm.ms/">白嫖网站</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="الصفحة السابقة"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          المحتويات
+        </li>
+        <li class="sidebar-nav-overview">
+          عام
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">pikacool</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">المقالات</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">الوسوم</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pikacool</span>
+</div>
+  <div class="powered-by">تطبيق الموقع <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
