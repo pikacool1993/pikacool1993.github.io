@@ -1,195 +1,406 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 6.3.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="pikacool">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="pikacool">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Unity3D 实用小技巧 - C# 常用基础代码汇总 · Pikacool</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
 
-<link rel="stylesheet" href="/css/main.css">
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"github.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="Unity3D 实用小技巧 - C# 常用基础代码汇总DateTimeDateTime 数字类型，DateTime 是一个包含日期、时间的类型，此类型通过 ToString() 转换为字符串时，可根据传入给 Tostring() 的参数转换为多种字符串格式。 System.DateTime currentTime&#x3D;new System.DateTime();  取当前年月日时分秒：currentT">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Unity3D 实用小技巧 - C# 常用基础代码汇总">
-<meta property="og:url" content="https://github.com/pikacool1993/2020/03/02/csharp-base-code/index.html">
-<meta property="og:site_name" content="pikacool">
-<meta property="og:description" content="Unity3D 实用小技巧 - C# 常用基础代码汇总DateTimeDateTime 数字类型，DateTime 是一个包含日期、时间的类型，此类型通过 ToString() 转换为字符串时，可根据传入给 Tostring() 的参数转换为多种字符串格式。 System.DateTime currentTime&#x3D;new System.DateTime();  取当前年月日时分秒：currentT">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-03-02T02:40:59.000Z">
-<meta property="article:modified_time" content="2020-03-02T03:24:44.000Z">
-<meta property="article:author" content="pikacool">
-<meta property="article:tag" content="Unity">
-<meta name="twitter:card" content="summary">
-
-<link rel="canonical" href="https://github.com/pikacool1993/2020/03/02/csharp-base-code/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'zh-CN'
-  };
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
 </script>
 
-  <title>Unity3D 实用小技巧 - C# 常用基础代码汇总 | pikacool</title>
-  
+    <link rel="icon" href= "/assets/pikacool.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Pikacool.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Unity3D 实用小技巧 - C# 常用基础代码汇总</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Pikacool.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
 
 
 
 
 
 
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Unity3D 实用小技巧 - C# 常用基础代码汇总
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Unity">Unity</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.7k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2020/03/02</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
   }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
 
-</head>
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="切换导航栏">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
 
-  <div class="site-meta">
+      async(arr[0], success, currReject)
+  }
 
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">pikacool</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">也曾鲜衣怒马少年时，一夜忘尽长安花</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
-    
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://github.com/pikacool1993/2020/03/02/csharp-base-code/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="pikacool">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="pikacool">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          Unity3D 实用小技巧 - C# 常用基础代码汇总
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2020-03-02 10:40:59 / 修改时间：11:24:44" itemprop="dateCreated datePublished" datetime="2020-03-02T10:40:59+08:00">2020-03-02</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
         <h2 id="Unity3D-实用小技巧-C-常用基础代码汇总"><a href="#Unity3D-实用小技巧-C-常用基础代码汇总" class="headerlink" title="Unity3D 实用小技巧 - C# 常用基础代码汇总"></a>Unity3D 实用小技巧 - C# 常用基础代码汇总</h2><h3 id="DateTime"><a href="#DateTime" class="headerlink" title="DateTime"></a>DateTime</h3><p>DateTime 数字类型，DateTime 是一个包含日期、时间的类型，此类型通过 ToString() 转换为字符串时，可根据传入给 Tostring() 的参数转换为多种字符串格式。</p>
 <p><code>System.DateTime currentTime=new System.DateTime();</code></p>
 <ul>
@@ -346,193 +557,499 @@ str1.Remove(5,4); //结果为“我是萨达姆之一”
 </li>
 </ul>
 
-    </div>
-
+    </article>
+    <!-- license  -->
     
-    
-    
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/Unity/" rel="tag"># Unity</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2019/07/25/swift-learn/" rel="prev" title="Swift5.0边学边记">
-      <i class="fa fa-chevron-left"></i> Swift5.0边学边记
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/06/19/xcode-instruments/" rel="next" title="App 方法耗时检查工具">
-      App 方法耗时检查工具 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
-  </article>
-  
-  
-  
-
-
-
-          </div>
-          
-
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
-
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://github.com/pikacool1993">pikacool</a>
+            <p>原文链接：<a href="https://github.com/pikacool1993/2020/03/02/csharp-base-code/">https://github.com/pikacool1993/2020/03/02/csharp-base-code/</a>
+            <p>发表日期：<a href="https://github.com/pikacool1993/2020/03/02/csharp-base-code/">March 2nd 2020, 10:40:59 am</a>
+            <p>更新日期：<a href="https://github.com/pikacool1993/2020/03/02/csharp-base-code/">March 2nd 2020, 11:24:44 am</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          文章目录
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2020/06/19/xcode-instruments/" title= "App 方法耗时检查工具">
+                    <div class="nextTitle">App 方法耗时检查工具</div>
+                </a>
+            
         </li>
-        <li class="sidebar-nav-overview">
-          站点概览
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2019/07/25/swift-learn/" title= "Swift5.0边学边记">
+                    <div class="prevTitle">Swift5.0边学边记</div>
+                </a>
+            
         </li>
-      </ul>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
 
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Unity3D-%E5%AE%9E%E7%94%A8%E5%B0%8F%E6%8A%80%E5%B7%A7-C-%E5%B8%B8%E7%94%A8%E5%9F%BA%E7%A1%80%E4%BB%A3%E7%A0%81%E6%B1%87%E6%80%BB"><span class="nav-number">1.</span> <span class="nav-text">Unity3D 实用小技巧 - C# 常用基础代码汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DateTime"><span class="nav-number">1.1.</span> <span class="nav-text">DateTime</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%B1%BB%E5%9E%8B%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2-%E5%8F%98%E9%87%8F-ToString"><span class="nav-number">1.2.</span> <span class="nav-text">其他类型字符串转换  变量.ToString()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E8%BD%AC%E6%8D%A2%E8%BD%AC%E4%B8%BA-32-%E4%BD%8D%E6%95%B0%E5%AD%97%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">字符型转换转为 32 位数字型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F-Length-%E6%95%B0%E5%AD%97%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">变量.Length 数字型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#System-Text-Encoding-Default-GetBytes-%E5%8F%98%E9%87%8F-%EF%BC%9A%E5%AD%97%E7%A0%81%E8%BD%AC%E6%8D%A2%E8%BD%AC%E4%B8%BA%E6%AF%94%E7%89%B9%E7%A0%81"><span class="nav-number">1.5.</span> <span class="nav-text">System.Text.Encoding.Default.GetBytes(变量)：字码转换转为比特码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#System-Text-StringBuilder-%E2%80%9C%E2%80%9D-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E5%8A%A0%EF%BC%8C%EF%BC%88-%E5%8F%B7%E6%98%AF%E4%B8%8D%E6%98%AF%E4%B9%9F%E4%B8%80%E6%A0%B7%EF%BC%9F%EF%BC%89"><span class="nav-number">1.6.</span> <span class="nav-text">System.Text.StringBuilder(“”)- 字符串相加，（+号是不是也一样？）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F-Substring-%E5%8F%82%E6%95%B01-%E5%8F%82%E6%95%B02-%EF%BC%9A%E6%88%AA%E5%8F%96%E5%AD%97%E4%B8%B2%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%8C%E5%8F%82%E6%95%B01%E4%B8%BA%E5%B7%A6%E8%B5%B7%E5%A7%8B%E4%BD%8D%E6%95%B0%EF%BC%8C%E5%8F%82%E6%95%B02%E4%B8%BA%E6%88%AA%E5%8F%96%E5%87%A0%E4%BD%8D%E3%80%82"><span class="nav-number">1.7.</span> <span class="nav-text">变量.Substring(参数1,参数2)：截取字串的一部分，参数1为左起始位数，参数2为截取几位。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#char-IsWhiteSpce-%E5%AD%97%E4%B8%B2%E5%8F%98%E9%87%8F%EF%BC%8C%E4%BD%8D%E6%95%B0-%E2%80%94%E2%80%94%E9%80%BB%E8%BE%91%E5%9E%8B%EF%BC%9A%E6%9F%A5%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE%E6%98%AF%E5%90%A6%E7%A9%BA%E5%AD%97%E7%AC%A6"><span class="nav-number">1.8.</span> <span class="nav-text">char.IsWhiteSpce(字串变量，位数)——逻辑型：查指定位置是否空字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#char-IsPunctuation-%E2%80%98%E5%AD%97%E7%AC%A6%E2%80%99-%E2%80%94%E2%80%94%E9%80%BB%E8%BE%91%E5%9E%8B%EF%BC%9A%E6%9F%A5%E5%AD%97%E7%AC%A6%E6%98%AF%E5%90%A6%E6%98%AF%E6%A0%87%E7%82%B9%E7%AC%A6%E5%8F%B7"><span class="nav-number">1.9.</span> <span class="nav-text">char.IsPunctuation(‘字符’) ——逻辑型：查字符是否是标点符号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#int-%E2%80%99%E5%AD%97%E7%AC%A6%E2%80%99-%EF%BC%9A%E6%8A%8A%E5%AD%97%E7%AC%A6%E8%BD%AC%E4%B8%BA%E6%95%B0%E5%AD%97%EF%BC%8C%E6%9F%A5%E4%BB%A3%E7%A0%81%E7%82%B9%EF%BC%8C%E6%B3%A8%E6%84%8F%E6%98%AF%E5%8D%95%E5%BC%95%E5%8F%B7"><span class="nav-number">1.10.</span> <span class="nav-text">(int)’字符’ ：把字符转为数字，查代码点，注意是单引号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#char-%E4%BB%A3%E7%A0%81-%EF%BC%9A%E6%8A%8A%E6%95%B0%E5%AD%97%E8%BD%AC%E4%B8%BA%E5%AD%97%E7%AC%A6%EF%BC%8C%E6%9F%A5%E4%BB%A3%E7%A0%81%E4%BB%A3%E8%A1%A8%E7%9A%84%E5%AD%97%E7%AC%A6"><span class="nav-number">1.11.</span> <span class="nav-text">(char)代码 ：把数字转为字符，查代码代表的字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E9%99%A4%E5%AD%97%E4%B8%B2%E5%89%8D%E5%90%8E%E7%A9%BA%E6%A0%BC%EF%BC%9A"><span class="nav-number">1.12.</span> <span class="nav-text">清除字串前后空格：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E4%B8%B2%E6%9B%BF%E6%8D%A2-%EF%BC%9A%E5%AD%97%E4%B8%B2%E5%8F%98%E9%87%8F-Replace-%E2%80%9C%E5%AD%90%E5%AD%97%E4%B8%B2%E2%80%9D-%E2%80%9D%E6%9B%BF%E6%8D%A2%E4%B8%BA%E2%80%9D"><span class="nav-number">1.13.</span> <span class="nav-text">字串替换 ：字串变量.Replace(“子字串”,”替换为”)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E4%B8%B2%E5%AF%B9%E6%AF%94%E4%B8%80%E8%88%AC%E9%83%BD%E7%94%A8-if-str1-x3D-x3D-str2-%EF%BC%8C%E5%B9%B6%E4%B8%94%E4%B9%9F%E6%9C%89%E5%88%AB%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.14.</span> <span class="nav-text">字串对比一般都用: if(str1&#x3D;&#x3D;str2){ }  ，并且也有别的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IndexOf-%E3%80%81LastIndexOf-%EF%BC%9A%E6%9F%A5%E6%89%BE%E5%AD%97%E4%B8%B2%E4%B8%AD%E6%8C%87%E5%AE%9A%E5%AD%97%E7%AC%A6%E6%88%96%E5%AD%97%E4%B8%B2%E9%A6%96%E6%AC%A1%EF%BC%88%E6%9C%80%E5%90%8E%E4%B8%80%E6%AC%A1%EF%BC%89%E5%87%BA%E7%8E%B0%E7%9A%84%E4%BD%8D%E7%BD%AE%EF%BC%8C%E8%BF%94%E5%9B%9E%E7%B4%A2%E5%BC%95%E5%80%BC"><span class="nav-number">1.15.</span> <span class="nav-text">IndexOf()、LastIndexOf()：查找字串中指定字符或字串首次（最后一次）出现的位置，返回索引值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Insert-%E5%9C%A8%E5%AD%97%E4%B8%B2%E4%B8%AD%E6%8C%87%E5%AE%9A%E7%B4%A2%E5%BC%95%E4%BD%8D%E6%8F%92%E5%85%A5%E6%8C%87%E5%AE%9A%E5%AD%97%E7%AC%A6"><span class="nav-number">1.16.</span> <span class="nav-text">Insert()在字串中指定索引位插入指定字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PadLeft-%E3%80%81PadRight-%EF%BC%9A%E5%9C%A8%E5%AD%97%E4%B8%B2%E5%B7%A6%EF%BC%88%E6%88%96%E5%8F%B3%EF%BC%89%E5%8A%A0%E7%A9%BA%E6%A0%BC%E6%88%96%E6%8C%87%E5%AE%9Achar%E5%AD%97%E7%AC%A6%EF%BC%8C%E4%BD%BF%E5%AD%97%E4%B8%B2%E8%BE%BE%E5%88%B0%E6%8C%87%E5%AE%9A%E9%95%BF%E5%BA%A6"><span class="nav-number">1.17.</span> <span class="nav-text">PadLeft()、PadRight() ：在字串左（或右）加空格或指定char字符，使字串达到指定长度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Remove-%EF%BC%9A%E4%BB%8E%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE%E5%BC%80%E5%A7%8B%E5%88%A0%E9%99%A4%E6%8C%87%E5%AE%9A%E6%95%B0%E7%9A%84%E5%AD%97%E7%AC%A6"><span class="nav-number">1.18.</span> <span class="nav-text">Remove()：从指定位置开始删除指定数的字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E6%96%87%E4%BB%B6%E5%A4%B9%EF%BC%8C%E6%B2%A1%E6%9C%89%E5%88%99%E5%88%9B%E5%BB%BA"><span class="nav-number">1.19.</span> <span class="nav-text">判断是否存在文件夹，没有则创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%AD%E7%9A%84%E5%8F%82%E6%95%B0%EF%BC%8C%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-number">1.20.</span> <span class="nav-text">方法中的参数，返回值</span></a></li></ol></li></ol></div>
-      </div>
-      <!--/noindex-->
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
 
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">pikacool</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
         
-          <span class="site-state-item-count">12</span>
-          <span class="site-state-item-name">日志</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">8</span>
-        <span class="site-state-item-name">标签</span>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
+    
+        
+            
+                <a href="mailto:pikacool1993@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/pikacool1993" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
 
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
 
 
-      </div>
-    </main>
 
-    <footer class="footer">
-      <div class="footer-inner">
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Unity3D-%E5%AE%9E%E7%94%A8%E5%B0%8F%E6%8A%80%E5%B7%A7-C-%E5%B8%B8%E7%94%A8%E5%9F%BA%E7%A1%80%E4%BB%A3%E7%A0%81%E6%B1%87%E6%80%BB"><span class="toc-number">1.</span> <span class="toc-text">Unity3D 实用小技巧 - C# 常用基础代码汇总</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DateTime"><span class="toc-number">1.1.</span> <span class="toc-text">DateTime</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%B1%BB%E5%9E%8B%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2-%E5%8F%98%E9%87%8F-ToString"><span class="toc-number">1.2.</span> <span class="toc-text">其他类型字符串转换  变量.ToString()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E8%BD%AC%E6%8D%A2%E8%BD%AC%E4%B8%BA-32-%E4%BD%8D%E6%95%B0%E5%AD%97%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">字符型转换转为 32 位数字型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F-Length-%E6%95%B0%E5%AD%97%E5%9E%8B"><span class="toc-number">1.4.</span> <span class="toc-text">变量.Length 数字型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#System-Text-Encoding-Default-GetBytes-%E5%8F%98%E9%87%8F-%EF%BC%9A%E5%AD%97%E7%A0%81%E8%BD%AC%E6%8D%A2%E8%BD%AC%E4%B8%BA%E6%AF%94%E7%89%B9%E7%A0%81"><span class="toc-number">1.5.</span> <span class="toc-text">System.Text.Encoding.Default.GetBytes(变量)：字码转换转为比特码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#System-Text-StringBuilder-%E2%80%9C%E2%80%9D-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E5%8A%A0%EF%BC%8C%EF%BC%88-%E5%8F%B7%E6%98%AF%E4%B8%8D%E6%98%AF%E4%B9%9F%E4%B8%80%E6%A0%B7%EF%BC%9F%EF%BC%89"><span class="toc-number">1.6.</span> <span class="toc-text">System.Text.StringBuilder(“”)- 字符串相加，（+号是不是也一样？）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F-Substring-%E5%8F%82%E6%95%B01-%E5%8F%82%E6%95%B02-%EF%BC%9A%E6%88%AA%E5%8F%96%E5%AD%97%E4%B8%B2%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%8C%E5%8F%82%E6%95%B01%E4%B8%BA%E5%B7%A6%E8%B5%B7%E5%A7%8B%E4%BD%8D%E6%95%B0%EF%BC%8C%E5%8F%82%E6%95%B02%E4%B8%BA%E6%88%AA%E5%8F%96%E5%87%A0%E4%BD%8D%E3%80%82"><span class="toc-number">1.7.</span> <span class="toc-text">变量.Substring(参数1,参数2)：截取字串的一部分，参数1为左起始位数，参数2为截取几位。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#char-IsWhiteSpce-%E5%AD%97%E4%B8%B2%E5%8F%98%E9%87%8F%EF%BC%8C%E4%BD%8D%E6%95%B0-%E2%80%94%E2%80%94%E9%80%BB%E8%BE%91%E5%9E%8B%EF%BC%9A%E6%9F%A5%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE%E6%98%AF%E5%90%A6%E7%A9%BA%E5%AD%97%E7%AC%A6"><span class="toc-number">1.8.</span> <span class="toc-text">char.IsWhiteSpce(字串变量，位数)——逻辑型：查指定位置是否空字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#char-IsPunctuation-%E2%80%98%E5%AD%97%E7%AC%A6%E2%80%99-%E2%80%94%E2%80%94%E9%80%BB%E8%BE%91%E5%9E%8B%EF%BC%9A%E6%9F%A5%E5%AD%97%E7%AC%A6%E6%98%AF%E5%90%A6%E6%98%AF%E6%A0%87%E7%82%B9%E7%AC%A6%E5%8F%B7"><span class="toc-number">1.9.</span> <span class="toc-text">char.IsPunctuation(‘字符’) ——逻辑型：查字符是否是标点符号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#int-%E2%80%99%E5%AD%97%E7%AC%A6%E2%80%99-%EF%BC%9A%E6%8A%8A%E5%AD%97%E7%AC%A6%E8%BD%AC%E4%B8%BA%E6%95%B0%E5%AD%97%EF%BC%8C%E6%9F%A5%E4%BB%A3%E7%A0%81%E7%82%B9%EF%BC%8C%E6%B3%A8%E6%84%8F%E6%98%AF%E5%8D%95%E5%BC%95%E5%8F%B7"><span class="toc-number">1.10.</span> <span class="toc-text">(int)’字符’ ：把字符转为数字，查代码点，注意是单引号</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#char-%E4%BB%A3%E7%A0%81-%EF%BC%9A%E6%8A%8A%E6%95%B0%E5%AD%97%E8%BD%AC%E4%B8%BA%E5%AD%97%E7%AC%A6%EF%BC%8C%E6%9F%A5%E4%BB%A3%E7%A0%81%E4%BB%A3%E8%A1%A8%E7%9A%84%E5%AD%97%E7%AC%A6"><span class="toc-number">1.11.</span> <span class="toc-text">(char)代码 ：把数字转为字符，查代码代表的字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E5%AD%97%E4%B8%B2%E5%89%8D%E5%90%8E%E7%A9%BA%E6%A0%BC%EF%BC%9A"><span class="toc-number">1.12.</span> <span class="toc-text">清除字串前后空格：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E4%B8%B2%E6%9B%BF%E6%8D%A2-%EF%BC%9A%E5%AD%97%E4%B8%B2%E5%8F%98%E9%87%8F-Replace-%E2%80%9C%E5%AD%90%E5%AD%97%E4%B8%B2%E2%80%9D-%E2%80%9D%E6%9B%BF%E6%8D%A2%E4%B8%BA%E2%80%9D"><span class="toc-number">1.13.</span> <span class="toc-text">字串替换 ：字串变量.Replace(“子字串”,”替换为”)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E4%B8%B2%E5%AF%B9%E6%AF%94%E4%B8%80%E8%88%AC%E9%83%BD%E7%94%A8-if-str1-x3D-x3D-str2-%EF%BC%8C%E5%B9%B6%E4%B8%94%E4%B9%9F%E6%9C%89%E5%88%AB%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.14.</span> <span class="toc-text">字串对比一般都用: if(str1&#x3D;&#x3D;str2){ }  ，并且也有别的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IndexOf-%E3%80%81LastIndexOf-%EF%BC%9A%E6%9F%A5%E6%89%BE%E5%AD%97%E4%B8%B2%E4%B8%AD%E6%8C%87%E5%AE%9A%E5%AD%97%E7%AC%A6%E6%88%96%E5%AD%97%E4%B8%B2%E9%A6%96%E6%AC%A1%EF%BC%88%E6%9C%80%E5%90%8E%E4%B8%80%E6%AC%A1%EF%BC%89%E5%87%BA%E7%8E%B0%E7%9A%84%E4%BD%8D%E7%BD%AE%EF%BC%8C%E8%BF%94%E5%9B%9E%E7%B4%A2%E5%BC%95%E5%80%BC"><span class="toc-number">1.15.</span> <span class="toc-text">IndexOf()、LastIndexOf()：查找字串中指定字符或字串首次（最后一次）出现的位置，返回索引值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Insert-%E5%9C%A8%E5%AD%97%E4%B8%B2%E4%B8%AD%E6%8C%87%E5%AE%9A%E7%B4%A2%E5%BC%95%E4%BD%8D%E6%8F%92%E5%85%A5%E6%8C%87%E5%AE%9A%E5%AD%97%E7%AC%A6"><span class="toc-number">1.16.</span> <span class="toc-text">Insert()在字串中指定索引位插入指定字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PadLeft-%E3%80%81PadRight-%EF%BC%9A%E5%9C%A8%E5%AD%97%E4%B8%B2%E5%B7%A6%EF%BC%88%E6%88%96%E5%8F%B3%EF%BC%89%E5%8A%A0%E7%A9%BA%E6%A0%BC%E6%88%96%E6%8C%87%E5%AE%9Achar%E5%AD%97%E7%AC%A6%EF%BC%8C%E4%BD%BF%E5%AD%97%E4%B8%B2%E8%BE%BE%E5%88%B0%E6%8C%87%E5%AE%9A%E9%95%BF%E5%BA%A6"><span class="toc-number">1.17.</span> <span class="toc-text">PadLeft()、PadRight() ：在字串左（或右）加空格或指定char字符，使字串达到指定长度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Remove-%EF%BC%9A%E4%BB%8E%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE%E5%BC%80%E5%A7%8B%E5%88%A0%E9%99%A4%E6%8C%87%E5%AE%9A%E6%95%B0%E7%9A%84%E5%AD%97%E7%AC%A6"><span class="toc-number">1.18.</span> <span class="toc-text">Remove()：从指定位置开始删除指定数的字符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E6%96%87%E4%BB%B6%E5%A4%B9%EF%BC%8C%E6%B2%A1%E6%9C%89%E5%88%99%E5%88%9B%E5%BB%BA"><span class="toc-number">1.19.</span> <span class="toc-text">判断是否存在文件夹，没有则创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%AD%E7%9A%84%E5%8F%82%E6%95%B0%EF%BC%8C%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">1.20.</span> <span class="toc-text">方法中的参数，返回值</span></a></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 12
+        </div>
+        <!-- search  -->
         
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">pikacool</span>
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2023 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/18</span><a class="archive-post-title" href= "/2023/01/18/dotween-practical-tips/" >DOTween实用技巧</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2022 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/14</span><a class="archive-post-title" href= "/2022/07/14/unity-procedural-grid/" >在Unity中创建程序网格</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/05</span><a class="archive-post-title" href= "/2022/01/05/unity-shader-mathfunc/" >Unity Shader常用函数</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href= "/2021/05/13/swift-mvvm/" >Swift MVVM 实践</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2021/02/23/unity-ios-plugin/" >Unity iOS 插件实践</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/22</span><a class="archive-post-title" href= "/2021/02/22/objc-interface/" >Objective-C中的@interface和@implementation</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/07</span><a class="archive-post-title" href= "/2021/02/07/layoutengine/" >Auto Layout</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/19</span><a class="archive-post-title" href= "/2020/06/19/xcode-instruments/" >App 方法耗时检查工具</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2020/03/02/csharp-base-code/" >Unity3D 实用小技巧 - C# 常用基础代码汇总</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/25</span><a class="archive-post-title" href= "/2019/07/25/swift-learn/" >Swift5.0边学边记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/22</span><a class="archive-post-title" href= "/2019/07/22/objc-before-main/" >App启动时在main函数之前做了什么</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href= "/2019/07/18/hexo-install/" >mac下使用hexo搭建blog</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Unity"><span class="iconfont-archer">&#xe606;</span>Unity</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS OC"><span class="iconfont-archer">&#xe606;</span>iOS OC</span>
+    
+        <span class="sidebar-tag-name" data-tags="Swift"><span class="iconfont-archer">&#xe606;</span>Swift</span>
+    
+        <span class="sidebar-tag-name" data-tags="swift mvvm"><span class="iconfont-archer">&#xe606;</span>swift mvvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="Unity OC"><span class="iconfont-archer">&#xe606;</span>Unity OC</span>
+    
+        <span class="sidebar-tag-name" data-tags="Xcode"><span class="iconfont-archer">&#xe606;</span>Xcode</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
-
-</body>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "pikacool"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
 </html>
+
+
