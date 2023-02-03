@@ -751,9 +751,8 @@ height:50vh;
 <p>纹理函数非常多，总的来说，按照纹理数进行分类，即1D纹理函数、2D纹理函数、3D纹理函数以及立方体纹理函数。需要注意，<code>texRECT</code> 函数查询的纹理实际上也是二维纹理。3D纹理，另一个比较学术化的名称是“体纹理”，体纹理通常用于体绘制，体纹理用于记录空间中的体细节数据。</p>
 <p>还有一类比较特殊的纹理查询函数以 <code>proj</code> 结尾，主要针对投影纹理进行查询。所谓投影纹理是指：将纹理当做一张幻灯片投影到场景中，使用投影纹理技术需要计算投影纹理坐标，然后使用投影纹理坐标进行查询，使用投影纹理坐标进行查询的函数就是投影纹理查询函数。本质来说，投影纹理查询函数和普通的纹理查询函数没什么不同，唯一区别在于“投影纹理查询函数使用计算得到的投影纹理坐标，并在使用之前会将该投影纹理坐标除以透视值”。</p>
 <p>🌰：计算得到的投影纹理坐标为<code>float4 uvproj</code>, 使用二维投影纹理查询函数：<code>tex2Dproj(texture, uvproj)</code>;<br><br>等价于按如下方式使用普通二维纹理查询函数：<br></p>
-<pre><code>float4 uvproj = uvproj/uvproj.q;
-tex2D(texture, uvproj);
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">float4 uvproj = uvproj/uvproj.q;</span><br><span class="line">tex2D(texture, uvproj);</span><br></pre></td></tr></table></figure>
+
 <h3 id="偏导函数"><a href="#偏导函数" class="headerlink" title="偏导函数"></a>偏导函数</h3><table>
 <thead>
 <tr>
@@ -1072,8 +1071,6 @@ top:50vh;
     
     
     
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 12
@@ -1195,9 +1192,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
     
-        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
-    
         <span class="sidebar-tag-name" data-tags="iOS OC"><span class="iconfont-archer">&#xe606;</span>iOS OC</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
     
         <span class="sidebar-tag-name" data-tags="Swift"><span class="iconfont-archer">&#xe606;</span>Swift</span>
     

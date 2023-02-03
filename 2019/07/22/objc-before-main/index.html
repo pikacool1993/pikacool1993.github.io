@@ -408,16 +408,9 @@ height:50vh;
 </ul>
 <h4 id="加载动态链接库"><a href="#加载动态链接库" class="headerlink" title="加载动态链接库"></a>加载动态链接库</h4><p>查看一个 APP 都使用了哪些动态库，包括系统自带的动态库和第三方动态库，这些动态库将会在动态链接过程中被加载</p>
 <p>找到App可执行文件路径，通过 <code>otool</code> 命令</p>
-<pre><code>$ otool -L TestMain
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ otool -L TestMain</span><br></pre></td></tr></table></figure>
 <p>-L 参数打印出所有 link 的 framework（去掉了版本信息如下)</p>
-<pre><code>TestMain:
-    /System/Library/Frameworks/Foundation.framework/Foundation
-    /usr/lib/libobjc.A.dylib
-    /usr/lib/libSystem.B.dylib
-    /System/Library/Frameworks/CoreFoundation.framework/CoreFoundation
-    /System/Library/Frameworks/UIKit.framework/UIKit
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TestMain:</span><br><span class="line">	/System/Library/Frameworks/Foundation.framework/Foundation</span><br><span class="line">	/usr/lib/libobjc.A.dylib</span><br><span class="line">	/usr/lib/libSystem.B.dylib</span><br><span class="line">	/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation</span><br><span class="line">	/System/Library/Frameworks/UIKit.framework/UIKit</span><br></pre></td></tr></table></figure>
 <p>可以看到有两个默认添加的 <code>lib</code>: <code>libobjc</code>(<code>objc</code> 和 <code>runtime</code>), <code>libSystem</code> 中包含了很多系统级别的 <code>lib</code>, 比如我们熟知的 <code>libdispatch</code>（GCD）, <code>libsystem_c</code>（C语言库）, <code>libsystem_blocks</code>（Block）, <code>libcommonCrypto</code>（加密库，比如常用的 <code>md5</code> 函数）</p>
 <p>这些 <code>lib</code> 都是 <code>dylib</code> 格式的（如 <code>Windows</code> 中的 <code>dll</code>）, 使用动态链接有如下优点：</p>
 <ul>
@@ -736,8 +729,6 @@ top:50vh;
     
     
     
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 12
@@ -859,9 +850,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
     
-        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
-    
         <span class="sidebar-tag-name" data-tags="iOS OC"><span class="iconfont-archer">&#xe606;</span>iOS OC</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
     
         <span class="sidebar-tag-name" data-tags="Swift"><span class="iconfont-archer">&#xe606;</span>Swift</span>
     

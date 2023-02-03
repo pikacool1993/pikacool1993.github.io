@@ -272,7 +272,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">738</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">741</span>阅读时长: <span class="post-count reading-time">3 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -410,25 +410,13 @@ height:50vh;
 <h4 id="那么问题来了-interface-生成了-class"><a href="#那么问题来了-interface-生成了-class" class="headerlink" title="那么问题来了 @interface 生成了 class?"></a>那么问题来了 <code>@interface</code> 生成了 <code>class</code>?</h4><p>刚接触 Objc 时肯定是从怎么写一个类开始的，在 <code>.h</code> 文件中写 <code>@interface</code> 声明类，然后在 <code>.m</code> 文件中写 <code>@implementation</code>，所以自然就会觉得是 <code>@interface</code> 就相当于 java 或者 C# 中写一个 <code>class</code></p>
 <p>Talk is cheap. Show me the code</p>
 <p>在 <code>Dog</code> 类中只有 <code>.m</code> 文件只写 <code>@implementation</code>，在 <code>Cat</code> 类中只有 <code>.h</code> 文件只写 <code>@interface</code></p>
-<pre><code class="obj-c">@implementation Dog : NSObject
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">Dog</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Cat</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-@end
-
-@interface Cat : NSObject
-
-@end
-</code></pre>
 <p>验证</p>
-<pre><code class="obj-c">Class dogClass = NSClassFromString(@&quot;Dog&quot;);
-Class catClass = NSClassFromString(@&quot;Cat&quot;);
-    
-NSLog(@&quot;Dog: %@&quot;, dogClass);
-NSLog(@&quot;Cat: %@&quot;, catClass);
-</code></pre>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Class dogClass = <span class="built_in">NSClassFromString</span>(<span class="string">@&quot;Dog&quot;</span>);</span><br><span class="line">Class catClass = <span class="built_in">NSClassFromString</span>(<span class="string">@&quot;Cat&quot;</span>);</span><br><span class="line">    </span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;Dog: %@&quot;</span>, dogClass);</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@&quot;Cat: %@&quot;</span>, catClass);</span><br></pre></td></tr></table></figure>
+
 <p>运行结果：</p>
-<pre><code class="obj-c">$ Dog: Dog
-$ Cat: (null)
-</code></pre>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ Dog: Dog</span><br><span class="line">$ Cat: (null)</span><br></pre></td></tr></table></figure>
 <p>这个结果说明是 <code>@implementation</code> 生成了 <code>class</code></p>
 <h4 id="interface和-implementation"><a href="#interface和-implementation" class="headerlink" title="@interface和@implementation"></a>@interface和@implementation</h4><p><code>@interface</code> 对类结构的合成没有决定性的作用， 只是没有它会丢失一些类自身的原始数据，如属性列表和协议列表，对对象消息发送并没有影响，所以 <code>@interface</code> 就是为了给调用者看，暴露自己的公有方法和属性等，是一个升级版的 <code>protocol</code></p>
 <h4 id="interface和-protocol"><a href="#interface和-protocol" class="headerlink" title="@interface和@protocol"></a>@interface和@protocol</h4><p><code>@interface</code> 和 <code>@protocal</code> 间唯一的区别就是是否和一个类型绑定</p>
@@ -436,12 +424,8 @@ $ Cat: (null)
 <h4 id="一个问题"><a href="#一个问题" class="headerlink" title="一个问题"></a>一个问题</h4><p>当子类需要使用父类的一个私有属性（方法）时，需要把这个属性（方法）放到父类的header中，但暴露给子类的同时暴露给了外部调用者，如何解决?</p>
 <p>建立一个私有header，使用类扩展定义父类需要暴露给子类的属性（方法），然后在各自的 <code>.m</code> 文件中引用，如：</p>
 <p>有 <code>Father</code> 类和 <code>Son</code> 类，继承关系，可以考虑建一个如 <code>FatherPrivate.h</code> 的私有header：</p>
-<pre><code class="obj-c">// FatherPrivate.h
-@interface Father ()
-@property (nonatomic, copy) NSString *privateThingSonNeed;
-- (void)privateMethodNeedsSonOverride;
-@end
-</code></pre>
+<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// FatherPrivate.h</span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">Father</span> ()</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> *privateThingSonNeed;</span><br><span class="line">- (<span class="type">void</span>)privateMethodNeedsSonOverride;</span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+
 <p>同时在 <code>Father.m</code> 和 <code>Son.m</code> 中同时 <code>import</code> 这个私有header，这样 <code>Father</code> 和 <code>Son</code> 内部对于定义的属性和方法都是透明的，而对外部是隐藏的（因为两个类的header中都没有 <code>import</code> 这个私有header）</p>
 
     </article>
@@ -733,8 +717,6 @@ top:50vh;
     
     
     
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
         Total : 12
@@ -856,9 +838,9 @@ top:50vh;
     
         <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
     
-        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
-    
         <span class="sidebar-tag-name" data-tags="iOS OC"><span class="iconfont-archer">&#xe606;</span>iOS OC</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
     
         <span class="sidebar-tag-name" data-tags="Swift"><span class="iconfont-archer">&#xe606;</span>Swift</span>
     
