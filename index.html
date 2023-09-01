@@ -359,6 +359,34 @@ height:50vh;
     
     
     <article class="index-post">
+        <a class="abstract-title" href = "/2023/09/01/performance-optimization/" >
+            
+                <span>performance-optimization</span>
+        </a>
+        <div class="abstract-content">
+            Unity 手游性能优化物理
+减少射线频率、长度、layer
+善用 Physics Matrix
+不要移动静态 Collider，需要移动的话加 RigidBody
+尽量使用简单的 Collider 替代 MeshCollider；不同类型进行碰撞检测的相对成本是按照以下顺序排列的，从最耗费资源到最不耗费资源：三角形网格、凸包（三角形网格）、胶囊体、球体、立方体、平面、点
+控制好 FixedUpdate 的频率，1s 建议不要执行超过30次，因为 FixedUpdate 执行 Physics，如果Update 卡顿会导致 FixedUpdate 执行多次，继而 Update 更加卡顿，形...
+        </div>
+        <div class="abstract-post-meta">
+            <!-- date  -->
+            <div class="abstract-date">
+                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/09/01</span>
+            </div>
+            <!-- tags  -->
+            
+        </div>
+    </article>
+    
+    
+    
+    
+    
+    
+    <article class="index-post">
         <a class="abstract-title" href = "/2023/01/18/dotween-practical-tips/" >
             
                 <span>DOTween实用技巧</span>
@@ -648,51 +676,6 @@ System.DateTime currentTime=new System.DateTime();
             <div class= abstract-tags >
     
         <a class="post-tag" href="javascript:void(0);" data-tags = "Unity">Unity</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
-        <a class="abstract-title" href = "/2019/07/25/swift-learn/" >
-            
-                <span>Swift5.0边学边记</span>
-        </a>
-        <div class="abstract-content">
-            Swift5.0边学边记swiftc
-存放路径
-  Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
-  
-
-
-操作
-  生成语法树
-  1$ swiftc -dump-ast main.swift
-  生成最简洁的SIL代码
-  1swiftc -emit-sil main.swift
-  生成LLVM IR代码
-  1$ swiftc -emit-ir main.swift
-  生成汇编代码
-  1$ swiftc -emit-assembly main.swift -o main.s
-
-汇编寄存器AT&am...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2019/07/25</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Swift">Swift</a>
     
 </div>
             
@@ -1029,9 +1012,22 @@ System.DateTime currentTime=new System.DateTime();
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 12
+        Total : 13
         </div>
         <!-- search  -->
         
@@ -1044,6 +1040,11 @@ System.DateTime currentTime=new System.DateTime();
     
     <div class="archive-year"> 2023 </div>
     <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/01</span><a class="archive-post-title" href= "/2023/09/01/performance-optimization/" >performance-optimization</a>
+        </li>
     
     
         <li class="archive-post-item">
