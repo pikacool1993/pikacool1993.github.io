@@ -2,7 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://github.com/pikacool1993/2024/08/19/Lua%E8%BE%B9%E5%AD%A6%E8%BE%B9%E8%AE%B0/</loc>
+    <loc>https://github.com/pikacool1993/2024/10/11/unity-2d-camera-adapter/</loc>
+    
+    <lastmod>2024-10-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://github.com/pikacool1993/2024/08/19/lua-learning/</loc>
     
     <lastmod>2024-08-27</lastmod>
     
