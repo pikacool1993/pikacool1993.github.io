@@ -1,5 +1,4 @@
 https://github.com/pikacool1993/2024/08/19/Lua%E8%BE%B9%E5%AD%A6%E8%BE%B9%E8%AE%B0/
-https://github.com/pikacool1993/2024/02/07/unity-2d-camera-adapter/
 https://github.com/pikacool1993/2023/09/01/performance-optimization/
 https://github.com/pikacool1993/2023/01/18/dotween-practical-tips/
 https://github.com/pikacool1993/2020/06/19/xcode-instruments/

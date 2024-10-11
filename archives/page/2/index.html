@@ -346,40 +346,6 @@
     
     
     <article class="index-post">
-        <a class="abstract-title" href = "/2020/06/19/xcode-instruments/" >
-            
-                <span>App 方法耗时检查工具</span>
-        </a>
-        <div class="abstract-content">
-            实现思路
-定时抓取主线程上的方法调用堆栈，计算一段时间里各个方法的耗时
-
-定时器设计
-获取方法调用堆栈callstackSymbols 是一种获取方法调用栈的方法，但是只能获取当前线程的调用栈，为了把对主线程的影响降到最小，获取当前线程调用栈的工作就需要在其他线程去做。所以，这个解题思路就需要换成：使用系统提供的 task_threads 去获取所有线程，使用 thread_info 得到各个线程的详细信息，使用 thread_get_state 方法去获取线程栈里的所有栈指针
-如果接下来立刻进行符号化去获取方法名，那么就需要去 __LINKEDIT segment 里查找栈指针地址所对...
-        </div>
-        <div class="abstract-post-meta">
-            <!-- date  -->
-            <div class="abstract-date">
-                <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2020/06/19</span>
-            </div>
-            <!-- tags  -->
-            
-            <div class= abstract-tags >
-    
-        <a class="post-tag" href="javascript:void(0);" data-tags = "Xcode">Xcode</a>
-    
-</div>
-            
-        </div>
-    </article>
-    
-    
-    
-    
-    
-    
-    <article class="index-post">
         <a class="abstract-title" href = "/2020/03/02/csharp-base-code/" >
             
                 <span>Unity3D 实用小技巧 - C# 常用基础代码汇总</span>
@@ -787,22 +753,9 @@ v0.33.8 是nvm的版本号，最新版本详见：
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 15
+        Total : 14
         </div>
         <!-- search  -->
         
@@ -819,11 +772,6 @@ v0.33.8 是nvm的版本号，最新版本详见：
     
         <li class="archive-post-item">
             <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2024/08/19/Lua%E8%BE%B9%E5%AD%A6%E8%BE%B9%E8%AE%B0/" >Lua边学边记</a>
-        </li>
-    
-    
-        <li class="archive-post-item">
-            <span class="archive-post-date">02/07</span><a class="archive-post-title" href= "/2024/02/07/unity-2d-camera-adapter/" >[Untitled Post]</a>
         </li>
     
     
