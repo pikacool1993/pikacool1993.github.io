@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+    <!-- title -->
+
+
+
+
+<!-- keywords -->
+
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="author" content="pikacool">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="pikacool">
+    
+    <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Unity Shader常用函数 · Pikacool</title>
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+
+</style>
+
+    <link rel="preload" href= "/css/style.css?v=20180824" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="stylesheet" href= "/css/mobile.css?v=20180824" media="(max-width: 980px)">
+    
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+</script>
+
+    <link rel="icon" href= "/assets/pikacool.ico" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
+    <link rel="preload" href="/scripts/main.js" as="script" />
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    
+    <!-- fancybox -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script>
+    <!-- 百度统计  -->
+    
+    <!-- 谷歌统计  -->
+    
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+    
+        <body class="post-body">
+    
+    
+<header class="header">
+
+    <div class="read-progress"></div>
+    <div class="header-sidebar-menu">&#xe775;</div>
+    <!-- post页的toggle banner  -->
+    
+    <div class="banner">
+            <div class="blog-title">
+                <a href="/" >Pikacool.</a>
+            </div>
+            <div class="post-title">
+                <a href="#" class="post-name">Unity Shader常用函数</a>
+            </div>
+    </div>
+    
+    <a class="home-link" href=/>Pikacool.</a>
+</header>
+    <div class="wrapper">
+        <div class="site-intro" style="
+
+
+
+
+
+
+
+height:50vh;
+">
+    
+    <!-- 主页  -->
+    
+    
+    <!-- 404页  -->
+            
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.jpg)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+            Unity Shader常用函数
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+            
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+        <a class="post-tag" href="javascript:void(0);" data-tags = "Unity">Unity</a>
+    
+</div>
+                
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">2.8k</span>阅读时长: <span class="post-count reading-time">11 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <span class="post-intro-calander iconfont-archer">&#xe676;</span>
+                    <span class="post-intro-time">2022/01/05</span>
+                    
+                    <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                        <span class="iconfont-archer">&#xe602;</span>
+                        <span id="busuanzi_value_page_pv"></span>
+                    </span>
+                    
+                    <span class="shareWrapper">
+                        <span class="iconfont-archer shareIcon">&#xe71d;</span>
+                        <span class="shareText">Share</span>
+                        <ul class="shareList">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+        <script>
+ 
+  // get user agent
+  var browser = {
+    versions: function () {
+      var u = window.navigator.userAgent;
+      return {
+        userAgent: u,
+        trident: u.indexOf('Trident') > -1, //IE内核
+        presto: u.indexOf('Presto') > -1, //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+        iPad: u.indexOf('iPad') > -1, //是否为iPad
+        webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+        weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+        uc: u.indexOf('UCBrowser') > -1 //是否为android下的UC浏览器
+      };
+    }()
+  }
+  console.log("userAgent:" + browser.versions.userAgent);
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded');
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document.getElementsByClassName('intro-title')[0].classList.add('intro-fade-in');
+      document.getElementsByClassName('intro-subtitle')[0].classList.add('intro-fade-in');
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in');
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb(){
+    if (browser.versions.uc) {
+      console.log("UCBrowser");
+      fontLoaded();
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular']
+        },
+        loading: function () {  //所有字体开始加载
+          // console.log('loading');
+        },
+        active: function () {  //所有字体已渲染
+          fontLoaded();
+        },
+        inactive: function () { //字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout');
+          fontLoaded();
+        },
+        timeout: 5000 // Set the timeout to two seconds
+      });
+    }
+  }
+
+  function asyncErr(){
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document, t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    o.src = u;
+    if (cb) { o.addEventListener('load', function (e) { cb(null, e); }, false); }
+    if (err) { o.addEventListener('error', function (e) { err(null, e); }, false); }
+    s.parentNode.insertBefore(o, s);
+  }
+
+  var asyncLoadWithFallBack = function(arr, success, reject) {
+      var currReject = function(){
+        reject()
+        arr.shift()
+        if(arr.length)
+          async(arr[0], success, currReject)
+        }
+
+      async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack([
+    "https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js", 
+    "https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js",
+    "/lib/webfontloader.min.js"
+  ], asyncCb, asyncErr)
+</script>        
+        <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+        <div class="container container-unloaded">
+            <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="Unity-Shader常用函数"><a href="#Unity-Shader常用函数" class="headerlink" title="Unity Shader常用函数"></a>Unity Shader常用函数</h1><h2 id="CG标准函数库"><a href="#CG标准函数库" class="headerlink" title="CG标准函数库"></a>CG标准函数库</h2><h3 id="Unity坐标转换"><a href="#Unity坐标转换" class="headerlink" title="Unity坐标转换"></a>Unity坐标转换</h3><ul>
+<li><code>transform.localToWorldMatrix</code> 本地坐标转世界坐标的矩阵</li>
+<li><code>transform.worldToLocalMatrix</code> 世界坐标转本地坐标的矩阵</li>
+<li>Unity Shader中 左乘 <code>_World2Object</code> 矩阵来实现世界坐标转本地坐标变换</li>
+<li>Unity Shader中 左乘 <code>_Object2World</code> 矩阵来实现本地坐标转世界坐标变换</li>
+<li><code>UNITY_MATRIX_MV</code> 基本变换矩阵 × 摄像机变换矩阵</li>
+<li><code>UNITY_MATRIX_MVP</code> 基本变换矩阵 × 摄像机变换矩阵 × 投影变换矩阵</li>
+<li><code>UNITY_MATRIX_V</code> 摄像机变换矩阵</li>
+<li><code>UNITY_MATRIX_P</code> 投影变换矩阵</li>
+<li><code>UNITY_MATRIX_VP</code> 摄像机变换矩阵 × 投影变换矩阵</li>
+<li><code>UNITY_MATRIX_T_MV</code> （基本变换矩阵 × 摄像机变换矩阵）的转置矩阵</li>
+<li><code>UNITY_MATRIX_IT_MV</code> （基本变换矩阵 × 摄像机变换矩阵）的逆转置矩阵</li>
+<li><code>UNITY_MATRIX_TEXTURE0</code> 纹理变换矩阵</li>
+</ul>
+<h3 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h3><p>数学函数用于执行数学上常用计算，包括三角函数、幂函数、圆函数、向量和矩阵操作函数，这些函数都被重载，以支持标量数据和不同长度的向量作为输入参数</p>
+<table>
+<thead>
+<tr>
+<th align="center">函数</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><font color=red>abs(x)</font></td>
+<td align="center"><font color=red>返回输入参数的绝对值</font></td>
+</tr>
+<tr>
+<td align="center">acos(x)</td>
+<td align="center">反余切函数，输入参数范围为[-1, 1]， 返回[0, π]区间的角度值</td>
+</tr>
+<tr>
+<td align="center">all(x)</td>
+<td align="center">如果输入参数均不为0，则返回<code>true</code>，否则返回<code>false</code>。与运算</td>
+</tr>
+<tr>
+<td align="center">any(x)</td>
+<td align="center">输入参数只要有其中一个不为0，则返回<code>true</code>。 或运算</td>
+</tr>
+<tr>
+<td align="center">asin(x)</td>
+<td align="center">反正弦函数，输入参数范围为[-1, 1]，返回[-π&#x2F;2, π&#x2F;2]区间的角度值</td>
+</tr>
+<tr>
+<td align="center">atan(x)</td>
+<td align="center">反正切函数，返回角度值范围为[-π&#x2F;2, π&#x2F;2]</td>
+</tr>
+<tr>
+<td align="center">atan2(y, x)</td>
+<td align="center">计算 y&#x2F;x 的反正切值。实际上和 atan(x) 函数功能完全一样，只是输入参数不同。atan(x) &#x3D; atan2(x, float(1))</td>
+</tr>
+<tr>
+<td align="center"><font color=red>ceil(x)</font></td>
+<td align="center"><font color=red>对输入参数向上取整。例如：ceil(float(1.3))，其返回值为2.0</font></td>
+</tr>
+<tr>
+<td align="center"><font color=red>clamp(x, a, b)</font></td>
+<td align="center"><font color=red>如果 x 值小于 a ，返回 a ； 如果 x 值大于 b ，返回 b ；否则返回 x</font></td>
+</tr>
+<tr>
+<td align="center">cos(x)</td>
+<td align="center">返回弧度 x 的余弦值。返回值范围为 [-1, 1]</td>
+</tr>
+<tr>
+<td align="center">cosh(x)</td>
+<td align="center">双曲余弦函数，计算 x 的双曲余弦值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>cross(A, B)</font></td>
+<td align="center"><font color=red>返回两个三元向量的叉积。注意，输入参数必须是三元向量</font></td>
+</tr>
+<tr>
+<td align="center">degrees(x)</td>
+<td align="center">输入参数为弧度值（radians）, 函数将其转换为角度值（degrees）</td>
+</tr>
+<tr>
+<td align="center">determinant(m)</td>
+<td align="center">计算矩阵的行列式因子</td>
+</tr>
+<tr>
+<td align="center"><font color=red>dot(A, B)</font></td>
+<td align="center"><font color=red>计算 A 和 B 的点积。参数 A 和 B 可以是标量，也可以是向量（输入参数方面，点积和叉积函数有很大的不同）</font></td>
+</tr>
+<tr>
+<td align="center">exp(x)</td>
+<td align="center">计算 e^x 的值，e &#x3D; 2.71828182845904523536</td>
+</tr>
+<tr>
+<td align="center">exp2(x)</td>
+<td align="center">计算 2^x 的值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>floor(x)</font></td>
+<td align="center"><font color=red>对输入参数向下取整。例如：floor(float(1.3)) 返回的值为1.0；但是 floor(float(-1.3)) 返回的值为-2.0</font></td>
+</tr>
+<tr>
+<td align="center">fmod(x, y)</td>
+<td align="center">返回 x&#x2F;y 的余数。如果 y 为0，结果不可预料</td>
+</tr>
+<tr>
+<td align="center">frexp(x, out exp)</td>
+<td align="center">将浮点数 x 分解为尾数和指数，即 x &#x3D; m * 2^exp， 返回m，并将指数存入exp中；如果 x 为 0，则尾数和指数都返回0</td>
+</tr>
+<tr>
+<td align="center"><font color=red>frac(x)</font></td>
+<td align="center"><font color=red>向下取整</font></td>
+</tr>
+<tr>
+<td align="center">isfinite(x)</td>
+<td align="center">判断标量或者向量中的每个数据是否是有限数，如果是返回<code>true</code>；否则返回<code>false</code>；无限的或者非数据（not-a-number NaN）</td>
+</tr>
+<tr>
+<td align="center">isinf(x)</td>
+<td align="center">判断标量或者向量中的每个数据是否是无限数，如果是返回<code>true</code>；否则返回<code>false</code></td>
+</tr>
+<tr>
+<td align="center">isnan(x)</td>
+<td align="center">判断标量或者向量中的每个数据是否是非数据（not-a-number NaN），如果是返回<code>true</code>；否则返回<code>false</code></td>
+</tr>
+<tr>
+<td align="center">ldexp(x, n)</td>
+<td align="center">计算 x*2^n 的值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>lerp(a, b, f)</font></td>
+<td align="center"><font color=red>计算(1 - f) * a + b * f 或者 a + f * (b - a) 的值。即在下限 a 和上限 b 之间进行插值，f 表示权值。注意：如果 a 和 b 是向量，则权值 f 必须是标量或者等长的向量</font></td>
+</tr>
+<tr>
+<td align="center">lit(NdotL, NdotH, m)</td>
+<td align="center">N 表示法向量；L 表示入射光向量；H 表示半角向量；m 表示高光系数。 函数计算环境光、散射光、镜面光的贡献，返回的 4 元向量：X 位表示环境光的贡献，总是 1.0。 Y 位代表散射光的贡献，如果 N • L &lt; 0 ，则为 0；否则为 N • L。Z 位代表镜面光的贡献，如果 N • L &lt; 0 或者 N • H &lt; 0，则为 0；否则为 (N • H) ^ m。 W 位始终为 1.0</td>
+</tr>
+<tr>
+<td align="center">log(x)</td>
+<td align="center">计算 ln(x) 的值，x 必须大于0</td>
+</tr>
+<tr>
+<td align="center">log2(x)</td>
+<td align="center">计算 log2(x) 的值，x 必须大于0 （函数返回一个数字以2为底的对数）</td>
+</tr>
+<tr>
+<td align="center">log10(x)</td>
+<td align="center">计算 log10(x) 的值，x 必须大于 0 （函数返回一个数字以10为底的对数）</td>
+</tr>
+<tr>
+<td align="center">max(a, b)</td>
+<td align="center">比较两个标量或等长向量元素，返回大值</td>
+</tr>
+<tr>
+<td align="center">min(a, b)</td>
+<td align="center">比较两个标量或等长向量元素，返回小值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>pow(x, y)</font></td>
+<td align="center"><font color=red>x 的 y 次方</font></td>
+</tr>
+<tr>
+<td align="center">round(x)</td>
+<td align="center">离 x 最近的整数</td>
+</tr>
+<tr>
+<td align="center">modf(x, out lp)</td>
+<td align="center">将值 x 分成小数部分和整数部分</td>
+</tr>
+<tr>
+<td align="center"><font color=red>mul(M, N)</font></td>
+<td align="center"><font color=red>计算两个矩阵相乘，如果 M 为 AxB 阶矩阵， N 为 BxC 阶矩阵，则返回 AxC 阶矩阵。下面两个函数为其重载函数。</font></td>
+</tr>
+<tr>
+<td align="center">mul(M, v)</td>
+<td align="center">计算矩阵和向量相乘</td>
+</tr>
+<tr>
+<td align="center">mul(v, M)</td>
+<td align="center">计算向量和矩阵相乘</td>
+</tr>
+<tr>
+<td align="center">noise(x)</td>
+<td align="center">噪声函数，返回值始终在[0, 1]之间；对于同样的输入，始终返回相同的值（也就是说，并不是真正意义上的随机噪声）。</td>
+</tr>
+<tr>
+<td align="center">radians(x)</td>
+<td align="center">函数将角度值转换为弧度值</td>
+</tr>
+<tr>
+<td align="center">rsqrt(x)</td>
+<td align="center">x 的反平方根，x 必须大于0</td>
+</tr>
+<tr>
+<td align="center"><font color=red>saturate(x)</font></td>
+<td align="center"><font color=red>如果 x 小于0，返回0；如果 x 大于1，返回1；否则返回 x</font></td>
+</tr>
+<tr>
+<td align="center"><font color=red>sign(x)</font></td>
+<td align="center"><font color=red>如果 x 大于0，返回1；如果 x 小于0，返回 0；否则返回 0</font></td>
+</tr>
+<tr>
+<td align="center">sin(x)</td>
+<td align="center">输入参数为弧度，计算正弦值，返回值范围为[-1, 1]</td>
+</tr>
+<tr>
+<td align="center">sincos(float x, out s, out c)</td>
+<td align="center">该函数是同时计算 x 的 sin 值和 cos 值，其中 s&#x3D;sin(x)，c&#x3D;cos(x)。该函数用于“同时需要计算 sin 值和 cos 值的情况”，比分别运算要快很多!</td>
+</tr>
+<tr>
+<td align="center">sinh(x)</td>
+<td align="center">计算双曲正弦值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>smoothstep(min, max, x)</font></td>
+<td align="center"><font color=red>值 x 位于 min、max 区间中。如果 x &#x3D; min，返回0；如果 x &#x3D; max，返回1；如果 x 在两者之间，按照下列公式返回数据：<code>float smoothstep(float min, float max, float x) &#123; x = clamp((x - min)/(max - min), 0.0, 1.0); &#125;</code>	</font></td>
+</tr>
+<tr>
+<td align="center"><font color=red>step(a, x)</font></td>
+<td align="center"><font color=red>如果 x &lt; a，返回0；否则返回1</font></td>
+</tr>
+<tr>
+<td align="center">sqrt(x)</td>
+<td align="center">求 x 的平方根，x 必须大于0</td>
+</tr>
+<tr>
+<td align="center">tan(x)</td>
+<td align="center">输入参数为弧度，计算正切值</td>
+</tr>
+<tr>
+<td align="center">tanh(x)</td>
+<td align="center">计算双曲正切值</td>
+</tr>
+<tr>
+<td align="center">transpose(M)</td>
+<td align="center">M 为矩阵，计算其转置矩阵</td>
+</tr>
+</tbody></table>
+<h3 id="几何函数"><a href="#几何函数" class="headerlink" title="几何函数"></a>几何函数</h3><p>CG语言标准函数库中有3个几何函数会经常被使用到，分别是：</p>
+<ul>
+<li><code>normalize</code>，对向量进行归一化</li>
+<li><code>reflect</code>，计算反射关方向向量</li>
+<li><code>refract</code>，计算折射光方向向量</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li>着色程序中的向量最好进行归一化之后再使用，否则会出现难以预料的错误</li>
+<li><code>reflect</code> 函数和 <code>refract</code> 函数都存在以“入射光方向向量”作为参数，注意这两个函数中使用的入射光方向向量是从外指向几何顶点的；平时我们在着色程序中或者在课本上都是将入射光方向向量作为从顶点发出</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">函数</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">tex1D(sampler1D tex, float s)</td>
+<td align="center">一维纹理查询</td>
+</tr>
+<tr>
+<td align="center">tex1D(sampler1D tex, float s, float dsdx, float dsdy)</td>
+<td align="center">使用导数值（derivatives）查询一维纹理</td>
+</tr>
+<tr>
+<td align="center">tex1D(sampler1D tex, float2 sz)</td>
+<td align="center">一维纹理查询，并进行深度值比较</td>
+</tr>
+<tr>
+<td align="center">tex1D(sampler1D tex, float2 sz, float dsdx, float dsdy)</td>
+<td align="center">使用导数值（derivatives）查询一维纹理，并进行深度值比较</td>
+</tr>
+<tr>
+<td align="center">tex1Dproj(sampler1D tex，float2 sq)</td>
+<td align="center">一维投影纹理查询</td>
+</tr>
+<tr>
+<td align="center">tex1Dproj(sampler1D tex，float3 szq)</td>
+<td align="center">一维投影纹理查询，并比较深度值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>tex2D(sampler2D tex, float2 sq)</font></td>
+<td align="center"><font color=red>二维纹理查询</font></td>
+</tr>
+<tr>
+<td align="center">tex2D(sampler2D tex, float2 s, float2 dsdx, float2 dsdy)</td>
+<td align="center">使用导数值（derivatives）查询二维纹理</td>
+</tr>
+<tr>
+<td align="center">tex2D(sampler2D tex, float3 sz)</td>
+<td align="center">二维纹理查询，并进行深度值比较</td>
+</tr>
+<tr>
+<td align="center">tex2D(sampler2D tex, float3 sz, float2 dsdx, float2 dsdy)</td>
+<td align="center">使用导数值（derivatives）查询二维纹理，并进行深度值比较</td>
+</tr>
+<tr>
+<td align="center"><font color=red>tex2Dproj(sampler2D tex, float3 sq)</font></td>
+<td align="center"><font color=red>二维投影纹理查询</font></td>
+</tr>
+<tr>
+<td align="center">tex2Dproj(sampler2D tex，float4 szq)</td>
+<td align="center">二维投影纹理查询，并比较深度值</td>
+</tr>
+<tr>
+<td align="center">texRECT(samplerRECT tex, float2 s)</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">texRECT(samplerRECT tex, float2 s, float2 dsdx, float2 dsdy)</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">texRECT(samplerRECT tex, float3 sz)</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">texRECT(samplerRECT tex, float3 sz, float2 dsdx, float2 dsdy)</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">texRECTproj(samplerRECT tex，float3 sq)</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">texRECTproj(samplerRECT tex，float4 szq)</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">tex3D(sampler3D tex, float3 s)</td>
+<td align="center">三维纹理查询</td>
+</tr>
+<tr>
+<td align="center">tex3D(sampler3D tex, float3 s, float3 dsdx, float3 dsdy)</td>
+<td align="center">结合导数值（derivatives）查询三维纹理</td>
+</tr>
+<tr>
+<td align="center">tex3Dproj(sampler3D tex，float4 szq)</td>
+<td align="center">三维投影纹理查询，并比较深度值</td>
+</tr>
+<tr>
+<td align="center"><font color=red>texCUBE(samplerCUBE tex，float3 s)</font></td>
+<td align="center"><font color=red>查询立方体纹理</font></td>
+</tr>
+<tr>
+<td align="center">texCUBE(samplerCUBE tex, float3 s, float3 dsdx, float3 dsdy)</td>
+<td align="center">结合导数值（derivatives）查询立方体纹理</td>
+</tr>
+<tr>
+<td align="center">texCUBE(samplerCUBE tex，float4 sq)</td>
+<td align="center">立方体投影纹理查询</td>
+</tr>
+</tbody></table>
+<p>s 象征一元、二元和三元纹理坐标<br><br>z 代表使用深度比较的值<br><br>q 表示一个透视值（其实就是透视投影后所得到的的齐次坐标的后一位），这个值被用来除以纹理坐标（S），得到新的纹理坐标（已归一化到0和1之间）然后用于纹理查询</p>
+<p>纹理函数非常多，总的来说，按照纹理数进行分类，即1D纹理函数、2D纹理函数、3D纹理函数以及立方体纹理函数。需要注意，<code>texRECT</code> 函数查询的纹理实际上也是二维纹理。3D纹理，另一个比较学术化的名称是“体纹理”，体纹理通常用于体绘制，体纹理用于记录空间中的体细节数据。</p>
+<p>还有一类比较特殊的纹理查询函数以 <code>proj</code> 结尾，主要针对投影纹理进行查询。所谓投影纹理是指：将纹理当做一张幻灯片投影到场景中，使用投影纹理技术需要计算投影纹理坐标，然后使用投影纹理坐标进行查询，使用投影纹理坐标进行查询的函数就是投影纹理查询函数。本质来说，投影纹理查询函数和普通的纹理查询函数没什么不同，唯一区别在于“投影纹理查询函数使用计算得到的投影纹理坐标，并在使用之前会将该投影纹理坐标除以透视值”。</p>
+<p>🌰：计算得到的投影纹理坐标为<code>float4 uvproj</code>, 使用二维投影纹理查询函数：<code>tex2Dproj(texture, uvproj)</code>;<br><br>等价于按如下方式使用普通二维纹理查询函数：<br></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">float4 uvproj = uvproj/uvproj.q;</span><br><span class="line">tex2D(texture, uvproj);</span><br></pre></td></tr></table></figure>
+
+<h3 id="偏导函数"><a href="#偏导函数" class="headerlink" title="偏导函数"></a>偏导函数</h3><table>
+<thead>
+<tr>
+<th align="center">函数</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ddx(a)</td>
+<td align="center">参数a对应一个像素位置，返回该像素值在X轴上的偏导数</td>
+</tr>
+<tr>
+<td align="center">ddy(a)</td>
+<td align="center">参数a对应一个像素位置，返回该像素值在Y轴上的偏导数</td>
+</tr>
+</tbody></table>
+<ul>
+<li>函数 <code>ddx</code> 和 <code>ddy</code> 用于求取相邻像素间某属性的差值；</li>
+<li>函数 <code>ddx</code> 和 <code>ddy</code> 的输入参数通常是纹理坐标；</li>
+<li>函数 <code>ddx</code> 和 <code>ddy</code> 返回相邻像素间的属性差值；</li>
+</ul>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="旋转公式"><a href="#旋转公式" class="headerlink" title="旋转公式"></a>旋转公式</h4><ul>
+<li><p>顺时针旋转：<code>x = x * cos(α) - y*cos(α)</code>, <code>y = x * sin(α) + y * cos(α)</code></p>
+</li>
+<li><p>逆时针旋转：<code>x = x * cos(α) + y*cos(α)</code>, <code>y = x * sin(α) - y * cos(α)</code></p>
+</li>
+</ul>
+<h4 id="坐标转换"><a href="#坐标转换" class="headerlink" title="坐标转换"></a>坐标转换</h4><p><code>UnityObjectToClipPos(v.vertex) == mul(UNITY_MATRIX_MVP, v.vertex)</code></p>
+
+    </article>
+    <!-- license  -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://github.com/pikacool1993">pikacool</a>
+            <p>原文链接：<a href="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/">https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/</a>
+            <p>发表日期：<a href="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/">January 5th 2022, 10:06:36 am</a>
+            <p>更新日期：<a href="https://github.com/pikacool1993/2022/01/05/unity-shader-mathfunc/">January 5th 2022, 5:34:58 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator  -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+                <div class="nextSlogan">Next Post</div>
+                <a href= "/2022/07/14/unity-procedural-grid/" title= "在Unity中创建程序网格">
+                    <div class="nextTitle">在Unity中创建程序网格</div>
+                </a>
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href= "/2021/05/13/swift-mvvm/" title= "Swift MVVM 实践">
+                    <div class="prevTitle">Swift MVVM 实践</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- 评论插件 -->
+    <!-- 来必力City版安装代码 -->
+
+<!-- City版安装代码已完成 -->
+    
+    
+    <!-- partial('_partial/comment/changyan') -->
+    <!--PC版-->
+
+
+    
+    
+
+    <!-- 评论 -->
+</main>
+            <!-- profile -->
+            
+        </div>
+        <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+    <div class="social">
+        
+    
+        
+            
+                <a href="mailto:pikacool1993@gmail.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/pikacool1993" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                  
+                  <img class="profile-qr" src="/assets/wechat.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- 不蒜子  -->
+    
+    <div class="busuanzi-container">
+    
+     
+    <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+    
+    </div>
+    
+</footer>
+    </div>
+    <!-- toc -->
+    
+    <div class="toc-wrapper" style=
+    
+
+
+
+
+
+
+
+top:50vh;
+
+    >
+        <div class="toc-catalog">
+            <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+        </div>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Unity-Shader%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">Unity Shader常用函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CG%E6%A0%87%E5%87%86%E5%87%BD%E6%95%B0%E5%BA%93"><span class="toc-number">1.1.</span> <span class="toc-text">CG标准函数库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Unity%E5%9D%90%E6%A0%87%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.1.1.</span> <span class="toc-text">Unity坐标转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.2.</span> <span class="toc-text">数学函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%A0%E4%BD%95%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.3.</span> <span class="toc-text">几何函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%8F%E5%AF%BC%E5%87%BD%E6%95%B0"><span class="toc-number">1.1.4.</span> <span class="toc-text">偏导函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96"><span class="toc-number">1.1.5.</span> <span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%8B%E8%BD%AC%E5%85%AC%E5%BC%8F"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">旋转公式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9D%90%E6%A0%87%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.1.5.2.</span> <span class="toc-text">坐标转换</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+    
+    <div class="back-top iconfont-archer">&#xe639;</div>
+    <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+          <div class="sidebar-panel-archives">
+    <!-- 在ejs中将archive按照时间排序 -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 15
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+    
+    
+    
+    <div class="archive-year"> 2024 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/11</span><a class="archive-post-title" href= "/2024/10/11/unity-2d-camera-adapter/" >Unity 2D相机适配方案</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2024/08/19/lua-learning/" >Lua边学边记</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2023 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">09/01</span><a class="archive-post-title" href= "/2023/09/01/performance-optimization/" >Unity 手游性能优化</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/18</span><a class="archive-post-title" href= "/2023/01/18/dotween-practical-tips/" >DOTween实用技巧</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2022 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/14</span><a class="archive-post-title" href= "/2022/07/14/unity-procedural-grid/" >在Unity中创建程序网格</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">01/05</span><a class="archive-post-title" href= "/2022/01/05/unity-shader-mathfunc/" >Unity Shader常用函数</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2021 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/13</span><a class="archive-post-title" href= "/2021/05/13/swift-mvvm/" >Swift MVVM 实践</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/23</span><a class="archive-post-title" href= "/2021/02/23/unity-ios-plugin/" >Unity iOS 插件实践</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/22</span><a class="archive-post-title" href= "/2021/02/22/objc-interface/" >Objective-C中的@interface和@implementation</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/07</span><a class="archive-post-title" href= "/2021/02/07/layoutengine/" >Auto Layout</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2020 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">06/19</span><a class="archive-post-title" href= "/2020/06/19/xcode-instruments/" >App 方法耗时检查工具</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2020/03/02/csharp-base-code/" >Unity3D 实用小技巧 - C# 常用基础代码汇总</a>
+        </li>
+    
+    
+    
+    
+    
+        </ul>
+    
+    <div class="archive-year"> 2019 </div>
+    <ul class="year-list">
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/25</span><a class="archive-post-title" href= "/2019/07/25/swift-learn/" >Swift5.0边学边记</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/22</span><a class="archive-post-title" href= "/2019/07/22/objc-before-main/" >App启动时在main函数之前做了什么</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/18</span><a class="archive-post-title" href= "/2019/07/18/hexo-install/" >mac下使用hexo搭建blog</a>
+        </li>
+    
+    </div>
+  </div>
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+    
+        <span class="sidebar-tag-name" data-tags="Unity"><span class="iconfont-archer">&#xe606;</span>Unity</span>
+    
+        <span class="sidebar-tag-name" data-tags="hexo"><span class="iconfont-archer">&#xe606;</span>hexo</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS OC"><span class="iconfont-archer">&#xe606;</span>iOS OC</span>
+    
+        <span class="sidebar-tag-name" data-tags="iOS"><span class="iconfont-archer">&#xe606;</span>iOS</span>
+    
+        <span class="sidebar-tag-name" data-tags="Swift"><span class="iconfont-archer">&#xe606;</span>Swift</span>
+    
+        <span class="sidebar-tag-name" data-tags="swift mvvm"><span class="iconfont-archer">&#xe606;</span>swift mvvm</span>
+    
+        <span class="sidebar-tag-name" data-tags="Unity OC"><span class="iconfont-archer">&#xe606;</span>Unity OC</span>
+    
+        <span class="sidebar-tag-name" data-tags="Xcode"><span class="iconfont-archer">&#xe606;</span>Xcode</span>
+    
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+    缺失模块。<br/>
+    1、请确保node版本大于6.2<br/>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    3、在根目录_config.yml里添加配置：
+    <pre style="color: #787878; font-size: 0.6rem;">
+jsonContent:
+  meta: false
+  pages: false
+  posts:
+    title: true
+    date: true
+    path: true
+    text: false
+    raw: false
+    content: false
+    slug: false
+    updated: false
+    comments: false
+    link: false
+    permalink: false
+    excerpt: false
+    categories: true
+    tags: true</pre>
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+    </div>
+</div> 
+    <script>
+    var siteMeta = {
+        root: "/",
+        author: "pikacool"
+    }
+</script>
+    <!-- CDN failover -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ === 'undefined')
+        {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js">\x3C/script>')
+        }
+    </script>
+    <script src="/scripts/main.js"></script>
+    <!-- algolia -->
+    
+    <!-- busuanzi  -->
+    
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    <!-- CNZZ  -->
+    
+    </div>
+    <!-- async load share.js -->
+    
+        <script src="/scripts/share.js" async></script>    
+     
+    </body>
+</html>
+
+
