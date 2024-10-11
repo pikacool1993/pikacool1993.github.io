@@ -1,3 +1,5 @@
+https://github.com/pikacool1993/404.html
+https://github.com/pikacool1993/about/index.html
 https://github.com/pikacool1993/2024/10/11/unity-2d-camera-adapter/
 https://github.com/pikacool1993/2024/08/19/lua-learning/
 https://github.com/pikacool1993/2023/09/01/performance-optimization/
