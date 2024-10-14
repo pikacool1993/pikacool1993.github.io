@@ -11,7 +11,7 @@
     <meta name="description" content="雄关漫道真如铁 而今迈步从头越">
     
     <title>
-       Unity 手游性能优化 -  pikacool
+       Unity 性能优化 -  pikacool
     </title>
     
 <link rel="stylesheet" href="/css/style.css">
@@ -40,7 +40,7 @@
             </li>
           </ul>
            
-            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Unity-%E6%89%8B%E6%B8%B8%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="post-toc-number">1.</span> <span class="post-toc-text">Unity 手游性能优化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%89%A9%E7%90%86"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">物理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8A%A8%E7%94%BB"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">动画</span></a></li></ol></li></ol> 
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Unity-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="post-toc-number">1.</span> <span class="post-toc-text">Unity 性能优化</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#GC"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">GC</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E7%89%A9%E7%90%86"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">物理</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#%E5%8A%A8%E7%94%BB"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">动画</span></a></li></ol></li></ol> 
           
         </div>
       </div>
@@ -48,7 +48,7 @@
     
     <header class="article-header">
         <h1>
-            Unity 手游性能优化
+            Unity 性能优化
         </h1>
     </header>
     
@@ -61,7 +61,59 @@
     </div>
     
     <div class="post-entry">
-        <h1 id="Unity-手游性能优化"><a href="#Unity-手游性能优化" class="headerlink" title="Unity 手游性能优化"></a>Unity 手游性能优化</h1><h2 id="物理"><a href="#物理" class="headerlink" title="物理"></a>物理</h2><ul>
+        <h1 id="Unity-性能优化"><a href="#Unity-性能优化" class="headerlink" title="Unity 性能优化"></a>Unity 性能优化</h1><h2 id="GC"><a href="#GC" class="headerlink" title="GC"></a>GC</h2><ul>
+<li>减少垃圾数量<ul>
+<li>使用缓存：避免内存重复、重新分配</li>
+<li>减少在 <code>Update</code> 这种频繁调用的方法中分配内存</li>
+<li>使用 <code>Clear</code> 清理集合，而不是每次生成</li>
+<li>善用对象池</li>
+</ul>
+</li>
+<li>减少不必要的堆内存分配<ul>
+<li><code>String</code> 是不可变的，每次更改都是创建一个新的对象<ul>
+<li>将常用字符串缓存</li>
+<li>对于频繁更新的 <code>Text</code> 组件应该把其中变化和不变化的部分分开</li>
+<li>对于频繁更新的字符串，使用 <code>StringBuilder</code> 替代</li>
+<li>移除 <code>Debug.Log()</code></li>
+</ul>
+</li>
+<li>避免 <code>Unity</code> 方法不恰当调用<ul>
+<li>返回数组的方法，会创建新的数组，应在反复使用前缓存</li>
+<li>使用 <code>CompareTag</code> 替代 <code>gameObject.tag</code></li>
+<li>使用 <code>Input.GetTouch</code> 和 <code>Input.touchCount</code> 替代 <code>Input.touches</code></li>
+<li>使用 <code>Physics.SphereCastNonAlloc</code> 替代 <code>Pysiscs.SphereCastAll</code></li>
+</ul>
+</li>
+<li>装箱：把值类型变量当引用类型使用，将创建一个临时 <code>Object</code> 封装值类型变量<ul>
+<li><code>Object.Eauals</code> 方法参数是 <code>Object</code>，如果传入 <code>int</code> 或 <code>float</code>，则会产生装箱</li>
+<li><code>String.Format</code> 同上</li>
+<li>就算我们自己代码中避免装箱，插件中也可能发生装箱，应移除这些方法的调用</li>
+</ul>
+</li>
+<li><code>Coroutines</code><ul>
+<li><code>StartCoroutine</code> 产生少量垃圾（堆内存分配），因为 <code>Unity</code> 需要创建实例来维护</li>
+<li>减少在性能敏感处调用  <code>StartCoroutine</code> ；避免嵌套调用，可能导致调用延迟</li>
+<li><code>yield return 0</code> 会导致装箱，使用 <code>null</code> 代替</li>
+<li>提前缓存 <code>new WaitForSeconds()</code> 对象，复用</li>
+<li>如果 <code>coroutine</code> 产生太多垃圾，使用 <code>Undate</code> 或消息机制替代 <code>coroutine</code></li>
+</ul>
+</li>
+<li>方法引用<ul>
+<li>在 <code>Unity</code> 中，匿名方法、命名方法的引用是一个引用类型变量，产生堆分配</li>
+<li>闭包会显著增加内存占用和堆分配，因为捕获了临时变量</li>
+<li>在 <code>gameplay</code> 中避免使用匿名函数、闭包</li>
+<li>避免使用 <code>LINQ</code>、正则表达式，因为都会产生装箱</li>
+</ul>
+</li>
+<li>从代码架构上避免不必要的 <code>GC</code> 检测<ul>
+<li><code>struct</code> 不要包含引用类型字段，这会导致检测所有字段</li>
+<li>类中减少不必要的引用字段</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="物理"><a href="#物理" class="headerlink" title="物理"></a>物理</h2><ul>
 <li>减少射线频率、长度、layer</li>
 <li>善用 Physics Matrix</li>
 <li>不要移动静态 <code>Collider</code>，需要移动的话加 <code>RigidBody</code></li>
